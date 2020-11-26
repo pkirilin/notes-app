@@ -1,30 +1,39 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from 'app/hooks';
+import { Button } from 'app/components';
 import { decrement, increment } from '../actions';
+import styled from 'styled-components';
+
+const Paragraph = styled.p`
+  font-size: 32px;
+  font-weight: bold;
+  font-style: italic;
+  margin: 0 0 10px 0;
+`;
 
 const Counter: React.FC = () => {
   const dispatch = useDispatch();
   const count = useTypedSelector(state => state.counter);
 
   return (
-    <div>
-      <div>{count}</div>
-      <button
+    <React.Fragment>
+      <Paragraph>{count}</Paragraph>
+      <Button
         onClick={() => {
           dispatch(decrement());
         }}
       >
         Decrement
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           dispatch(increment());
         }}
       >
         Increment
-      </button>
-    </div>
+      </Button>
+    </React.Fragment>
   );
 };
 
