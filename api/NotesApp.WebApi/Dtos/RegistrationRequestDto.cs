@@ -1,0 +1,17 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NotesApp.WebApi.Dtos
+{
+    public class RegistrationRequestDto
+    {
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string Login { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 1)]
+        public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
+    }
+}

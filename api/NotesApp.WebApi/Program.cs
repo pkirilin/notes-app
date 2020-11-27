@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("NotesApp.WebApi.UnitTests")]
+[assembly: InternalsVisibleTo("NotesApp.WebApi.IntegrationTests")]
 namespace NotesApp.WebApi
 {
     public class Program

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NotesApp.WebApi.Entities
+namespace NotesApp.WebApi.Domain.Entities
 {
     public class Note
     {

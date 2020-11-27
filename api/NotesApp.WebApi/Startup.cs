@@ -1,13 +1,19 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using NotesApp.WebApi.Entities;
+using NotesApp.WebApi.Domain.Repositories;
+using NotesApp.WebApi.Domain.Services;
 using NotesApp.WebApi.Infrastructure;
+using NotesApp.WebApi.Infrastructure.Repositories;
+using NotesApp.WebApi.Infrastructure.Services;
+using NotesApp.WebApi.Options;
+using System.Text;
 
 namespace NotesApp.WebApi
 {
@@ -23,16 +29,32 @@ namespace NotesApp.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<NotesAppDbContext>();
-            services.AddIdentity<User, IdentityRole<int>>().AddEntityFrameworkStores<NotesAppDbContext>();
+            services.Configure<AuthOptions>(Configuration.GetSection("AuthOptions"));
 
-            var allowedHosts = Configuration.GetValue<string>("AllowedHosts");
+            AddDbContext(services);
+
             services.AddCors(options => options.AddPolicy("DefaultPolicy", builder =>
-                builder.WithOrigins(allowedHosts)
+                builder.WithOrigins(Configuration.GetValue<string>("AllowedHosts"))
                     .AllowAnyHeader()
                     .AllowAnyMethod()));
 
-            services.AddControllers();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddTransient<IAuthService, AuthService>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AuthOptions:PrivateKey").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+            AddControllers(services);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NotesApp.WebApi", Version = "v1" });
@@ -61,6 +83,20 @@ namespace NotesApp.WebApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        protected virtual void AddDbContext(IServiceCollection services)
+        {
+            services.AddDbContext<NotesAppDbContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("NotesAppDbContext"));
+                options.UseLoggerFactory(NotesAppDbContext.SqlLoggerFactory);
+            });
+        }
+
+        protected virtual void AddControllers(IServiceCollection services)
+        {
+            services.AddControllers();
         }
     }
 }

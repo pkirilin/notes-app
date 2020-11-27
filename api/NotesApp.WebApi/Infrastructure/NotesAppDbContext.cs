@@ -1,19 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NotesApp.WebApi.Entities;
+using NotesApp.WebApi.Domain.Abstractions;
+using NotesApp.WebApi.Domain.Entities;
 
 namespace NotesApp.WebApi.Infrastructure
 {
-    public class NotesAppDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
+    public class NotesAppDbContext : DbContext, IUnitOfWork
     {
-        private readonly IConfiguration _configuration;
-
-        public NotesAppDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+        public NotesAppDbContext(DbContextOptions options) : base(options)
         {
-            _configuration = configuration;
         }
 
         public static readonly ILoggerFactory SqlLoggerFactory = LoggerFactory.Create(builder =>
@@ -21,11 +16,7 @@ namespace NotesApp.WebApi.Infrastructure
             builder.AddConsole();
         });
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("NotesAppDbContext"));
-            optionsBuilder.UseLoggerFactory(SqlLoggerFactory);
-        }
+        public DbSet<User> Users { get; set; }
 
         public DbSet<Note> Notes { get; set; }
     }
