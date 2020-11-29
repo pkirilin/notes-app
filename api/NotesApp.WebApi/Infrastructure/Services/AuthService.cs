@@ -20,7 +20,7 @@ namespace NotesApp.WebApi.Infrastructure.Services
             _authOptions = authOptions?.Value;
         }
 
-        public string GenerateJwtToken(User user)
+        public string GenerateJwtToken(User user, DateTime? expirationDate)
         {
             var claims = new List<Claim>
             {
@@ -34,7 +34,7 @@ namespace NotesApp.WebApi.Infrastructure.Services
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(_authOptions.AccessTokenLifeTimeInDays),
+                Expires = expirationDate,
                 SigningCredentials = credentials
             };
 

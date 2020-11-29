@@ -1,4 +1,5 @@
 ﻿using NotesApp.WebApi.Domain.Entities;
+using System;
 
 namespace NotesApp.WebApi.Domain.Services
 {
@@ -8,6 +9,6 @@ namespace NotesApp.WebApi.Domain.Services
 
         string GeneratePasswordHash(string password);
 
-        string GenerateJwtToken(User user);
+        string GenerateJwtToken(User user, DateTime? expirationDate);
     }
 }

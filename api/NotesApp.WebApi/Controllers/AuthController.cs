@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using NotesApp.WebApi.Domain.Entities;
 using NotesApp.WebApi.Domain.Repositories;
 using NotesApp.WebApi.Domain.Services;
 using NotesApp.WebApi.Dtos;
+using NotesApp.WebApi.Options;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,11 +16,16 @@ namespace NotesApp.WebApi.Controllers
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IAuthService _authService;
+        private readonly AuthOptions _authOptions;
 
-        public AuthController(IUsersRepository usersRepository, IAuthService authService)
+        public AuthController(
+            IUsersRepository usersRepository,
+            IAuthService authService,
+            IOptions<AuthOptions> authOptions)
         {
             _usersRepository = usersRepository;
             _authService = authService;
+            _authOptions = authOptions?.Value;
         }
 
         [HttpGet("login")]
@@ -32,18 +40,21 @@ namespace NotesApp.WebApi.Controllers
             if (!_authService.VerifyPasswordHash(password, user.PasswordHash))
                 return BadRequest($"Password '{password}' is incorrect");
 
-            var jwtToken = _authService.GenerateJwtToken(user);
-            var loginResponse = new AuthResponseDto()
+            var expirationDate = DateTime.Now.AddDays(_authOptions.AccessTokenLifeTimeInDays);
+            var jwtToken = _authService.GenerateJwtToken(user, expirationDate);
+            var authResponse = new AuthResponseDto()
             {
                 UserId = user.Id,
                 UserName = user.UserName,
-                Token = jwtToken
+                Token = jwtToken,
+                TokenExpirationInDays = _authOptions.AccessTokenLifeTimeInDays
             };
 
-            return Ok(loginResponse);
+            return Ok(authResponse);
         }
 
         [HttpPost("register")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDto registrationData, CancellationToken cancellationToken)
         {
             var userWithTheSameName = await _usersRepository.GetUserAsync(registrationData.Login, cancellationToken);
@@ -61,13 +72,6 @@ namespace NotesApp.WebApi.Controllers
 
             _usersRepository.Add(user);
             await _usersRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return Ok();
-        }
-
-        [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await Task.CompletedTask;
             return Ok();
         }
     }
