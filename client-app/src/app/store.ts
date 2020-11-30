@@ -1,13 +1,10 @@
 import { createStore, applyMiddleware, Middleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
-import reducer from './reducer';
-import { rootSaga } from './sagas';
-import { CounterState } from 'features/counter';
+import rootReducer from './reducer';
+import rootSaga from './sagas';
 
-export type RootState = {
-  counter: CounterState;
-};
+export type RootState = ReturnType<typeof rootReducer>;
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
   middlewares.push(createLogger());
 }
 
-const store = createStore(reducer, applyMiddleware(...middlewares));
+const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
 sagaMiddleware.run(rootSaga);
 

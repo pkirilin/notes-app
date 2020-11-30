@@ -1,5 +1,6 @@
-import { SagaIterator } from 'redux-saga';
+import { all } from 'redux-saga/effects';
+import authSaga from 'features/auth/sagas';
 
-export function* rootSaga(): SagaIterator {
-  console.log('root saga is working');
+export default function* rootSaga(): Generator {
+  yield all([authSaga()]);
 }

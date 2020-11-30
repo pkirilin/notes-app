@@ -1,8 +1,8 @@
 import React from 'react';
-import { Counter } from './features/counter';
+import { LoginInput } from 'features/auth/components';
 
 const App: React.FC = () => {
-  return <Counter></Counter>;
+  return <LoginInput></LoginInput>;
 };
 
 export default App;
