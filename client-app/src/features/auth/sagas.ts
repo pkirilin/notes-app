@@ -38,6 +38,10 @@ function setUserCookies({
   );
 }
 
+function removeUserCookies() {
+  Cookies.remove('auth');
+}
+
 function* login({ payload }: LoginRequestAction) {
   try {
     const { data, errorMessage } = yield call<typeof callLoginApi>(
@@ -46,8 +50,8 @@ function* login({ payload }: LoginRequestAction) {
     );
 
     if (data) {
-      yield put(loginSuccess(data));
       yield call<typeof setUserCookies>(setUserCookies, data);
+      yield put(loginSuccess(data));
     } else {
       yield put(loginError(errorMessage));
     }
@@ -56,10 +60,18 @@ function* login({ payload }: LoginRequestAction) {
   }
 }
 
+function* logout() {
+  yield call<typeof removeUserCookies>(removeUserCookies);
+}
+
 function* watchLogin() {
   yield takeEvery(AuthActionTypes.LoginRequest, login);
 }
 
+function* watchLogout() {
+  yield takeEvery(AuthActionTypes.Logout, logout);
+}
+
 export default function* authSaga(): Generator {
-  yield all([watchLogin()]);
+  yield all([watchLogin(), watchLogout()]);
 }

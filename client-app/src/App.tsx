@@ -1,8 +1,41 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { LoginInput } from 'features/auth/components';
+import { useTypedSelector } from 'app/hooks';
+import { NotesPage } from 'features/notes/components';
 
 const App: React.FC = () => {
-  return <LoginInput></LoginInput>;
+  const isAuthorized = useTypedSelector(state => !!state.auth.user);
+
+  return (
+    <Router>
+      <Switch>
+        {isAuthorized ? (
+          <React.Fragment>
+            <Route exact path="/notes">
+              <NotesPage></NotesPage>
+            </Route>
+            <Redirect to="/notes"></Redirect>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Route exact path="/login">
+              <LoginInput></LoginInput>
+            </Route>
+            <Route exact path="/register">
+              Register
+            </Route>
+            <Redirect to="/login"></Redirect>
+          </React.Fragment>
+        )}
+      </Switch>
+    </Router>
+  );
 };
 
 export default App;

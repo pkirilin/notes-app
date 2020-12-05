@@ -5,6 +5,7 @@ export enum AuthActionTypes {
   LoginRequest = 'auth/loginRequested',
   LoginSuccess = 'auth/userLoggedIn',
   LoginError = 'auth/loginFailed',
+  Logout = 'auth/userLoggedOut',
 }
 
 export type LoginRequestAction = BaseAction<
@@ -18,6 +19,8 @@ export type LoginSuccessAction = BaseAction<
 >;
 
 export type LoginErrorAction = BaseAction<AuthActionTypes.LoginError, string>;
+
+export type LogoutAction = BaseAction<AuthActionTypes.Logout>;
 
 export const loginRequest = (
   loginData: LoginRequestPayload,
@@ -38,7 +41,10 @@ export const loginError = (errorMessage: string): LoginErrorAction => ({
   payload: errorMessage,
 });
 
+export const logout = (): LogoutAction => ({ type: AuthActionTypes.Logout });
+
 export type AuthActions =
   | LoginRequestAction
   | LoginSuccessAction
-  | LoginErrorAction;
+  | LoginErrorAction
+  | LogoutAction;
