@@ -14,6 +14,7 @@ export type UrlModifierFunction<TPayload> = (
 
 export interface ApiCallParameters<TPayload, TBody> {
   url: string;
+  method?: ApiCallMethod;
   fetchJson?: boolean;
   contentType?: ApiCallContentType;
   body?: TBody;
@@ -21,6 +22,7 @@ export interface ApiCallParameters<TPayload, TBody> {
   modifyUrl?: UrlModifierFunction<TPayload>;
 }
 
+export type ApiCallMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type ApiCallContentType = 'none' | 'application/json';
 export type ApiCallBody = string;
 
@@ -33,6 +35,7 @@ export function createApiCall<
   TBody = unknown
 >({
   url,
+  method = 'GET',
   fetchJson = false,
   contentType = 'application/json',
   body,
@@ -58,6 +61,7 @@ export function createApiCall<
   return async payload => {
     try {
       const response = await fetch(getUrl(payload), {
+        method,
         ...getHeaders(),
         ...getBody(),
       });

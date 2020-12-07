@@ -1,4 +1,4 @@
-import { createApiCall } from '../api.helper';
+import { ApiCallMethod, createApiCall } from '../api.helper';
 
 type MyData = {
   name: string;
@@ -37,6 +37,27 @@ describe('api helper', () => {
 
     // Assert
     expect(fetchMock).toHaveBeenCalledWith('my-test-url', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    expect(data).toEqual({});
+  });
+
+  test('should fetch url with specified method', async () => {
+    // Arrange
+    const method: ApiCallMethod = 'POST';
+    fetchMock.mockResolvedValue({
+      ...new Response(),
+      ok: true,
+    });
+
+    // Act
+    const fetchMyData = createApiCall({ url: 'my-test-url', method });
+    const { data } = await fetchMyData({});
+
+    // Assert
+    expect(fetchMock).toHaveBeenCalledWith('my-test-url', {
+      method,
       headers: { 'Content-Type': 'application/json' },
     });
     expect(data).toEqual({});
@@ -87,6 +108,7 @@ describe('api helper', () => {
     // Assert
     expect(modifyUrl).toHaveBeenCalledWith(initialUrl, payload);
     expect(fetchMock).toHaveBeenCalledWith(modifiedUrl, {
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
   });
@@ -104,6 +126,7 @@ describe('api helper', () => {
 
     // Assert
     expect(fetchMock).toHaveBeenCalledWith('my-test-url', {
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
