@@ -12,14 +12,18 @@ export type UrlModifierFunction<TPayload> = (
   payload: TPayload,
 ) => string;
 
-export interface ApiCallParameters<TPayload, TBody> {
+export type BodyConstructorFunction<TPayload> = (
+  payload: TPayload,
+) => ApiCallBody;
+
+export interface ApiCallParameters<TPayload> {
   url: string;
   method?: ApiCallMethod;
   fetchJson?: boolean;
   contentType?: ApiCallContentType;
-  body?: TBody;
   failedToFetchMessage?: string;
   modifyUrl?: UrlModifierFunction<TPayload>;
+  constructBody?: BodyConstructorFunction<TPayload>;
 }
 
 export type ApiCallMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -29,19 +33,15 @@ export type ApiCallBody = string;
 type RequestHeadersFragment = Pick<RequestInit, 'headers'>;
 type RequestBodyFragment = Pick<RequestInit, 'body'>;
 
-export function createApiCall<
-  TData = unknown,
-  TPayload = unknown,
-  TBody = unknown
->({
+export function createApiCall<TData = unknown, TPayload = unknown>({
   url,
   method = 'GET',
   fetchJson = false,
   contentType = 'application/json',
-  body,
   failedToFetchMessage = 'Failed to fetch',
   modifyUrl,
-}: ApiCallParameters<TPayload, TBody>): ApiCallFunction<TData, TPayload> {
+  constructBody,
+}: ApiCallParameters<TPayload>): ApiCallFunction<TData, TPayload> {
   function getHeaders(): RequestHeadersFragment {
     return contentType === 'none'
       ? {}
@@ -50,8 +50,8 @@ export function createApiCall<
         };
   }
 
-  function getBody(): RequestBodyFragment {
-    return body ? { body: JSON.stringify(body) } : {};
+  function getBody(payload?: TPayload): RequestBodyFragment {
+    return constructBody && payload ? { body: constructBody(payload) } : {};
   }
 
   function getUrl(payload?: TPayload): string {
@@ -63,7 +63,7 @@ export function createApiCall<
       const response = await fetch(getUrl(payload), {
         method,
         ...getHeaders(),
-        ...getBody(),
+        ...getBody(payload),
       });
 
       if (!response.ok) {

@@ -115,20 +115,23 @@ describe('api helper', () => {
 
   test('should fetch data with json stringified body', async () => {
     // Arrange
-    const body: MyDataBody = {
+    const payload: MyDataBody = {
       fieldOne: 'test',
       fieldTwo: 123,
     };
 
     // Act
-    const fetchMyData = createApiCall({ url: 'my-test-url', body });
-    await fetchMyData({});
+    const fetchMyData = createApiCall<void, MyDataBody>({
+      url: 'my-test-url',
+      constructBody: payload => JSON.stringify(payload),
+    });
+    await fetchMyData(payload);
 
     // Assert
     expect(fetchMock).toHaveBeenCalledWith('my-test-url', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
   });
 });
