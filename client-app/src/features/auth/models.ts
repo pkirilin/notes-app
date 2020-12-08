@@ -1,9 +1,9 @@
-export interface LoginRequestPayload {
+export interface AuthRequest {
   userName: string;
   password: string;
 }
 
-export interface LoginSuccessPayload {
+export interface UserData {
   userId: number;
   userName: string;
   token: string;

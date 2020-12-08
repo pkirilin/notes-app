@@ -6,11 +6,14 @@ import {
   loginError,
   LoginRequestAction,
   loginSuccess,
+  registerError,
+  RegisterRequestAction,
+  registerSuccess,
 } from './actions';
-import { LoginRequestPayload, LoginSuccessPayload } from './models';
+import { AuthRequest, UserData } from './models';
 import Cookies from 'js-cookie';
 
-const callLoginApi = createApiCall<LoginSuccessPayload, LoginRequestPayload>({
+const callLoginApi = createApiCall<UserData, AuthRequest>({
   url: `${config.apiUrl}/login`,
   fetchJson: true,
   modifyUrl: (url, { userName, password }) =>
@@ -19,12 +22,18 @@ const callLoginApi = createApiCall<LoginSuccessPayload, LoginRequestPayload>({
     )}&password=${encodeURIComponent(password)}`,
 });
 
+const callRegisterApi = createApiCall<void, AuthRequest>({
+  url: `${config.apiUrl}/register`,
+  method: 'POST',
+  constructBody: payload => JSON.stringify(payload),
+});
+
 function setUserCookies({
   userId,
   userName,
   token,
   tokenExpirationInDays,
-}: LoginSuccessPayload) {
+}: UserData) {
   Cookies.set(
     'auth',
     {
@@ -64,6 +73,20 @@ function* logout() {
   yield call<typeof removeUserCookies>(removeUserCookies);
 }
 
+function* register({ payload }: RegisterRequestAction) {
+  try {
+    const { data, errorMessage } = yield call(callRegisterApi, payload);
+
+    if (data) {
+      yield put(registerSuccess());
+    } else {
+      yield put(registerError(errorMessage));
+    }
+  } catch (error) {
+    yield put(registerError('Failed to register'));
+  }
+}
+
 function* watchLogin() {
   yield takeEvery(AuthActionTypes.LoginRequest, login);
 }
@@ -72,6 +95,10 @@ function* watchLogout() {
   yield takeEvery(AuthActionTypes.Logout, logout);
 }
 
+function* watchRegister() {
+  yield takeEvery(AuthActionTypes.RegisterRequest, register);
+}
+
 export default function* authSaga(): Generator {
-  yield all([watchLogin(), watchLogout()]);
+  yield all([watchLogin(), watchLogout(), watchRegister()]);
 }

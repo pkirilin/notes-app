@@ -1,31 +1,21 @@
-import { Reducer } from 'redux';
+import { combineReducers, Reducer } from 'redux';
 import Cookies from 'js-cookie';
 import { AuthActions, AuthActionTypes } from './actions';
-import { AuthState } from './store';
-import { LoginSuccessPayload } from './models';
+import { UserState } from './store';
 
-const user = Cookies.getJSON('auth') as LoginSuccessPayload | undefined;
+const user: UserState = Cookies.getJSON('auth') || null;
 
-const initialState: AuthState = {
-  user,
-};
-
-const authReducer: Reducer<AuthState, AuthActions> = (
-  state = initialState,
-  action,
-) => {
+const userReducer: Reducer<UserState, AuthActions> = (state = user, action) => {
   switch (action.type) {
-    case AuthActionTypes.LoginRequest:
-      return { ...state };
     case AuthActionTypes.LoginSuccess:
-      return { user: action.payload };
-    case AuthActionTypes.LoginError:
-      return { ...state };
+      return action.payload;
     case AuthActionTypes.Logout:
-      return {};
+      return null;
     default:
       return state;
   }
 };
 
-export default authReducer;
+export default combineReducers({
+  user: userReducer,
+});

@@ -1,3 +1,4 @@
 import LoginInput from './LoginInput';
+import RegisterInput from './RegisterInput';
 
-export { LoginInput };
+export { LoginInput, RegisterInput };

@@ -5,7 +5,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { LoginInput } from 'features/auth/components';
+import { LoginInput, RegisterInput } from 'features/auth/components';
 import { useTypedSelector } from 'app/hooks';
 import { NotesPage } from 'features/notes/components';
 
@@ -28,7 +28,7 @@ const App: React.FC = () => {
               <LoginInput></LoginInput>
             </Route>
             <Route exact path="/register">
-              Register
+              <RegisterInput></RegisterInput>
             </Route>
             <Redirect to="/login"></Redirect>
           </React.Fragment>
