@@ -57,16 +57,16 @@ namespace NotesApp.WebApi.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDto registrationData, CancellationToken cancellationToken)
         {
-            var userWithTheSameName = await _usersRepository.GetUserAsync(registrationData.Login, cancellationToken);
+            var userWithTheSameName = await _usersRepository.GetUserAsync(registrationData.UserName, cancellationToken);
 
             if (userWithTheSameName != null)
-                return BadRequest($"User with name '{registrationData.Login}' already exists");
+                return BadRequest($"User with name '{registrationData.UserName}' already exists");
 
             var passwordHash = _authService.GeneratePasswordHash(registrationData.Password);
 
             var user = new User()
             {
-                UserName = registrationData.Login,
+                UserName = registrationData.UserName,
                 PasswordHash = passwordHash
             };
 

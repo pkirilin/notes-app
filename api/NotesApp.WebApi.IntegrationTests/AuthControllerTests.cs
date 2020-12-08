@@ -34,7 +34,7 @@ namespace NotesApp.WebApi.IntegrationTests
             var requestUri = "/register";
             var body = new RegistrationRequestDto()
             {
-                Login = "user_new",
+                UserName = "user_new",
                 Password = "user_new_password"
             };
             var content = new StringContent(JsonSerializer.Serialize(body));

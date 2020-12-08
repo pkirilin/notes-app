@@ -1,8 +1,9 @@
 import React from 'react';
-import { render } from 'app/testing';
+import { render, testInitialState } from 'app/testing';
 import RegisterInput from '../RegisterInput';
 import { fireEvent } from '@testing-library/react';
 import { AuthActions, AuthActionTypes } from 'features/auth/actions';
+import { RootState } from 'app/store';
 
 describe('RegisterInput component', () => {
   test('should send register request on button click', () => {
@@ -29,5 +30,37 @@ describe('RegisterInput component', () => {
 
     // Assert
     expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  test('should redirect user to login page after completing registration', () => {
+    // Arrange
+    const initialState: RootState = {
+      ...testInitialState,
+      auth: {
+        ...testInitialState.auth,
+        registrationStatus: 'idle',
+      },
+    };
+    const registrationCompletedState: RootState = {
+      ...testInitialState,
+      auth: {
+        ...testInitialState.auth,
+        registrationStatus: 'completed',
+      },
+    };
+
+    // Act
+    const { history, rerenderWithStateChange } = render(
+      <RegisterInput></RegisterInput>,
+      initialState,
+    );
+
+    rerenderWithStateChange(
+      <RegisterInput></RegisterInput>,
+      registrationCompletedState,
+    );
+
+    // Assert
+    expect(history.location.pathname).toBe('/login');
   });
 });

@@ -1,15 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Button, Input } from 'app/components';
-import { useInput } from 'app/hooks';
+import { useInput, useTypedSelector } from 'app/hooks';
 import { registerRequest } from '../actions';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('');
   const passwordInput = useInput<string>('');
   const passwordConfirmInput = useInput<string>('');
+  const registrationStatus = useTypedSelector(
+    state => state.auth.registrationStatus,
+  );
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (registrationStatus === 'completed') {
+      // Redirects user to login page after completing registration
+      history.push('/login');
+    }
+  }, [registrationStatus]);
 
   return (
     <div>

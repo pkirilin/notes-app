@@ -16,7 +16,8 @@ namespace NotesApp.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNotes()
         {
-            return Ok(HttpContext.Request.Cookies);
+            await Task.CompletedTask;
+            return Ok();
         }
     }
 }

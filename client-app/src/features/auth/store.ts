@@ -1,7 +1,6 @@
+import { OperationStatus } from 'app/types';
 import { UserData } from './models';
 
 export type UserState = UserData | null | undefined;
 
-export type AuthState = {
-  user?: UserState;
-};
+export type RegistrationStatusState = OperationStatus;

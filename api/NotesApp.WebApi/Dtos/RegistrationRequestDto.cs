@@ -6,7 +6,7 @@ namespace NotesApp.WebApi.Dtos
     {
         [Required]
         [StringLength(50, MinimumLength = 3)]
-        public string Login { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 1)]
