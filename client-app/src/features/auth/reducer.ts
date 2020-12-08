@@ -5,7 +5,10 @@ import { UserState } from './store';
 
 const user: UserState = Cookies.getJSON('auth') || null;
 
-const userReducer: Reducer<UserState, AuthActions> = (state = user, action) => {
+export const userReducer: Reducer<UserState, AuthActions> = (
+  state = user,
+  action,
+) => {
   switch (action.type) {
     case AuthActionTypes.LoginSuccess:
       return action.payload;
