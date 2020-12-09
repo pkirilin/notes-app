@@ -42,7 +42,13 @@ describe('useInput', () => {
 
   test('should validate input value', () => {
     // Arrange
-    const validator: UseInputHookValidator<string> = val => val.length > 3;
+    const validator: UseInputHookValidator<string> = val => {
+      const isValid = val.length > 3;
+      return {
+        isValid,
+        message: isValid ? '' : 'Validation error',
+      };
+    };
 
     // Act
     const { result: invalidResult } = renderHook(() =>
@@ -54,6 +60,8 @@ describe('useInput', () => {
 
     // Assert
     expect(invalidResult.current.isValid).toBeFalsy();
+    expect(invalidResult.current.validationMessage).toBe('Validation error');
     expect(validResult.current.isValid).toBeTruthy();
+    expect(validResult.current.validationMessage).toBe('');
   });
 });
