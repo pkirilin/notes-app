@@ -32,7 +32,10 @@ export type RegisterRequestAction = BaseAction<
 
 export type RegisterSuccessAction = BaseAction<AuthActionTypes.RegisterSuccess>;
 
-export type RegisterErrorAction = BaseAction<AuthActionTypes.RegisterError>;
+export type RegisterErrorAction = BaseAction<
+  AuthActionTypes.RegisterError,
+  string
+>;
 
 export const loginRequest = (loginData: AuthRequest): LoginRequestAction => ({
   type: AuthActionTypes.LoginRequest,

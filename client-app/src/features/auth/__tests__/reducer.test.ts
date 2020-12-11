@@ -1,7 +1,14 @@
-import { AuthActionTypes, LoginSuccessAction, LogoutAction } from '../actions';
+import {
+  AuthActionTypes,
+  LoginSuccessAction,
+  LogoutAction,
+  RegisterErrorAction,
+  RegisterRequestAction,
+  RegisterSuccessAction,
+} from '../actions';
 import { UserData } from '../models';
-import { userReducer } from '../reducer';
-import { UserState } from '../store';
+import { registrationResultReducer, userReducer } from '../reducer';
+import { RegistrationResult, UserState } from '../store';
 
 describe('userReducer', () => {
   test('should handle login success and return user data', () => {
@@ -41,5 +48,56 @@ describe('userReducer', () => {
 
     // Assert
     expect(nextState).toEqual(null);
+  });
+});
+
+describe('registrationResultReducer', () => {
+  test('should handle register request', () => {
+    // Arrange
+    const state: RegistrationResult = { status: 'initial' };
+    const action: RegisterRequestAction = {
+      type: AuthActionTypes.RegisterRequest,
+    };
+    const expectedState: RegistrationResult = { status: 'idle' };
+
+    // Act
+    const nextState = registrationResultReducer(state, action);
+
+    // Assert
+    expect(nextState).toEqual(expectedState);
+  });
+
+  test('should handle register success', () => {
+    // Arrange
+    const state: RegistrationResult = { status: 'initial' };
+    const action: RegisterSuccessAction = {
+      type: AuthActionTypes.RegisterSuccess,
+    };
+    const expectedState: RegistrationResult = { status: 'completed' };
+
+    // Act
+    const nextState = registrationResultReducer(state, action);
+
+    // Assert
+    expect(nextState).toEqual(expectedState);
+  });
+
+  test('should handle register error', () => {
+    // Arrange
+    const state: RegistrationResult = { status: 'initial' };
+    const action: RegisterErrorAction = {
+      type: AuthActionTypes.RegisterError,
+      payload: 'Error',
+    };
+    const expectedState: RegistrationResult = {
+      status: 'error',
+      message: 'Error',
+    };
+
+    // Act
+    const nextState = registrationResultReducer(state, action);
+
+    // Assert
+    expect(nextState).toEqual(expectedState);
   });
 });

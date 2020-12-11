@@ -1,7 +1,7 @@
 import { combineReducers, Reducer } from 'redux';
 import Cookies from 'js-cookie';
 import { AuthActions, AuthActionTypes } from './actions';
-import { RegistrationStatusState, UserState } from './store';
+import { RegistrationResult, UserState } from './store';
 
 const user: UserState = Cookies.getJSON('auth') || null;
 
@@ -19,17 +19,17 @@ export const userReducer: Reducer<UserState, AuthActions> = (
   }
 };
 
-export const registrationStatusReducer: Reducer<
-  RegistrationStatusState,
+export const registrationResultReducer: Reducer<
+  RegistrationResult,
   AuthActions
-> = (state = 'initial', action) => {
+> = (state = { status: 'initial' }, action) => {
   switch (action.type) {
     case AuthActionTypes.RegisterRequest:
-      return 'idle';
+      return { status: 'idle' };
     case AuthActionTypes.RegisterSuccess:
-      return 'completed';
+      return { status: 'completed' };
     case AuthActionTypes.RegisterError:
-      return 'error';
+      return { status: 'error', message: action.payload };
     default:
       return state;
   }
@@ -37,5 +37,5 @@ export const registrationStatusReducer: Reducer<
 
 export default combineReducers({
   user: userReducer,
-  registrationStatus: registrationStatusReducer,
+  registrationResult: registrationResultReducer,
 });

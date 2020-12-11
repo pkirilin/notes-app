@@ -6,3 +6,8 @@ export interface BaseAction<A, P = unknown, M = unknown> extends Action<A> {
 }
 
 export type OperationStatus = 'initial' | 'idle' | 'completed' | 'error';
+
+export type OperationResult = {
+  status: OperationStatus;
+  message?: string;
+};

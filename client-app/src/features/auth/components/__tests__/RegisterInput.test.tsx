@@ -40,14 +40,14 @@ describe('RegisterInput component', () => {
       ...testInitialState,
       auth: {
         ...testInitialState.auth,
-        registrationStatus: 'idle',
+        registrationResult: { status: 'idle' },
       },
     };
     const registrationCompletedState: RootState = {
       ...testInitialState,
       auth: {
         ...testInitialState.auth,
-        registrationStatus: 'completed',
+        registrationResult: { status: 'completed' },
       },
     };
 
@@ -121,5 +121,40 @@ describe('RegisterInput component', () => {
     // Assert
     expect(store.getActions()).toEqual([]);
     expect(passwordConfirmValidation).toBeNull();
+  });
+
+  test('should show alert with error message if registration failed', () => {
+    // Arrange
+    const alertMessage = 'Registration error';
+    const initialState: RootState = {
+      ...testInitialState,
+      auth: {
+        ...testInitialState.auth,
+        registrationResult: { status: 'idle' },
+      },
+    };
+    const registrationErrorState: RootState = {
+      ...testInitialState,
+      auth: {
+        ...testInitialState.auth,
+        registrationResult: { status: 'error', message: alertMessage },
+      },
+    };
+
+    // Act
+    const { getByText, rerenderWithStateChange } = render(
+      <RegisterInput></RegisterInput>,
+      initialState,
+    );
+
+    rerenderWithStateChange(
+      <RegisterInput></RegisterInput>,
+      registrationErrorState,
+    );
+
+    const alert = getByText(alertMessage);
+
+    // Assert
+    expect(alert).toBeInTheDocument();
   });
 });

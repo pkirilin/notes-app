@@ -26,7 +26,7 @@ export interface RenderResult extends RtlRenderResult {
 export const testInitialState: RootState = {
   auth: {
     user: null,
-    registrationStatus: 'initial',
+    registrationResult: { status: 'initial' },
   },
   counter: 0,
 };

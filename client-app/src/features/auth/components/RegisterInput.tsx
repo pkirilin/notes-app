@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
+  Alert,
   Button,
   Input,
   ValidationSummary,
@@ -19,7 +20,10 @@ const RegisterInput: React.FC = () => {
     false,
   );
   const registrationStatus = useTypedSelector(
-    state => state.auth.registrationStatus,
+    state => state.auth.registrationResult.status,
+  );
+  const registrationResultMessage = useTypedSelector(
+    state => state.auth.registrationResult.message,
   );
   const dispatch = useDispatch();
   const history = useHistory();
@@ -81,6 +85,9 @@ const RegisterInput: React.FC = () => {
 
   return (
     <div>
+      <Alert isVisible={registrationStatus === 'error'} type="error">
+        {registrationResultMessage}
+      </Alert>
       <ValidationSummary
         isVisible={isValidationSummaryVisible}
         details={validationSummaryDetails}
