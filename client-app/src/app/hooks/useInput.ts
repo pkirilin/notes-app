@@ -1,23 +1,22 @@
 import { InputHTMLAttributes, useEffect, useState } from 'react';
+import { FormHookResultBase } from 'app/types';
 
-export interface UseInputHookResult<T> {
-  value: T;
-  setValue: React.Dispatch<React.SetStateAction<T>>;
-  setValidationMessage: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-  setIsValid: React.Dispatch<React.SetStateAction<boolean>>;
-  binding: InputParameters;
-  isValid: boolean;
-  validationMessage?: string;
-}
-
-type InputParameters = Pick<
+export type InputBinding = Pick<
   InputHTMLAttributes<HTMLInputElement>,
   'value' | 'onChange'
 >;
 
-export type UseInputHookValue = InputParameters['value'];
+export interface UseInputHookResult<TValue>
+  extends FormHookResultBase<TValue, InputBinding> {
+  setValidationMessage: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
+  setIsValid: React.Dispatch<React.SetStateAction<boolean>>;
+  isValid: boolean;
+  validationMessage?: string;
+}
+
+export type UseInputHookValue = InputBinding['value'];
 
 export type UseInputHookValidationResult = {
   isValid: boolean;

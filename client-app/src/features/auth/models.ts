@@ -1,4 +1,10 @@
-export interface AuthRequest {
+export interface LoginRequestPayload {
+  userName: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+export interface RegisterRequestPayload {
   userName: string;
   password: string;
 }

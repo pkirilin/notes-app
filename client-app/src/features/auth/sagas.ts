@@ -10,10 +10,14 @@ import {
   RegisterRequestAction,
   registerSuccess,
 } from './actions';
-import { AuthRequest, UserData } from './models';
+import {
+  RegisterRequestPayload,
+  LoginRequestPayload,
+  UserData,
+} from './models';
 import Cookies from 'js-cookie';
 
-const callLoginApi = createApiCall<UserData, AuthRequest>({
+const callLoginApi = createApiCall<UserData, LoginRequestPayload>({
   url: `${config.apiUrl}/login`,
   fetchJson: true,
   modifyUrl: (url, { userName, password }) =>
@@ -22,18 +26,16 @@ const callLoginApi = createApiCall<UserData, AuthRequest>({
     )}&password=${encodeURIComponent(password)}`,
 });
 
-const callRegisterApi = createApiCall<void, AuthRequest>({
+const callRegisterApi = createApiCall<void, RegisterRequestPayload>({
   url: `${config.apiUrl}/register`,
   method: 'POST',
   constructBody: payload => JSON.stringify(payload),
 });
 
-function setUserCookies({
-  userId,
-  userName,
-  token,
-  tokenExpirationInDays,
-}: UserData) {
+function setUserCookies(
+  { userId, userName, token, tokenExpirationInDays }: UserData,
+  isSessionCookie = false,
+) {
   Cookies.set(
     'auth',
     {
@@ -42,7 +44,7 @@ function setUserCookies({
       token,
     },
     {
-      expires: tokenExpirationInDays,
+      expires: isSessionCookie ? undefined : tokenExpirationInDays,
     },
   );
 }
@@ -53,13 +55,11 @@ function removeUserCookies() {
 
 function* login({ payload }: LoginRequestAction) {
   try {
-    const { data, errorMessage } = yield call<typeof callLoginApi>(
-      callLoginApi,
-      payload,
-    );
+    const { data, errorMessage } = yield call(callLoginApi, payload);
 
     if (data) {
-      yield call<typeof setUserCookies>(setUserCookies, data);
+      const isSessionCookie = !payload?.rememberMe;
+      yield call(setUserCookies, data, isSessionCookie);
       yield put(loginSuccess(data));
     } else {
       yield put(loginError(errorMessage));

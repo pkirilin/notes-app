@@ -3,17 +3,19 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Button,
+  CheckBox,
   Input,
   ValidationSummary,
   ValidationSummaryDetail,
 } from 'app/components';
 import { loginRequest } from '../actions';
-import { useInput } from 'app/hooks';
+import { useCheckbox, useInput } from 'app/hooks';
 import { loginValidator, passwordValidator } from '../validators';
 
 const LoginInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);
   const passwordInput = useInput<string>('', passwordValidator);
+  const rememberMeCheckbox = useCheckbox(true);
   const [isValidationSummaryVisible, setIsValidationSummaryVisible] = useState(
     false,
   );
@@ -38,6 +40,7 @@ const LoginInput: React.FC = () => {
         loginRequest({
           userName: loginInput.value,
           password: passwordInput.value,
+          rememberMe: rememberMeCheckbox.value,
         }),
       );
     } else {
@@ -57,6 +60,7 @@ const LoginInput: React.FC = () => {
         placeholder="Password"
         {...passwordInput.binding}
       ></Input>
+      <CheckBox label="Remember me" {...rememberMeCheckbox.binding}></CheckBox>
       <Button onClick={handleLogin}>Sign in</Button>
       <Link to="/register">Register</Link>
     </div>

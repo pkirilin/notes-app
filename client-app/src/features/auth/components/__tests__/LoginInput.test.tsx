@@ -15,6 +15,7 @@ describe('LoginInput component', () => {
         payload: {
           userName: login,
           password,
+          rememberMe: true,
         },
       },
     ];

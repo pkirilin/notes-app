@@ -1,5 +1,9 @@
 import { BaseAction } from 'app/types';
-import { AuthRequest, UserData } from './models';
+import {
+  RegisterRequestPayload,
+  LoginRequestPayload,
+  UserData,
+} from './models';
 
 export enum AuthActionTypes {
   LoginRequest = 'auth/loginRequested',
@@ -13,7 +17,7 @@ export enum AuthActionTypes {
 
 export type LoginRequestAction = BaseAction<
   AuthActionTypes.LoginRequest,
-  AuthRequest
+  LoginRequestPayload
 >;
 
 export type LoginSuccessAction = BaseAction<
@@ -27,7 +31,7 @@ export type LogoutAction = BaseAction<AuthActionTypes.Logout>;
 
 export type RegisterRequestAction = BaseAction<
   AuthActionTypes.RegisterRequest,
-  AuthRequest
+  RegisterRequestPayload
 >;
 
 export type RegisterSuccessAction = BaseAction<AuthActionTypes.RegisterSuccess>;
@@ -37,7 +41,9 @@ export type RegisterErrorAction = BaseAction<
   string
 >;
 
-export const loginRequest = (loginData: AuthRequest): LoginRequestAction => ({
+export const loginRequest = (
+  loginData: LoginRequestPayload,
+): LoginRequestAction => ({
   type: AuthActionTypes.LoginRequest,
   payload: loginData,
 });
@@ -55,7 +61,7 @@ export const loginError = (errorMessage: string): LoginErrorAction => ({
 export const logout = (): LogoutAction => ({ type: AuthActionTypes.Logout });
 
 export const registerRequest = (
-  registerData: AuthRequest,
+  registerData: RegisterRequestPayload,
 ): RegisterRequestAction => ({
   type: AuthActionTypes.RegisterRequest,
   payload: registerData,
