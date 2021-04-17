@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { Button } from 'app/components';
 import { logout } from 'features/auth/actions';
 import { useTypedSelector } from 'app/hooks';
+import NotesList from './NotesList';
+import { Title } from 'features/__shared__/components';
 
 const NotesPage: React.FC = () => {
   const user = useTypedSelector(state => state.auth.user);
@@ -26,6 +28,8 @@ const NotesPage: React.FC = () => {
       >
         Logout
       </Button>
+      <Title>Notes</Title>
+      <NotesList></NotesList>
     </React.Fragment>
   );
 };
