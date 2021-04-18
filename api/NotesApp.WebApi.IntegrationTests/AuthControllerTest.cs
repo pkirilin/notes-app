@@ -6,22 +6,24 @@ using Xunit;
 
 namespace NotesApp.WebApi.IntegrationTests
 {
-    public class AuthControllerTests : IntegrationTestsScenarioBase
+    public class AuthControllerTest : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public AuthControllerTests(CustomWebApplicationFactory<TestStartup> factory) : base(factory)
+        private readonly CustomWebApplicationFactory<Startup> _factory;
+
+        public AuthControllerTest(CustomWebApplicationFactory<Startup> factory)
         {
+            _factory = factory;
         }
 
         [Fact]
         public async void Login_ShouldAuthenticateUser()
         {
             // Arrange
-            var userName = "user1";
-            var password = "password1";
-            var requestUri = $"/login?userName={userName}&password={password}";
+            var requestUri = $"/login?userName=user1&password=password1";
+            var client = _factory.CreateClient();
 
             // Act
-            var response = await _client.GetAsync(requestUri);
+            var response = await client.GetAsync(requestUri);
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -31,7 +33,6 @@ namespace NotesApp.WebApi.IntegrationTests
         public async void Register_ShouldCreateNewUser()
         {
             // Arrange
-            var requestUri = "/register";
             var body = new RegistrationRequestDto()
             {
                 UserName = "user_new",
@@ -39,9 +40,10 @@ namespace NotesApp.WebApi.IntegrationTests
             };
             var content = new StringContent(JsonSerializer.Serialize(body));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var client = _factory.CreateClient();
 
             // Act
-            var response = await _client.PostAsync(requestUri, content);
+            var response = await client.PostAsync("/register", content);
 
             // Assert
             response.EnsureSuccessStatusCode();

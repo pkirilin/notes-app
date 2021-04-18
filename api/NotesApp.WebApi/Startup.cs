@@ -31,7 +31,11 @@ namespace NotesApp.WebApi
         {
             services.Configure<AuthOptions>(Configuration.GetSection("AuthOptions"));
 
-            AddDbContext(services);
+            services.AddDbContext<NotesAppDbContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("NotesAppDbContext"));
+                options.UseLoggerFactory(NotesAppDbContext.SqlLoggerFactory);
+            });
 
             services.AddCors(options => options.AddPolicy("DefaultPolicy", builder =>
                 builder.WithOrigins(Configuration.GetValue<string>("AllowedHosts"))
@@ -53,7 +57,7 @@ namespace NotesApp.WebApi
                     };
                 });
 
-            AddControllers(services);
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
@@ -66,7 +70,7 @@ namespace NotesApp.WebApi
         {
             if (env.IsDevelopment())
             {
-                dbContext.Database.Migrate();
+                // dbContext.Database.Migrate();
 
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
@@ -83,20 +87,6 @@ namespace NotesApp.WebApi
             {
                 endpoints.MapControllers();
             });
-        }
-
-        protected virtual void AddDbContext(IServiceCollection services)
-        {
-            services.AddDbContext<NotesAppDbContext>(options =>
-            {
-                options.UseNpgsql(Configuration.GetConnectionString("NotesAppDbContext"));
-                options.UseLoggerFactory(NotesAppDbContext.SqlLoggerFactory);
-            });
-        }
-
-        protected virtual void AddControllers(IServiceCollection services)
-        {
-            services.AddControllers();
         }
     }
 }
