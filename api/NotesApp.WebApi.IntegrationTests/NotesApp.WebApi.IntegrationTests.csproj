@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <None Remove="appsettings.test.json" />
+    <None Update="Scenarios\Notes\noteItemsResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
