@@ -1,14 +1,15 @@
-using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Text.Json;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using NotesApp.WebApi.Dtos;
 using NotesApp.WebApi.IntegrationTests.Extensions;
 using NotesApp.WebApi.IntegrationTests.Helpers;
 using Xunit;
 
-namespace NotesApp.WebApi.IntegrationTests.Scenarios.Notes
+namespace NotesApp.WebApi.IntegrationTests.Scenarios
 {
     public class NotesIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
@@ -38,17 +39,16 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios.Notes
             });
             
             client.DefaultRequestHeaders.Add("userId", "10");
-            
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Scenarios", "Notes", "noteItemsResponse.json");
-            var expectedResponse = await File.ReadAllTextAsync(path);
 
             // Act
             var response = await client.GetAsync("/notes");
             var responseContent = await response.Content.ReadAsStringAsync();
+            var responseNotes = JsonSerializer.Deserialize<List<NoteItemDto>>(responseContent);
 
             // Assert
             response.StatusCode.Should().Be(200);
-            responseContent.Should().Be(expectedResponse);
+            responseNotes.Should().Contain(n => n.Text == "Test note 1");
+            responseNotes.Should().Contain(n => n.Text == "Test note 2");
         }
     }
 }

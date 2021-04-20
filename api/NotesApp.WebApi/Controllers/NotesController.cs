@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NotesApp.WebApi.Domain.Entities;
+using NotesApp.WebApi.Domain.Services;
 
 namespace NotesApp.WebApi.Controllers
 {
@@ -12,10 +11,18 @@ namespace NotesApp.WebApi.Controllers
     [Route("notes")]
     public class NotesController : ControllerBase
     {
+        private readonly INotesService _notesService;
+
+        public NotesController(INotesService notesService)
+        {
+            _notesService = notesService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetNotes([FromHeader] int userId, CancellationToken cancellationToken)
         {
-            return Ok(Enumerable.Empty<Note>());
+            var notes = await _notesService.GetNotesAsync(userId, cancellationToken);
+            return Ok(notes);
         }
     }
 }
