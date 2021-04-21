@@ -16,7 +16,7 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios
         }
 
         [Fact]
-        public async void ShouldReturnNotesForUser_WhenUserSpecifiedInHeaders()
+        public async void GetNotes_ShouldReturnNotesForUser_WhenUserSpecifiedInHeaders()
         {
             // Arrange
             var client = _factory.CreateTestClient();
