@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -43,6 +44,20 @@ namespace NotesApp.WebApi.IntegrationTests.Extensions
                                     "Error: {Message}", ex.Message);
             }
         }
+        
+        public static HttpClient CreateTestClientWithoutAuth<TStartup>(this WebApplicationFactory<TStartup> factory)
+            where TStartup : class
+        {
+            var client = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {
+                    services.PrepareDatabaseForIntegrationTests<Startup>();
+                });
+            }).CreateClient();
+
+            return client;
+        }
 
         public static HttpClient CreateTestClient<TStartup>(this WebApplicationFactory<TStartup> factory)
             where TStartup : class
@@ -62,6 +77,13 @@ namespace NotesApp.WebApi.IntegrationTests.Extensions
             });
 
             return client;
+        }
+
+        public static Task<HttpResponseMessage> PostDataAsync<T>(this HttpClient client, string requestUri, T body)
+        {
+            var content = new StringContent(JsonSerializer.Serialize(body));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return client.PostAsync(requestUri, content);
         }
 
         public static async Task<T> ReadContentAsync<T>(this HttpResponseMessage response)
