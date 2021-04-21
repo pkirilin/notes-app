@@ -1,12 +1,7 @@
 using System.Collections.Generic;
-using System.Text.Json;
 using FluentAssertions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using NotesApp.WebApi.Dtos;
 using NotesApp.WebApi.IntegrationTests.Extensions;
-using NotesApp.WebApi.IntegrationTests.Helpers;
 using Xunit;
 
 namespace NotesApp.WebApi.IntegrationTests.Scenarios
@@ -24,26 +19,12 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios
         public async void ShouldReturnNotesForUser_WhenUserSpecifiedInHeaders()
         {
             // Arrange
-            var client = _factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    services.AddAuthentication("Test")
-                        .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => {});
-                    
-                    services.PrepareDatabaseForIntegrationTests<Startup>();
-                });
-            }).CreateClient(new WebApplicationFactoryClientOptions()
-            {
-                AllowAutoRedirect = false
-            });
-            
+            var client = _factory.CreateTestClient();
             client.DefaultRequestHeaders.Add("userId", "10");
 
             // Act
             var response = await client.GetAsync("/notes");
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var responseNotes = JsonSerializer.Deserialize<List<NoteItemDto>>(responseContent);
+            var responseNotes = await response.ReadContentAsync<List<NoteItemDto>>();
 
             // Assert
             response.StatusCode.Should().Be(200);

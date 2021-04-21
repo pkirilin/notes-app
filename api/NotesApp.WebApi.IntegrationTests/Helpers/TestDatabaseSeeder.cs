@@ -2,9 +2,9 @@ using System;
 using NotesApp.WebApi.Domain.Entities;
 using NotesApp.WebApi.Infrastructure;
 
-namespace NotesApp.WebApi.IntegrationTests
+namespace NotesApp.WebApi.IntegrationTests.Helpers
 {
-    public static class TestUtils
+    public static class TestDatabaseSeeder
     {
         public static void InitializeDbForTests(NotesAppDbContext db)
         {

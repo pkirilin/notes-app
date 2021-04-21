@@ -1,8 +1,13 @@
 using System;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NotesApp.WebApi.Infrastructure;
+using NotesApp.WebApi.IntegrationTests.Helpers;
 
 namespace NotesApp.WebApi.IntegrationTests.Extensions
 {
@@ -25,11 +30,11 @@ namespace NotesApp.WebApi.IntegrationTests.Extensions
             {
                 if (reinitialize)
                 {
-                    TestUtils.ReinitializeDbForTests(db);
+                    TestDatabaseSeeder.ReinitializeDbForTests(db);
                 }
                 else
                 {
-                    TestUtils.InitializeDbForTests(db);
+                    TestDatabaseSeeder.InitializeDbForTests(db);
                 }
             }
             catch (Exception ex)
@@ -39,17 +44,30 @@ namespace NotesApp.WebApi.IntegrationTests.Extensions
             }
         }
 
-        public static WebApplicationFactory<TStartup> WithReinitializedData<TStartup>(
-            this WebApplicationFactory<TStartup> factory)
+        public static HttpClient CreateTestClient<TStartup>(this WebApplicationFactory<TStartup> factory)
             where TStartup : class
         {
-            return factory.WithWebHostBuilder(builder =>
+            var client = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.PrepareDatabaseForIntegrationTests<Startup>(reinitialize: true);
+                    services.AddAuthentication("Test")
+                        .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => {});
+                    
+                    services.PrepareDatabaseForIntegrationTests<Startup>();
                 });
+            }).CreateClient(new WebApplicationFactoryClientOptions()
+            {
+                AllowAutoRedirect = false
             });
+
+            return client;
+        }
+
+        public static async Task<T> ReadContentAsync<T>(this HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<T>(content);
         }
     }
 }
