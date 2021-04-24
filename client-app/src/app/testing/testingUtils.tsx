@@ -29,6 +29,9 @@ export const testInitialState: RootState = {
     registrationResult: { status: 'initial' },
   },
   counter: 0,
+  notes: {
+    noteItems: [],
+  },
 };
 
 export function render(

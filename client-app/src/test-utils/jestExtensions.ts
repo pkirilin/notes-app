@@ -1,4 +1,5 @@
 import api from 'features/notes/api';
+import { NoteListItem } from 'features/notes/models/NoteListItem';
 
 export function asJestMock<TResult>(
   func: (...args: unknown[]) => TResult,
@@ -6,8 +7,10 @@ export function asJestMock<TResult>(
   return func as jest.Mock<TResult>;
 }
 
-export function setupNotesFromApi(...noteTexts: string[]): void {
-  asJestMock(api.getNotes).mockResolvedValue(
+export function setupNotesFromApi(
+  ...noteTexts: string[]
+): jest.Mock<Promise<NoteListItem[]>> {
+  return asJestMock(api.getNotes).mockResolvedValueOnce(
     noteTexts.map((text, i) => ({
       id: i,
       text,
