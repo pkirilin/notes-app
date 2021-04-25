@@ -28,7 +28,6 @@ export const testInitialState: RootState = {
     user: null,
     registrationResult: { status: 'initial' },
   },
-  counter: 0,
   notes: {
     noteItems: [],
   },
