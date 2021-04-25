@@ -1,31 +1,33 @@
-import { waitFor } from '@testing-library/dom';
 import React from 'react';
-import { renderConnected, setupNotesFromApi } from '../../../../test-utils';
+import {
+  renderConnected,
+  setupFakeNotesFromApi,
+  waitForSingleCall,
+} from '../../../../test-utils';
 import NotesList from '../NotesList';
 
 jest.mock('../../api');
 
 describe('NotesList', () => {
   describe('when mounted and fetched notes', () => {
-    it('should render notes list', async () => {
-      const apiMock = setupNotesFromApi('Note 1', 'Note 2');
+    test('should render notes list', async () => {
+      setupFakeNotesFromApi('Note 1', 'Note 2');
 
-      const { getByText } = renderConnected(<NotesList></NotesList>);
-      await waitFor(() => expect(apiMock).toHaveBeenCalledTimes(1));
+      const { findByText } = renderConnected(<NotesList></NotesList>);
 
-      expect(getByText('Note 1')).toBeInTheDocument();
-      expect(getByText('Note 2')).toBeInTheDocument();
+      expect(await findByText('Note 1')).toBeVisible();
+      expect(await findByText('Note 2')).toBeVisible();
     });
   });
 
   describe('when mounted and fetched empty notes', () => {
-    it('should render empty notes list message', async () => {
-      const apiMock = setupNotesFromApi();
+    test('should render empty notes list message', async () => {
+      const api = setupFakeNotesFromApi();
 
-      const { getByText } = renderConnected(<NotesList></NotesList>);
-      await waitFor(() => expect(apiMock).toHaveBeenCalledTimes(1));
+      const { findByText } = renderConnected(<NotesList></NotesList>);
+      await waitForSingleCall(api);
 
-      expect(getByText('You have not any notes yet')).toBeInTheDocument();
+      expect(await findByText('You have not any notes yet')).toBeVisible();
     });
   });
 });
