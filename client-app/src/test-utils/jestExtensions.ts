@@ -1,6 +1,6 @@
 import { waitFor } from '@testing-library/dom';
-import api from 'features/notes/api';
-import { NoteListItem } from 'features/notes/models/NoteListItem';
+import api from '../features/notes/api';
+import { NoteListItem } from '../features/notes/models/NoteListItem';
 
 export function asJestMock<TResult>(
   func: (...args: unknown[]) => TResult,

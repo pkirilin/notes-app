@@ -1,4 +1,4 @@
-import { UseInputHookValidator } from 'app/hooks';
+import { UseInputHookValidator } from '../../app/hooks';
 
 export const loginValidator: UseInputHookValidator<string> = login => {
   const trimmedLogin = login.trim();

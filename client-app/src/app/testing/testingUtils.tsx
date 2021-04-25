@@ -9,7 +9,7 @@ import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
 import { ThemeProvider } from 'styled-components';
-import theme from 'theme';
+import theme from '../../theme';
 import { RootState } from '../store';
 
 const mockStore = configureStore<RootState>();

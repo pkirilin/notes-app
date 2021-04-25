@@ -1,5 +1,5 @@
 import { InputHTMLAttributes, useEffect, useState } from 'react';
-import { FormHookResultBase } from 'app/types';
+import { FormHookResultBase } from '../../app/types';
 
 export type InputBinding = Pick<
   InputHTMLAttributes<HTMLInputElement>,

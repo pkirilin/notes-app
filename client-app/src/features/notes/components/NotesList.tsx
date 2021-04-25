@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { List, ListItem } from 'features/__shared__/components';
 import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../../app/hooks';
+import { List, ListItem } from '../../__shared__/components';
 import { notesRequested } from '../actions';
-import { useTypedSelector } from 'app/hooks';
 
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);

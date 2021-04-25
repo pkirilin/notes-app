@@ -5,9 +5,9 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { LoginInput, RegisterInput } from 'features/auth/components';
-import { useTypedSelector } from 'app/hooks';
-import { NotesPage } from 'features/notes/components';
+import { useTypedSelector } from './app/hooks';
+import { LoginInput, RegisterInput } from './features/auth/components';
+import { NotesPage } from './features/notes/components';
 
 const App: React.FC = () => {
   const isAuthorized = useTypedSelector(state => !!state.auth.user);

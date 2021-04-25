@@ -1,4 +1,4 @@
-import { UseInputHookResult } from 'app/hooks';
+import { UseInputHookResult } from '../../app/hooks';
 import React from 'react';
 
 export type ValidationSummaryDetail = Pick<

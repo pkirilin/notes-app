@@ -1,5 +1,5 @@
-import { PayloadAction } from 'features/__shared__/types';
 import { Action } from 'redux';
+import { PayloadAction } from '../__shared__/types';
 import { NoteListItem } from './models/NoteListItem';
 
 export enum NotesActionTypes {

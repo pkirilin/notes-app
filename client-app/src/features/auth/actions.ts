@@ -1,4 +1,4 @@
-import { BaseAction } from 'app/types';
+import { BaseAction } from '../../app/types';
 import {
   RegisterRequestPayload,
   LoginRequestPayload,

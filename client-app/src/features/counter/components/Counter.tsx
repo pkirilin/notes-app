@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector } from 'app/hooks';
-import { Button } from 'app/components';
 import { decrement, increment } from '../actions';
 import styled from 'styled-components';
+import { Button } from '../../../app/components';
+import { useTypedSelector } from '../../../app/hooks';
 
 const Paragraph = styled.p`
   font-size: 32px;

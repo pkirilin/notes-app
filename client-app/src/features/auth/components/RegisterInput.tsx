@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-  Alert,
-  Button,
-  Input,
-  ValidationSummary,
-  ValidationSummaryDetail,
-} from 'app/components';
-import { useInput, useTypedSelector } from 'app/hooks';
 import { registerRequest } from '../actions';
 import { loginValidator, passwordValidator } from '../validators';
+import {
+  ValidationSummaryDetail,
+  Alert,
+  ValidationSummary,
+  Input,
+  Button,
+} from '../../../app/components';
+import { useInput, useTypedSelector } from '../../../app/hooks';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);

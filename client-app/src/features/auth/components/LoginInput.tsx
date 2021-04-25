@@ -2,14 +2,14 @@ import React, { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
-  Button,
-  CheckBox,
-  Input,
-  ValidationSummary,
   ValidationSummaryDetail,
-} from 'app/components';
+  ValidationSummary,
+  Input,
+  CheckBox,
+  Button,
+} from '../../../app/components';
+import { useInput, useCheckbox } from '../../../app/hooks';
 import { loginRequest } from '../actions';
-import { useCheckbox, useInput } from 'app/hooks';
 import { loginValidator, passwordValidator } from '../validators';
 
 const LoginInput: React.FC = () => {

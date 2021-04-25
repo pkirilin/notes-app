@@ -1,5 +1,5 @@
-import { createApiCall } from 'app/helpers';
-import config from 'config';
+import { createApiCall } from '../../app/helpers';
+import config from '../../config';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   AuthActionTypes,
