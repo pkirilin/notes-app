@@ -6,11 +6,17 @@ import { notesRequested } from '../actions';
 
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);
+  const status = useTypedSelector(state => state.notes.status);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(notesRequested());
   }, [dispatch]);
+
+  if (status === 'error') {
+    return <p>Failed to get notes</p>;
+  }
 
   if (notes.length === 0) {
     return <p>You have not any notes yet</p>;

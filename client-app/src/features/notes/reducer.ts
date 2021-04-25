@@ -16,6 +16,11 @@ export default function (
       return {
         noteItems: action.payload,
       };
+    case NotesActionTypes.NotesRejected:
+      return {
+        ...state,
+        status: 'error',
+      };
     default:
       return state;
   }

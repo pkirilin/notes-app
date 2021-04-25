@@ -1,9 +1,11 @@
 import React from 'react';
 import {
+  asJestMock,
   renderConnected,
   setupFakeNotesFromApi,
   waitForSingleCall,
 } from '../../../../test-utils';
+import api from '../../api';
 import NotesList from '../NotesList';
 
 jest.mock('../../api');
@@ -28,6 +30,17 @@ describe('NotesList', () => {
       await waitForSingleCall(api);
 
       expect(await findByText('You have not any notes yet')).toBeVisible();
+    });
+  });
+
+  describe('when mounted and fetch notes failed', () => {
+    test('should display error message', async () => {
+      const apiMock = asJestMock(api.getNotes).mockRejectedValueOnce({});
+
+      const { findByText } = renderConnected(<NotesList></NotesList>);
+      await waitForSingleCall(apiMock);
+
+      expect(await findByText('Failed to get notes')).toBeVisible();
     });
   });
 });

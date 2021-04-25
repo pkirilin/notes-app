@@ -5,6 +5,7 @@ import { NoteListItem } from './models/NoteListItem';
 export enum NotesActionTypes {
   NotesRequested = 'notes/notesRequested',
   NotesReceived = 'notes/notesReceived',
+  NotesRejected = 'notes/notesRejected',
 }
 
 export const notesRequested = (): Action<NotesActionTypes.NotesRequested> => ({
@@ -18,6 +19,11 @@ export const notesReceived = (
   payload: notes,
 });
 
+export const notesRejected = (): Action<NotesActionTypes.NotesRejected> => ({
+  type: NotesActionTypes.NotesRejected,
+});
+
 export type NotesActions =
   | ReturnType<typeof notesRequested>
-  | ReturnType<typeof notesReceived>;
+  | ReturnType<typeof notesReceived>
+  | ReturnType<typeof notesRejected>;

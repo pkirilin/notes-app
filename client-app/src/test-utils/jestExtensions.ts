@@ -22,7 +22,3 @@ export function setupFakeNotesFromApi(
 export function waitForSingleCall(fn: jest.Mock): Promise<void> {
   return waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
 }
-
-// arrange().fakeNotesFromApi()
-
-// waitFor().singleCall(fn)
