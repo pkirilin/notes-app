@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../../../app/components';
-import { useTypedSelector } from '../../../app/hooks';
 import { logout } from '../../auth/actions';
 import { Title } from '../../__shared__/components';
+import { useTypedSelector } from '../../__shared__/hooks';
 import NotesList from './NotesList';
 
 const NotesPage: React.FC = () => {

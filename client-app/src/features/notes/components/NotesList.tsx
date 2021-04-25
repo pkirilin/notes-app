@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../../app/hooks';
 import { List, ListItem } from '../../__shared__/components';
+import { useTypedSelector } from '../../__shared__/hooks';
 import { notesRequested } from '../actions';
 
 const NotesList: React.FC = () => {

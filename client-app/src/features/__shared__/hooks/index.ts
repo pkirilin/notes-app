@@ -1,4 +1,4 @@
 import { createSelectorHook } from 'react-redux';
-import { RootState } from '../store';
+import { RootState } from '../../../app/store';
 
 export const useTypedSelector = createSelectorHook<RootState>();

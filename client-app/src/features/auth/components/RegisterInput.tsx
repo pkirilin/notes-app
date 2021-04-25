@@ -10,7 +10,8 @@ import {
   Input,
   Button,
 } from '../../../app/components';
-import { useInput, useTypedSelector } from '../../../app/hooks';
+import { useInput } from '../../../app/hooks';
+import { useTypedSelector } from '../../__shared__/hooks';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { decrement, increment } from '../actions';
 import styled from 'styled-components';
 import { Button } from '../../../app/components';
-import { useTypedSelector } from '../../../app/hooks';
+import { useTypedSelector } from '../../__shared__/hooks';
 
 const Paragraph = styled.p`
   font-size: 32px;
