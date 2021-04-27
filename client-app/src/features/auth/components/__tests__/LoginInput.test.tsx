@@ -1,51 +1,45 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import LoginInput from '../LoginInput';
-import { render } from 'app/testing';
-import { AuthActions, AuthActionTypes } from 'features/auth/actions';
+import {
+  renderConnected,
+  setupFakeLoginApi,
+  waitForSingleCall,
+} from '../../../../test-utils';
 
-describe('LoginInput component', () => {
-  test('should send login request on login button click if input valid', () => {
-    // Arrange
-    const login = 'login';
-    const password = 'password';
-    const expectedActions: AuthActions[] = [
-      {
-        type: AuthActionTypes.LoginRequest,
-        payload: {
-          userName: login,
-          password,
-          rememberMe: true,
-        },
-      },
-    ];
+jest.mock('../../api');
 
-    // Act
-    const { getByText, getByPlaceholderText, store } = render(
-      <LoginInput></LoginInput>,
-    );
-    const loginInput = getByPlaceholderText('Login');
-    const passwordInput = getByPlaceholderText('Password');
-    const signInButton = getByText('Sign in');
-    fireEvent.change(loginInput, { target: { value: login } });
-    fireEvent.change(passwordInput, { target: { value: password } });
-    fireEvent.click(signInButton);
+describe('LoginInput', () => {
+  describe('when input valid and login button clicked', () => {
+    test('should log user in', async () => {
+      const api = setupFakeLoginApi();
 
-    // Assert
-    expect(store.getActions()).toEqual(expectedActions);
+      const { getByPlaceholderText, getByText, history } = renderConnected(
+        <LoginInput></LoginInput>,
+      );
+      fireEvent.change(getByPlaceholderText('Login'), {
+        target: { value: 'login' },
+      });
+      fireEvent.change(getByPlaceholderText('Password'), {
+        target: { value: 'password' },
+      });
+      fireEvent.click(getByText('Sign in'));
+      await waitForSingleCall(api);
+
+      expect(history.location.pathname).toBe('/');
+    });
   });
 
-  test('should show validation errors on login button click if input valid', () => {
-    // Act
-    const { store, getByText } = render(<LoginInput></LoginInput>);
-    const signInButton = getByText('Sign in');
-    fireEvent.click(signInButton);
-    const loginValidation = getByText('Login is required');
-    const passwordValidation = getByText('Password is required');
+  describe('when input is not valid and login button clicked', () => {
+    test('should show validation errors', async () => {
+      const { getByText, findByText } = renderConnected(
+        <LoginInput></LoginInput>,
+      );
 
-    // Assert
-    expect(loginValidation).toBeInTheDocument();
-    expect(passwordValidation).toBeInTheDocument();
-    expect(store.getActions()).toEqual([]);
+      fireEvent.click(getByText('Sign in'));
+
+      expect(await findByText('Login is required')).toBeVisible();
+      expect(await findByText('Password is required')).toBeVisible();
+    });
   });
 });

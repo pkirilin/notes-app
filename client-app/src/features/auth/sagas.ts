@@ -3,9 +3,8 @@ import config from '../../config';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   AuthActionTypes,
-  loginError,
-  LoginRequestAction,
-  loginSuccess,
+  loginFailed,
+  loginSucceeded,
   registerError,
   RegisterRequestAction,
   registerSuccess,
@@ -16,15 +15,8 @@ import {
   UserData,
 } from './models';
 import Cookies from 'js-cookie';
-
-const callLoginApi = createApiCall<UserData, LoginRequestPayload>({
-  url: `${config.apiUrl}/login`,
-  fetchJson: true,
-  modifyUrl: (url, { userName, password }) =>
-    `${url}?userName=${encodeURIComponent(
-      userName,
-    )}&password=${encodeURIComponent(password)}`,
-});
+import api from './api';
+import { PayloadAction } from '../__shared__/types';
 
 const callRegisterApi = createApiCall<void, RegisterRequestPayload>({
   url: `${config.apiUrl}/register`,
@@ -53,19 +45,16 @@ function removeUserCookies() {
   Cookies.remove('auth');
 }
 
-function* login({ payload }: LoginRequestAction) {
+function* login({
+  payload,
+}: PayloadAction<AuthActionTypes.LoginRequest, LoginRequestPayload>) {
   try {
-    const { data, errorMessage } = yield call(callLoginApi, payload);
-
-    if (data) {
-      const isSessionCookie = !payload?.rememberMe;
-      yield call(setUserCookies, data, isSessionCookie);
-      yield put(loginSuccess(data));
-    } else {
-      yield put(loginError(errorMessage));
-    }
+    const user: UserData = yield call(api.login, payload);
+    const isSessionCookie = !payload?.rememberMe;
+    yield call(setUserCookies, user, isSessionCookie);
+    yield put(loginSucceeded(user));
   } catch (error) {
-    yield put(loginError('Failed to login'));
+    yield put(loginFailed());
   }
 }
 

@@ -9,7 +9,7 @@ import {
   Button,
 } from '../../../app/components';
 import { useInput, useCheckbox } from '../../../app/hooks';
-import { loginRequest } from '../actions';
+import { loginRequested } from '../actions';
 import { loginValidator, passwordValidator } from '../validators';
 
 const LoginInput: React.FC = () => {
@@ -37,7 +37,7 @@ const LoginInput: React.FC = () => {
 
     if (isInputCorrect) {
       dispatch(
-        loginRequest({
+        loginRequested({
           userName: loginInput.value,
           password: passwordInput.value,
           rememberMe: rememberMeCheckbox.value,

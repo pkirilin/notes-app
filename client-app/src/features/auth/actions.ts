@@ -1,4 +1,6 @@
+import { Action } from 'redux';
 import { BaseAction } from '../../app/types';
+import { PayloadAction } from '../__shared__/types';
 import {
   RegisterRequestPayload,
   LoginRequestPayload,
@@ -15,19 +17,27 @@ export enum AuthActionTypes {
   RegisterError = 'auth/registrationFailed',
 }
 
-export type LoginRequestAction = BaseAction<
-  AuthActionTypes.LoginRequest,
-  LoginRequestPayload
->;
+export const loginRequested = (
+  payload: LoginRequestPayload,
+): PayloadAction<AuthActionTypes.LoginRequest, LoginRequestPayload> => ({
+  type: AuthActionTypes.LoginRequest,
+  payload,
+});
 
-export type LoginSuccessAction = BaseAction<
-  AuthActionTypes.LoginSuccess,
-  UserData
->;
+export const loginSucceeded = (
+  userData: UserData,
+): PayloadAction<AuthActionTypes.LoginSuccess, UserData> => ({
+  type: AuthActionTypes.LoginSuccess,
+  payload: userData,
+});
 
-export type LoginErrorAction = BaseAction<AuthActionTypes.LoginError, string>;
+export const loginFailed = (): Action<AuthActionTypes.LoginError> => ({
+  type: AuthActionTypes.LoginError,
+});
 
-export type LogoutAction = BaseAction<AuthActionTypes.Logout>;
+export const logout = (): Action<AuthActionTypes.Logout> => ({
+  type: AuthActionTypes.Logout,
+});
 
 export type RegisterRequestAction = BaseAction<
   AuthActionTypes.RegisterRequest,
@@ -40,25 +50,6 @@ export type RegisterErrorAction = BaseAction<
   AuthActionTypes.RegisterError,
   string
 >;
-
-export const loginRequest = (
-  loginData: LoginRequestPayload,
-): LoginRequestAction => ({
-  type: AuthActionTypes.LoginRequest,
-  payload: loginData,
-});
-
-export const loginSuccess = (loginResult: UserData): LoginSuccessAction => ({
-  type: AuthActionTypes.LoginSuccess,
-  payload: loginResult,
-});
-
-export const loginError = (errorMessage: string): LoginErrorAction => ({
-  type: AuthActionTypes.LoginError,
-  payload: errorMessage,
-});
-
-export const logout = (): LogoutAction => ({ type: AuthActionTypes.Logout });
 
 export const registerRequest = (
   registerData: RegisterRequestPayload,
@@ -77,10 +68,9 @@ export const registerError = (errorMessage: string): RegisterErrorAction => ({
 });
 
 export type AuthActions =
-  | LoginRequestAction
-  | LoginSuccessAction
-  | LoginErrorAction
-  | LogoutAction
+  | ReturnType<typeof loginRequested>
+  | ReturnType<typeof loginSucceeded>
+  | ReturnType<typeof loginFailed>
   | RegisterRequestAction
   | RegisterSuccessAction
   | RegisterErrorAction;
