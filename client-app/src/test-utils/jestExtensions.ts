@@ -34,3 +34,7 @@ export function setupFakeLoginApi(): jest.Mock<Promise<UserData>> {
     tokenExpirationInDays: 1,
   });
 }
+
+export function setupFakeRegisterApi(): jest.Mock<Promise<void>> {
+  return asJestMock(auth.register).mockResolvedValueOnce();
+}

@@ -1,13 +1,10 @@
-import { createApiCall } from '../../app/helpers';
-import config from '../../config';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   AuthActionTypes,
   loginFailed,
   loginSucceeded,
-  registerError,
-  RegisterRequestAction,
-  registerSuccess,
+  registrationFailed,
+  registrationSucceeded,
 } from './actions';
 import {
   RegisterRequestPayload,
@@ -17,12 +14,6 @@ import {
 import Cookies from 'js-cookie';
 import api from './api';
 import { PayloadAction } from '../__shared__/types';
-
-const callRegisterApi = createApiCall<void, RegisterRequestPayload>({
-  url: `${config.apiUrl}/register`,
-  method: 'POST',
-  constructBody: payload => JSON.stringify(payload),
-});
 
 function setUserCookies(
   { userId, userName, token, tokenExpirationInDays }: UserData,
@@ -62,17 +53,14 @@ function* logout() {
   yield call<typeof removeUserCookies>(removeUserCookies);
 }
 
-function* register({ payload }: RegisterRequestAction) {
+function* register({
+  payload,
+}: PayloadAction<AuthActionTypes.RegisterRequest, RegisterRequestPayload>) {
   try {
-    const { data, errorMessage } = yield call(callRegisterApi, payload);
-
-    if (data) {
-      yield put(registerSuccess());
-    } else {
-      yield put(registerError(errorMessage));
-    }
+    yield call(api.register, payload);
+    yield put(registrationSucceeded());
   } catch (error) {
-    yield put(registerError('Failed to register'));
+    yield put(registrationFailed('Failed to register'));
   }
 }
 

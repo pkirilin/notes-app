@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { registerRequest } from '../actions';
 import { loginValidator, passwordValidator } from '../validators';
 import {
   ValidationSummaryDetail,
@@ -12,6 +11,7 @@ import {
 } from '../../../app/components';
 import { useInput } from '../../../app/hooks';
 import { useTypedSelector } from '../../__shared__/hooks';
+import { registrationRequested } from '../actions';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);
@@ -74,7 +74,7 @@ const RegisterInput: React.FC = () => {
 
     if (isInputCorrect) {
       dispatch(
-        registerRequest({
+        registrationRequested({
           userName: loginInput.value,
           password: passwordInput.value,
         }),

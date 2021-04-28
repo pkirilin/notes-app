@@ -1,160 +1,104 @@
 import React from 'react';
-import { render, testInitialState } from 'app/testing';
 import RegisterInput from '../RegisterInput';
 import { fireEvent } from '@testing-library/react';
-import { AuthActions, AuthActionTypes } from 'features/auth/actions';
-import { RootState } from 'app/store';
+import { registrationFailed } from '../../actions';
+import {
+  renderConnected,
+  setupFakeRegisterApi,
+  waitForSingleCall,
+} from '../../../../test-utils';
 
-describe('RegisterInput component', () => {
-  test('should send register request on register button click if input valid', () => {
-    // Arrange
-    const login = 'login';
-    const password = 'password';
-    const expectedActions: AuthActions[] = [
-      {
-        type: AuthActionTypes.RegisterRequest,
-        payload: { userName: login, password },
-      },
-    ];
+jest.mock('../../api');
 
-    // Act
-    const { getByText, getByPlaceholderText, store } = render(
-      <RegisterInput></RegisterInput>,
-    );
-    const loginInput = getByPlaceholderText('Login');
-    const passwordInput = getByPlaceholderText('Password');
-    const passwordConfirmInput = getByPlaceholderText('Confirm password');
-    const registerButton = getByText('Register');
-    fireEvent.change(loginInput, { target: { value: login } });
-    fireEvent.change(passwordInput, { target: { value: password } });
-    fireEvent.change(passwordConfirmInput, { target: { value: password } });
-    fireEvent.click(registerButton);
+describe('RegisterInput', () => {
+  describe('when input valid and register button clicked', () => {
+    test('should redirect to login page after registration completed', async () => {
+      const api = setupFakeRegisterApi();
 
-    // Assert
-    expect(store.getActions()).toEqual(expectedActions);
-  });
+      const { history, getByPlaceholderText, getByText } = renderConnected(
+        <RegisterInput></RegisterInput>,
+      );
+      fireEvent.change(getByPlaceholderText('Login'), {
+        target: { value: 'login' },
+      });
+      fireEvent.change(getByPlaceholderText('Password'), {
+        target: { value: 'password' },
+      });
+      fireEvent.change(getByPlaceholderText('Confirm password'), {
+        target: { value: 'password' },
+      });
+      fireEvent.click(getByText('Register'));
+      await waitForSingleCall(api);
 
-  test('should redirect user to login page after completing registration', () => {
-    // Arrange
-    const initialState: RootState = {
-      ...testInitialState,
-      auth: {
-        ...testInitialState.auth,
-        registrationResult: { status: 'idle' },
-      },
-    };
-    const registrationCompletedState: RootState = {
-      ...testInitialState,
-      auth: {
-        ...testInitialState.auth,
-        registrationResult: { status: 'completed' },
-      },
-    };
-
-    // Act
-    const { history, rerenderWithStateChange } = render(
-      <RegisterInput></RegisterInput>,
-      initialState,
-    );
-
-    rerenderWithStateChange(
-      <RegisterInput></RegisterInput>,
-      registrationCompletedState,
-    );
-
-    // Assert
-    expect(history.location.pathname).toBe('/login');
-  });
-
-  test('should show validation errors on register button click if input invalid', () => {
-    // Act
-    const { store, getByText } = render(<RegisterInput></RegisterInput>);
-    const registerButton = getByText('Register');
-    fireEvent.click(registerButton);
-    const loginValidation = getByText('Login is required');
-    const passwordValidation = getByText('Password is required');
-
-    // Assert
-    expect(store.getActions()).toEqual([]);
-    expect(loginValidation).toBeInTheDocument();
-    expect(passwordValidation).toBeInTheDocument();
-  });
-
-  test('should show validation error if passwords do not match', () => {
-    // Act
-    const { store, getByText, getByPlaceholderText } = render(
-      <RegisterInput></RegisterInput>,
-    );
-    const registerButton = getByText('Register');
-    const passwordInput = getByPlaceholderText('Password');
-    const passwordConfirmInput = getByPlaceholderText('Confirm password');
-    fireEvent.click(registerButton);
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-    fireEvent.change(passwordConfirmInput, {
-      target: { value: 'password1' },
+      expect(history.location.pathname).toBe('/login');
     });
-    const passwordConfirmValidation = getByText('Passwords do not match');
-
-    // Assert
-    expect(store.getActions()).toEqual([]);
-    expect(passwordConfirmValidation).toBeInTheDocument();
   });
 
-  test('should hide validation error if matching password is entered', () => {
-    // Act
-    const { store, getByText, getByPlaceholderText, queryByText } = render(
-      <RegisterInput></RegisterInput>,
-    );
-    const registerButton = getByText('Register');
-    const passwordInput = getByPlaceholderText('Password');
-    const passwordConfirmInput = getByPlaceholderText('Confirm password');
-    fireEvent.click(registerButton);
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-    fireEvent.change(passwordConfirmInput, {
-      target: { value: 'password1' },
-    });
-    fireEvent.change(passwordConfirmInput, {
-      target: { value: 'password' },
-    });
-    const passwordConfirmValidation = queryByText('Passwords do not match');
+  describe('when registration failed', () => {
+    test('should show alert with error message', () => {
+      const { getByText } = renderConnected(<RegisterInput></RegisterInput>, [
+        registrationFailed('Registration error'),
+      ]);
 
-    // Assert
-    expect(store.getActions()).toEqual([]);
-    expect(passwordConfirmValidation).toBeNull();
+      expect(getByText('Registration error')).toBeVisible();
+    });
   });
 
-  test('should show alert with error message if registration failed', () => {
-    // Arrange
-    const alertMessage = 'Registration error';
-    const initialState: RootState = {
-      ...testInitialState,
-      auth: {
-        ...testInitialState.auth,
-        registrationResult: { status: 'idle' },
-      },
-    };
-    const registrationErrorState: RootState = {
-      ...testInitialState,
-      auth: {
-        ...testInitialState.auth,
-        registrationResult: { status: 'error', message: alertMessage },
-      },
-    };
+  describe('when register button clicked and login/password are not filled', () => {
+    test('should show validation errors', async () => {
+      const { getByPlaceholderText, getByText } = renderConnected(
+        <RegisterInput></RegisterInput>,
+      );
+      fireEvent.change(getByPlaceholderText('Confirm password'), {
+        target: { value: 'password' },
+      });
+      fireEvent.click(getByText('Register'));
 
-    // Act
-    const { getByText, rerenderWithStateChange } = render(
-      <RegisterInput></RegisterInput>,
-      initialState,
-    );
+      expect(getByText('Login is required')).toBeVisible();
+      expect(getByText('Password is required')).toBeVisible();
+    });
+  });
 
-    rerenderWithStateChange(
-      <RegisterInput></RegisterInput>,
-      registrationErrorState,
-    );
+  describe('when register button clicked and passwords do not match', () => {
+    test('should show validation errors', async () => {
+      const { getByPlaceholderText, getByText } = renderConnected(
+        <RegisterInput></RegisterInput>,
+      );
+      fireEvent.change(getByPlaceholderText('Login'), {
+        target: { value: 'login' },
+      });
+      fireEvent.change(getByPlaceholderText('Password'), {
+        target: { value: 'password' },
+      });
+      fireEvent.change(getByPlaceholderText('Confirm password'), {
+        target: { value: 'password_new' },
+      });
+      fireEvent.click(getByText('Register'));
 
-    const alert = getByText(alertMessage);
+      expect(getByText('Passwords do not match')).toBeVisible();
+    });
+  });
 
-    // Assert
-    expect(alert).toBeInTheDocument();
+  describe('when matching password entered after wrong confirm password', () => {
+    test('should hide validation error', () => {
+      const { getByPlaceholderText, getByText, queryByText } = renderConnected(
+        <RegisterInput></RegisterInput>,
+      );
+      fireEvent.click(getByText('Register'));
+      fireEvent.change(getByPlaceholderText('Login'), {
+        target: { value: 'login' },
+      });
+      fireEvent.change(getByPlaceholderText('Password'), {
+        target: { value: 'password' },
+      });
+      fireEvent.change(getByPlaceholderText('Confirm password'), {
+        target: { value: 'password_new' },
+      });
+      fireEvent.change(getByPlaceholderText('Confirm password'), {
+        target: { value: 'password' },
+      });
+
+      expect(queryByText('Passwords do not match')).toBeNull();
+    });
   });
 });

@@ -1,5 +1,4 @@
 import { Action } from 'redux';
-import { BaseAction } from '../../app/types';
 import { PayloadAction } from '../__shared__/types';
 import {
   RegisterRequestPayload,
@@ -39,38 +38,29 @@ export const logout = (): Action<AuthActionTypes.Logout> => ({
   type: AuthActionTypes.Logout,
 });
 
-export type RegisterRequestAction = BaseAction<
-  AuthActionTypes.RegisterRequest,
-  RegisterRequestPayload
->;
-
-export type RegisterSuccessAction = BaseAction<AuthActionTypes.RegisterSuccess>;
-
-export type RegisterErrorAction = BaseAction<
-  AuthActionTypes.RegisterError,
-  string
->;
-
-export const registerRequest = (
-  registerData: RegisterRequestPayload,
-): RegisterRequestAction => ({
+export const registrationRequested = (
+  payload: RegisterRequestPayload,
+): PayloadAction<AuthActionTypes.RegisterRequest, RegisterRequestPayload> => ({
   type: AuthActionTypes.RegisterRequest,
-  payload: registerData,
+  payload,
 });
 
-export const registerSuccess = (): RegisterSuccessAction => ({
+export const registrationSucceeded = (): Action<AuthActionTypes.RegisterSuccess> => ({
   type: AuthActionTypes.RegisterSuccess,
 });
 
-export const registerError = (errorMessage: string): RegisterErrorAction => ({
+export const registrationFailed = (
+  payload: string,
+): PayloadAction<AuthActionTypes.RegisterError, string> => ({
   type: AuthActionTypes.RegisterError,
-  payload: errorMessage,
+  payload,
 });
 
 export type AuthActions =
   | ReturnType<typeof loginRequested>
   | ReturnType<typeof loginSucceeded>
   | ReturnType<typeof loginFailed>
-  | RegisterRequestAction
-  | RegisterSuccessAction
-  | RegisterErrorAction;
+  | ReturnType<typeof logout>
+  | ReturnType<typeof registrationRequested>
+  | ReturnType<typeof registrationSucceeded>
+  | ReturnType<typeof registrationFailed>;
