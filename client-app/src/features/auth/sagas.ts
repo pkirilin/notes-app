@@ -6,14 +6,12 @@ import {
   registerError,
   registerSuccess,
 } from './actions';
-import {
-  RegisterRequestPayload,
-  LoginRequestPayload,
-  UserData,
-} from './models';
 import Cookies from 'js-cookie';
 import api from './api';
 import { PayloadAction } from '../__shared__/types';
+import { UserData } from './models/UserData';
+import { LoginData } from './models/LoginData';
+import { RegisterData } from './models/RegisterData';
 
 function setUserCookies(
   { userId, userName, token, tokenExpirationInDays }: UserData,
@@ -38,7 +36,7 @@ function removeUserCookies() {
 
 function* login({
   payload,
-}: PayloadAction<AuthActionTypes.LoginRequest, LoginRequestPayload>) {
+}: PayloadAction<AuthActionTypes.LoginRequest, LoginData>) {
   try {
     const user: UserData = yield call(api.login, payload);
     const isSessionCookie = !payload?.rememberMe;
@@ -55,7 +53,7 @@ function* logout() {
 
 function* register({
   payload,
-}: PayloadAction<AuthActionTypes.RegisterRequest, RegisterRequestPayload>) {
+}: PayloadAction<AuthActionTypes.RegisterRequest, RegisterData>) {
   try {
     yield call(api.register, payload);
     yield put(registerSuccess());

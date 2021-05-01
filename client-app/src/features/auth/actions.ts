@@ -1,10 +1,8 @@
 import { Action } from 'redux';
 import { PayloadAction } from '../__shared__/types';
-import {
-  RegisterRequestPayload,
-  LoginRequestPayload,
-  UserData,
-} from './models';
+import { LoginData } from './models/LoginData';
+import { RegisterData } from './models/RegisterData';
+import { UserData } from './models/UserData';
 
 export enum AuthActionTypes {
   LoginRequest = 'auth/loginRequest',
@@ -17,8 +15,8 @@ export enum AuthActionTypes {
 }
 
 export const loginRequest = (
-  payload: LoginRequestPayload,
-): PayloadAction<AuthActionTypes.LoginRequest, LoginRequestPayload> => ({
+  payload: LoginData,
+): PayloadAction<AuthActionTypes.LoginRequest, LoginData> => ({
   type: AuthActionTypes.LoginRequest,
   payload,
 });
@@ -39,8 +37,8 @@ export const logout = (): Action<AuthActionTypes.Logout> => ({
 });
 
 export const registerRequest = (
-  payload: RegisterRequestPayload,
-): PayloadAction<AuthActionTypes.RegisterRequest, RegisterRequestPayload> => ({
+  payload: RegisterData,
+): PayloadAction<AuthActionTypes.RegisterRequest, RegisterData> => ({
   type: AuthActionTypes.RegisterRequest,
   payload,
 });

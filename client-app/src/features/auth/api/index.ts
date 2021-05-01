@@ -1,14 +1,9 @@
 import config from '../../../config';
-import {
-  LoginRequestPayload,
-  RegisterRequestPayload,
-  UserData,
-} from '../models';
+import { LoginData } from '../models/LoginData';
+import { RegisterData } from '../models/RegisterData';
+import { UserData } from '../models/UserData';
 
-async function login({
-  userName,
-  password,
-}: LoginRequestPayload): Promise<UserData> {
+async function login({ userName, password }: LoginData): Promise<UserData> {
   const response = await fetch(
     `${config.apiUrl}/login?userName=${encodeURIComponent(
       userName,
@@ -17,7 +12,7 @@ async function login({
   return response.json();
 }
 
-async function register(payload: RegisterRequestPayload): Promise<void> {
+async function register(payload: RegisterData): Promise<void> {
   const response = await fetch(`${config.apiUrl}/register`, {
     method: 'POST',
     body: JSON.stringify(payload),
