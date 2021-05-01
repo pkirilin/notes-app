@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, RenderResult } from '@testing-library/react';
 import LoginInput from '../LoginInput';
 import {
   asJestMock,
@@ -16,32 +16,22 @@ describe('LoginInput', () => {
     test('should log user in', async () => {
       const api = mockSuccessfulLogin();
 
-      const { getByPlaceholderText, getByText, history } = renderConnected(
-        <LoginInput></LoginInput>,
-      );
-      fireEvent.change(getByPlaceholderText('Login'), {
-        target: { value: 'login' },
-      });
-      fireEvent.change(getByPlaceholderText('Password'), {
-        target: { value: 'password' },
-      });
-      fireEvent.click(getByText('Sign in'));
+      const result = renderConnected(<LoginInput></LoginInput>);
+      enterLoginAndPassword(result);
+      clickLogin(result);
       await waitForSingleCall(api);
 
-      expect(history.location.pathname).toBe('/');
+      expect(result.history.location.pathname).toBe('/');
     });
   });
 
   describe('when input is not valid and login button clicked', () => {
     test('should show validation errors', async () => {
-      const { getByText, findByText } = renderConnected(
-        <LoginInput></LoginInput>,
-      );
+      const result = renderConnected(<LoginInput></LoginInput>);
+      clickLogin(result);
 
-      fireEvent.click(getByText('Sign in'));
-
-      expect(await findByText('Login is required')).toBeVisible();
-      expect(await findByText('Password is required')).toBeVisible();
+      expect(await result.findByText('Login is required')).toBeVisible();
+      expect(await result.findByText('Password is required')).toBeVisible();
     });
   });
 });
@@ -53,4 +43,18 @@ function mockSuccessfulLogin(): jest.Mock<Promise<UserData>> {
     token: '',
     tokenExpirationInDays: 1,
   });
+}
+
+function enterLoginAndPassword({ getByPlaceholderText }: RenderResult) {
+  fireEvent.change(getByPlaceholderText('Login'), {
+    target: { value: 'login' },
+  });
+
+  fireEvent.change(getByPlaceholderText('Password'), {
+    target: { value: 'password' },
+  });
+}
+
+function clickLogin({ getByText }: RenderResult) {
+  fireEvent.click(getByText('Sign in'));
 }

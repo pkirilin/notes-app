@@ -17,13 +17,12 @@ describe('NoteCreateEditForm', () => {
     test('should create note and clear input', async () => {
       const apiMock = setupCreatedNoteFromApi({ id: 11, text: 'Test note' });
 
-      const renderResult = renderConnected(
-        <NoteCreateEditForm></NoteCreateEditForm>,
-      );
-      fillNoteTextAndClickSubmit(renderResult, 'Test note');
+      const result = renderConnected(<NoteCreateEditForm></NoteCreateEditForm>);
+      fillNoteText(result, 'Test note');
+      clickSubmit(result);
       await waitForSingleCall(apiMock);
 
-      expect(renderResult.queryByText('Test note')).toBeNull();
+      expect(result.queryByText('Test note')).toBeNull();
     });
   });
 });
@@ -32,12 +31,15 @@ function setupCreatedNoteFromApi(note: NoteListItem) {
   return asJestMock(api.createNote).mockResolvedValue(note);
 }
 
-function fillNoteTextAndClickSubmit(
-  { getByPlaceholderText, getByRole }: RenderConnectedResult,
+function fillNoteText(
+  { getByPlaceholderText }: RenderConnectedResult,
   text: string,
 ) {
   fireEvent.change(getByPlaceholderText('Enter note text'), {
     target: { value: text },
   });
+}
+
+function clickSubmit({ getByRole }: RenderConnectedResult) {
   fireEvent.click(getByRole('submit'));
 }
