@@ -1,7 +1,7 @@
 import { AnyAction, applyMiddleware, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from '../app/reducer';
-import rootSaga from '../app/sagas';
+import rootReducer from '../rootReducer';
+import rootSaga from '../rootSaga';
 
 export function createTestStore(actions: AnyAction[]): Store {
   const initialState = actions.reduce(rootReducer, undefined);
