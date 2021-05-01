@@ -5,6 +5,7 @@ import { Button } from '../../../app/components';
 import { logout } from '../../auth/actions';
 import { Title } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
+import NoteCreateEditForm from './NoteCreateEditForm';
 import NotesList from './NotesList';
 
 const NotesPage: React.FC = () => {
@@ -29,6 +30,7 @@ const NotesPage: React.FC = () => {
         Logout
       </Button>
       <Title>Notes</Title>
+      <NoteCreateEditForm></NoteCreateEditForm>
       <NotesList></NotesList>
     </React.Fragment>
   );

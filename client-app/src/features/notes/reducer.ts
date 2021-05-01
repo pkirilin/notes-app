@@ -1,27 +1,37 @@
+import { combineReducers, Reducer } from 'redux';
 import { NotesActions, NotesActionTypes } from './actions';
-import { NotesState } from './state';
+import { NoteListItem } from './models/NoteListItem';
+import { NotesStatus } from './state';
 
-const initialState: NotesState = {
-  noteItems: [],
-};
-
-export default function (
-  state = initialState,
-  action: NotesActions,
-): NotesState {
+const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
+  state = [],
+  action,
+) => {
   switch (action.type) {
-    case NotesActionTypes.NotesRequested:
-      return state;
     case NotesActionTypes.NotesReceived:
-      return {
-        noteItems: action.payload,
-      };
-    case NotesActionTypes.NotesRejected:
-      return {
-        ...state,
-        status: 'error',
-      };
+      return action.payload;
+    case NotesActionTypes.CreateNoteSuccess:
+      return [action.payload, ...state];
     default:
       return state;
   }
-}
+};
+
+const statusReducer: Reducer<NotesStatus | null, NotesActions> = (
+  state = null,
+  action,
+) => {
+  switch (action.type) {
+    case NotesActionTypes.NotesRejected:
+      return 'error';
+    case NotesActionTypes.CreateNoteSuccess:
+      return 'note created';
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  noteItems: noteItemsReducer,
+  status: statusReducer,
+});

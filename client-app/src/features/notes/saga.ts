@@ -1,6 +1,13 @@
 import { all, call, put, takeEvery } from '@redux-saga/core/effects';
 import api from './api';
-import { NotesActionTypes, notesReceived, notesRejected } from './actions';
+import {
+  createNoteError,
+  createNoteRequest,
+  createNoteSuccess,
+  NotesActionTypes,
+  notesReceived,
+  notesRejected,
+} from './actions';
 import { NoteListItem } from './models/NoteListItem';
 
 function* getNotes() {
@@ -12,6 +19,23 @@ function* getNotes() {
   }
 }
 
+function* createNote({ payload }: ReturnType<typeof createNoteRequest>) {
+  try {
+    const note: NoteListItem = yield call(api.createNote, payload);
+    yield put(createNoteSuccess(note));
+  } catch (error) {
+    yield put(createNoteError());
+  }
+}
+
+function* watchGetNotes() {
+  yield takeEvery(NotesActionTypes.NotesRequested, getNotes);
+}
+
+function* watchCreateNote() {
+  yield takeEvery(NotesActionTypes.CreateNoteRequest, createNote);
+}
+
 export default function* (): Generator {
-  yield all([takeEvery(NotesActionTypes.NotesRequested, getNotes)]);
+  yield all([watchGetNotes(), watchCreateNote()]);
 }
