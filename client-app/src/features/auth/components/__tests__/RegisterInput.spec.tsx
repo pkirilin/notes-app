@@ -11,7 +11,7 @@ import api from '../../api';
 
 jest.mock('../../api');
 
-describe('RegisterInput', () => {
+describe('<RegisterInput></RegisterInput>', () => {
   describe('when input valid and register button clicked', () => {
     test('should redirect to login page after registration completed', async () => {
       const api = mockSuccessfulRegister();

@@ -12,7 +12,7 @@ import NoteCreateEditForm from '../NoteCreateEditForm';
 
 jest.mock('../../api');
 
-describe('NoteCreateEditForm', () => {
+describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
   describe('when filled new note text and clicked submit button', () => {
     test('should create note and clear input', async () => {
       const apiMock = setupCreatedNoteFromApi({ id: 11, text: 'Test note' });

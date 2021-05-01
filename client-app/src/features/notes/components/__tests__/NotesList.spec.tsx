@@ -10,7 +10,7 @@ import NotesList from '../NotesList';
 
 jest.mock('../../api');
 
-describe('NotesList', () => {
+describe('<NotesList></NotesList>', () => {
   describe('when mounted and fetched notes', () => {
     test('should render notes list', async () => {
       mockSuccessfulGetNotes('Note 1', 'Note 2');

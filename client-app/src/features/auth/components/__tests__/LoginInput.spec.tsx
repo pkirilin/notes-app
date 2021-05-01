@@ -7,7 +7,7 @@ import {
   waitForSingleCall,
 } from '../../../../test-utils';
 import api from '../../api';
-import { UserData } from '../../models';
+import { UserData } from '../../models/UserData';
 
 jest.mock('../../api');
 
