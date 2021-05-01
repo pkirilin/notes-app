@@ -2,10 +2,10 @@ import React from 'react';
 import {
   asJestMock,
   renderConnected,
-  setupFakeNotesFromApi,
   waitForSingleCall,
 } from '../../../../test-utils';
 import api from '../../api';
+import { NoteListItem } from '../../models/NoteListItem';
 import NotesList from '../NotesList';
 
 jest.mock('../../api');
@@ -13,7 +13,7 @@ jest.mock('../../api');
 describe('NotesList', () => {
   describe('when mounted and fetched notes', () => {
     test('should render notes list', async () => {
-      setupFakeNotesFromApi('Note 1', 'Note 2');
+      mockSuccessfulGetNotes('Note 1', 'Note 2');
 
       const { findByText } = renderConnected(<NotesList></NotesList>);
 
@@ -24,7 +24,7 @@ describe('NotesList', () => {
 
   describe('when mounted and fetched empty notes', () => {
     test('should render empty notes list message', async () => {
-      const api = setupFakeNotesFromApi();
+      const api = mockSuccessfulGetNotes();
 
       const { findByText } = renderConnected(<NotesList></NotesList>);
       await waitForSingleCall(api);
@@ -44,3 +44,14 @@ describe('NotesList', () => {
     });
   });
 });
+
+function mockSuccessfulGetNotes(
+  ...noteTexts: string[]
+): jest.Mock<Promise<NoteListItem[]>> {
+  return asJestMock(api.getNotes).mockResolvedValueOnce(
+    noteTexts.map((text, i) => ({
+      id: i,
+      text,
+    })),
+  );
+}

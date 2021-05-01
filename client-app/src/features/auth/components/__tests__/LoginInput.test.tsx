@@ -2,17 +2,19 @@ import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import LoginInput from '../LoginInput';
 import {
+  asJestMock,
   renderConnected,
-  setupFakeLoginApi,
   waitForSingleCall,
 } from '../../../../test-utils';
+import api from '../../api';
+import { UserData } from '../../models';
 
 jest.mock('../../api');
 
 describe('LoginInput', () => {
   describe('when input valid and login button clicked', () => {
     test('should log user in', async () => {
-      const api = setupFakeLoginApi();
+      const api = mockSuccessfulLogin();
 
       const { getByPlaceholderText, getByText, history } = renderConnected(
         <LoginInput></LoginInput>,
@@ -43,3 +45,12 @@ describe('LoginInput', () => {
     });
   });
 });
+
+function mockSuccessfulLogin(): jest.Mock<Promise<UserData>> {
+  return asJestMock(api.login).mockResolvedValueOnce({
+    userId: 1,
+    userName: 'user',
+    token: '',
+    tokenExpirationInDays: 1,
+  });
+}

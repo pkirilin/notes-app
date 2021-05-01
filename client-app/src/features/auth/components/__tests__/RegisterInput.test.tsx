@@ -3,17 +3,18 @@ import RegisterInput from '../RegisterInput';
 import { fireEvent } from '@testing-library/react';
 import { registrationFailed } from '../../actions';
 import {
+  asJestMock,
   renderConnected,
-  setupFakeRegisterApi,
   waitForSingleCall,
 } from '../../../../test-utils';
+import api from '../../api';
 
 jest.mock('../../api');
 
 describe('RegisterInput', () => {
   describe('when input valid and register button clicked', () => {
     test('should redirect to login page after registration completed', async () => {
-      const api = setupFakeRegisterApi();
+      const api = mockSuccessfulRegister();
 
       const { history, getByPlaceholderText, getByText } = renderConnected(
         <RegisterInput></RegisterInput>,
@@ -102,3 +103,7 @@ describe('RegisterInput', () => {
     });
   });
 });
+
+function mockSuccessfulRegister(): jest.Mock<Promise<void>> {
+  return asJestMock(api.register).mockResolvedValueOnce();
+}
