@@ -11,7 +11,7 @@ import {
 } from '../../../app/components';
 import { useInput } from '../../../app/hooks';
 import { useTypedSelector } from '../../__shared__/hooks';
-import { registrationRequested } from '../actions';
+import { registerRequest } from '../actions';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);
@@ -74,7 +74,7 @@ const RegisterInput: React.FC = () => {
 
     if (isInputCorrect) {
       dispatch(
-        registrationRequested({
+        registerRequest({
           userName: loginInput.value,
           password: passwordInput.value,
         }),

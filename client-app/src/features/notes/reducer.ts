@@ -8,7 +8,7 @@ const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
   action,
 ) => {
   switch (action.type) {
-    case NotesActionTypes.NotesReceived:
+    case NotesActionTypes.GetNotesSuccess:
       return action.payload;
     case NotesActionTypes.CreateNoteSuccess:
       return [action.payload, ...state];
@@ -22,7 +22,7 @@ const statusReducer: Reducer<NotesStatus | null, NotesActions> = (
   action,
 ) => {
   switch (action.type) {
-    case NotesActionTypes.NotesRejected:
+    case NotesActionTypes.GetNotesError:
       return 'error';
     case NotesActionTypes.CreateNoteSuccess:
       return 'note created';

@@ -5,17 +5,17 @@ import {
   createNoteRequest,
   createNoteSuccess,
   NotesActionTypes,
-  notesReceived,
-  notesRejected,
+  getNotesSuccess,
+  getNotesError,
 } from './actions';
 import { NoteListItem } from './models/NoteListItem';
 
 function* getNotes() {
   try {
     const notes: NoteListItem[] = yield call(api.getNotes);
-    yield put(notesReceived(notes));
+    yield put(getNotesSuccess(notes));
   } catch (error) {
-    yield put(notesRejected());
+    yield put(getNotesError());
   }
 }
 
@@ -29,7 +29,7 @@ function* createNote({ payload }: ReturnType<typeof createNoteRequest>) {
 }
 
 function* watchGetNotes() {
-  yield takeEvery(NotesActionTypes.NotesRequested, getNotes);
+  yield takeEvery(NotesActionTypes.GetNotesRequest, getNotes);
 }
 
 function* watchCreateNote() {

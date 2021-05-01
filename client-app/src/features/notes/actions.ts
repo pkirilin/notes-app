@@ -4,27 +4,27 @@ import { NoteCreateEdit } from './models/NoteCreateEdit';
 import { NoteListItem } from './models/NoteListItem';
 
 export enum NotesActionTypes {
-  NotesRequested = 'notes/notesRequested',
-  NotesReceived = 'notes/notesReceived',
-  NotesRejected = 'notes/notesRejected',
-  CreateNoteRequest = 'notes/createNoteRequested',
-  CreateNoteSuccess = 'notes/createNoteSucceeded',
-  CreateNoteError = 'notes/createNoteFailed',
+  GetNotesRequest = 'notes/getNotesRequest',
+  GetNotesSuccess = 'notes/getNotesSuccess',
+  GetNotesError = 'notes/getNotesError',
+  CreateNoteRequest = 'notes/createNoteRequest',
+  CreateNoteSuccess = 'notes/createNoteSuccess',
+  CreateNoteError = 'notes/createNoteError',
 }
 
-export const notesRequested = (): Action<NotesActionTypes.NotesRequested> => ({
-  type: NotesActionTypes.NotesRequested,
+export const getNotesRequest = (): Action<NotesActionTypes.GetNotesRequest> => ({
+  type: NotesActionTypes.GetNotesRequest,
 });
 
-export const notesReceived = (
+export const getNotesSuccess = (
   notes: NoteListItem[],
-): PayloadAction<NotesActionTypes.NotesReceived, NoteListItem[]> => ({
-  type: NotesActionTypes.NotesReceived,
+): PayloadAction<NotesActionTypes.GetNotesSuccess, NoteListItem[]> => ({
+  type: NotesActionTypes.GetNotesSuccess,
   payload: notes,
 });
 
-export const notesRejected = (): Action<NotesActionTypes.NotesRejected> => ({
-  type: NotesActionTypes.NotesRejected,
+export const getNotesError = (): Action<NotesActionTypes.GetNotesError> => ({
+  type: NotesActionTypes.GetNotesError,
 });
 
 export const createNoteRequest = (
@@ -46,9 +46,9 @@ export const createNoteError = (): Action<NotesActionTypes.CreateNoteError> => (
 });
 
 export type NotesActions =
-  | ReturnType<typeof notesRequested>
-  | ReturnType<typeof notesReceived>
-  | ReturnType<typeof notesRejected>
+  | ReturnType<typeof getNotesRequest>
+  | ReturnType<typeof getNotesSuccess>
+  | ReturnType<typeof getNotesError>
   | ReturnType<typeof createNoteRequest>
   | ReturnType<typeof createNoteSuccess>
   | ReturnType<typeof createNoteError>;

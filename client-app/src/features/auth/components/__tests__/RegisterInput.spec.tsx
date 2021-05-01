@@ -1,7 +1,7 @@
 import React from 'react';
 import RegisterInput from '../RegisterInput';
 import { fireEvent, RenderResult } from '@testing-library/react';
-import { registrationFailed } from '../../actions';
+import { registerError } from '../../actions';
 import {
   asJestMock,
   renderConnected,
@@ -28,7 +28,7 @@ describe('RegisterInput', () => {
   describe('when registration failed', () => {
     test('should show alert with error message', () => {
       const { getByText } = renderConnected(<RegisterInput></RegisterInput>, [
-        registrationFailed('Registration error'),
+        registerError('Registration error'),
       ]);
 
       expect(getByText('Registration error')).toBeVisible();

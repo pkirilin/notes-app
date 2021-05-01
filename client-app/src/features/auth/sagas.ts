@@ -1,10 +1,10 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   AuthActionTypes,
-  loginFailed,
-  loginSucceeded,
-  registrationFailed,
-  registrationSucceeded,
+  loginError,
+  loginSuccess,
+  registerError,
+  registerSuccess,
 } from './actions';
 import {
   RegisterRequestPayload,
@@ -43,9 +43,9 @@ function* login({
     const user: UserData = yield call(api.login, payload);
     const isSessionCookie = !payload?.rememberMe;
     yield call(setUserCookies, user, isSessionCookie);
-    yield put(loginSucceeded(user));
+    yield put(loginSuccess(user));
   } catch (error) {
-    yield put(loginFailed());
+    yield put(loginError());
   }
 }
 
@@ -58,9 +58,9 @@ function* register({
 }: PayloadAction<AuthActionTypes.RegisterRequest, RegisterRequestPayload>) {
   try {
     yield call(api.register, payload);
-    yield put(registrationSucceeded());
+    yield put(registerSuccess());
   } catch (error) {
-    yield put(registrationFailed('Failed to register'));
+    yield put(registerError('Failed to register'));
   }
 }
 
