@@ -29,8 +29,16 @@ const editNote = async (id: number, note: NoteCreateEdit): Promise<void> => {
   });
 };
 
+const deleteNote = async (id: number): Promise<void> => {
+  await fetch(`${config.apiUrl}/notes/${id}`, {
+    method: 'DELETE',
+    headers: { ...createAuthHeader() },
+  });
+};
+
 export default {
   getNotes,
   createNote,
   editNote,
+  deleteNote,
 };

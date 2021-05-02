@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Button } from '../../../app/components';
 import { List, ListItem } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
-import { getNotesRequest } from '../actions';
+import { deleteNoteRequest, getNotesRequest } from '../actions';
 
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);
@@ -13,6 +14,10 @@ const NotesList: React.FC = () => {
   useEffect(() => {
     dispatch(getNotesRequest());
   }, [dispatch]);
+
+  const handleDeleteClick = (noteId: number) => {
+    dispatch(deleteNoteRequest(noteId));
+  };
 
   if (status === 'error') {
     return <p>Failed to get notes</p>;
@@ -25,7 +30,12 @@ const NotesList: React.FC = () => {
   return (
     <List>
       {notes.map(({ id, text }) => (
-        <ListItem key={id}>{text}</ListItem>
+        <React.Fragment key={id}>
+          <ListItem>{text}</ListItem>
+          <Button role="deletion" onClick={handleDeleteClick.bind(this, id)}>
+            Delete
+          </Button>
+        </React.Fragment>
       ))}
     </List>
   );

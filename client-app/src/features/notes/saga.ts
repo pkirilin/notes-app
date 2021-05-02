@@ -10,6 +10,9 @@ import {
   editNoteRequest,
   editNoteSuccess,
   editNoteError,
+  deleteNoteRequest,
+  deleteNoteSuccess,
+  deleteNoteError,
 } from './actions';
 import { NoteListItem } from './models/NoteListItem';
 
@@ -47,6 +50,15 @@ function* editNote({ payload, meta }: ReturnType<typeof editNoteRequest>) {
   }
 }
 
+function* deleteNote({ payload }: ReturnType<typeof deleteNoteRequest>) {
+  try {
+    yield call(api.deleteNote, payload);
+    yield put(deleteNoteSuccess(payload));
+  } catch (error) {
+    yield put(deleteNoteError());
+  }
+}
+
 function* watchGetNotes() {
   yield takeEvery(NotesActionTypes.GetNotesRequest, getNotes);
 }
@@ -59,6 +71,15 @@ function* watchEditNote() {
   yield takeEvery(NotesActionTypes.EditNoteRequest, editNote);
 }
 
+function* watchDeleteNote() {
+  yield takeEvery(NotesActionTypes.DeleteNoteRequest, deleteNote);
+}
+
 export default function* (): Generator {
-  yield all([watchGetNotes(), watchCreateNote(), watchEditNote()]);
+  yield all([
+    watchGetNotes(),
+    watchCreateNote(),
+    watchEditNote(),
+    watchDeleteNote(),
+  ]);
 }

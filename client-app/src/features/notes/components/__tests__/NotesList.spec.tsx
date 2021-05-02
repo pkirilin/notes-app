@@ -1,3 +1,5 @@
+import { fireEvent } from '@testing-library/dom';
+import { RenderResult } from '@testing-library/react';
 import React from 'react';
 import {
   asJestMock,
@@ -5,7 +7,6 @@ import {
   waitForSingleCall,
 } from '../../../../test-utils';
 import api from '../../api';
-import { NoteListItem } from '../../models/NoteListItem';
 import NotesList from '../NotesList';
 
 jest.mock('../../api');
@@ -43,15 +44,38 @@ describe('<NotesList></NotesList>', () => {
       expect(await findByText('Failed to get notes')).toBeVisible();
     });
   });
+
+  describe('when delete button clicked for specific note', () => {
+    test('should delete that note', async () => {
+      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+      const deleteNote = mockSuccessfulDeleteNote();
+
+      const result = renderConnected(<NotesList></NotesList>);
+      await waitForSingleCall(getNotes);
+      await clickDelete(result, 1);
+      await waitForSingleCall(deleteNote);
+
+      expect(result.getByText('Note 1')).toBeVisible();
+      expect(result.queryByText('Note 2')).toBeNull();
+      expect(result.getByText('Note 3')).toBeVisible();
+    });
+  });
 });
 
-function mockSuccessfulGetNotes(
-  ...noteTexts: string[]
-): jest.Mock<Promise<NoteListItem[]>> {
+function mockSuccessfulGetNotes(...noteTexts: string[]) {
   return asJestMock(api.getNotes).mockResolvedValueOnce(
     noteTexts.map((text, i) => ({
       id: i,
       text,
     })),
   );
+}
+
+function mockSuccessfulDeleteNote() {
+  return asJestMock(api.deleteNote).mockResolvedValue();
+}
+
+async function clickDelete(result: RenderResult, elementIndex: number) {
+  const buttons = await result.findAllByRole('deletion');
+  fireEvent.click(buttons[elementIndex]);
 }
