@@ -12,6 +12,10 @@ const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
       return action.payload;
     case NotesActionTypes.CreateNoteSuccess:
       return [action.payload, ...state];
+    case NotesActionTypes.EditNoteSuccess:
+      return state.map(note =>
+        note.id === action.payload.id ? action.payload : note,
+      );
     default:
       return state;
   }
@@ -26,6 +30,8 @@ const statusReducer: Reducer<NotesStatus | null, NotesActions> = (
       return 'error';
     case NotesActionTypes.CreateNoteSuccess:
       return 'note created';
+    case NotesActionTypes.EditNoteSuccess:
+      return 'note updated';
     default:
       return state;
   }

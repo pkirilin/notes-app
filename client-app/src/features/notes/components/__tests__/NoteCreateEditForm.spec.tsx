@@ -15,20 +15,40 @@ jest.mock('../../api');
 describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
   describe('when filled new note text and clicked submit button', () => {
     test('should create note and clear input', async () => {
-      const apiMock = setupCreatedNoteFromApi({ id: 11, text: 'Test note' });
+      const api = mockCreateNoteApi({ id: 11, text: 'Test note' });
 
       const result = renderConnected(<NoteCreateEditForm></NoteCreateEditForm>);
       fillNoteText(result, 'Test note');
       clickSubmit(result);
-      await waitForSingleCall(apiMock);
+      await waitForSingleCall(api);
 
       expect(result.queryByText('Test note')).toBeNull();
     });
   });
+
+  describe('when changed existing note text and clicked submit button', () => {
+    test('should update note and clear input', async () => {
+      const note: NoteListItem = { id: 11, text: 'Test note' };
+      const api = mockEditNoteApi();
+
+      const result = renderConnected(
+        <NoteCreateEditForm note={note}></NoteCreateEditForm>,
+      );
+      fillNoteText(result, 'Updated note');
+      clickSubmit(result);
+      await waitForSingleCall(api);
+
+      expect(result.queryByText('Updated note')).toBeNull();
+    });
+  });
 });
 
-function setupCreatedNoteFromApi(note: NoteListItem) {
-  return asJestMock(api.createNote).mockResolvedValue(note);
+function mockCreateNoteApi(note: NoteListItem) {
+  return asJestMock(api.createNote).mockResolvedValueOnce(note);
+}
+
+function mockEditNoteApi() {
+  return asJestMock(api.editNote).mockResolvedValueOnce();
 }
 
 function fillNoteText(

@@ -21,7 +21,16 @@ const createNote = async (note: NoteCreateEdit): Promise<NoteListItem> => {
   return response.json();
 };
 
+const editNote = async (id: number, note: NoteCreateEdit): Promise<void> => {
+  await fetch(`${config.apiUrl}/notes/${id}`, {
+    method: 'PUT',
+    headers: { ...createAuthHeader() },
+    body: JSON.stringify(note),
+  });
+};
+
 export default {
   getNotes,
   createNote,
+  editNote,
 };

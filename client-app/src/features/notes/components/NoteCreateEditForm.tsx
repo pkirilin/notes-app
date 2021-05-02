@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../../app/components';
 import { useTypedSelector } from '../../__shared__/hooks';
-import { createNoteRequest } from '../actions';
+import { createNoteRequest, editNoteRequest } from '../actions';
 import { NoteListItem } from '../models/NoteListItem';
 
 type NoteCreateEditFormProps = {
@@ -17,7 +17,7 @@ const NoteCreateEditForm: React.FC<NoteCreateEditFormProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (status === 'note created') {
+    if (status === 'note created' || status === 'note updated') {
       setNoteText('');
     }
   }, [status]);
@@ -28,12 +28,12 @@ const NoteCreateEditForm: React.FC<NoteCreateEditFormProps> = ({
     setNoteText(event.target.value);
   };
 
-  const handleAddNoteClick = () => {
-    dispatch(
-      createNoteRequest({
-        text: noteText,
-      }),
-    );
+  const handleSubmitClick = () => {
+    if (note) {
+      dispatch(editNoteRequest(note.id, { text: noteText }));
+    } else {
+      dispatch(createNoteRequest({ text: noteText }));
+    }
   };
 
   return (
@@ -43,7 +43,7 @@ const NoteCreateEditForm: React.FC<NoteCreateEditFormProps> = ({
         value={noteText}
         onChange={handleNoteTextChange}
       ></textarea>
-      <Button role="submit" onClick={handleAddNoteClick}>
+      <Button role="submit" onClick={handleSubmitClick}>
         {note ? 'Edit' : 'Add'}
       </Button>
     </div>
