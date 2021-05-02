@@ -19,6 +19,9 @@ export enum NotesActionTypes {
   DeleteNoteRequest = 'notes/deleteNoteRequest',
   DeleteNoteSuccess = 'notes/deleteNoteSuccess',
   DeleteNoteError = 'notes/deleteNoteError',
+
+  SelectNote = 'notes/noteSelected',
+  CancelSelectNote = 'notes/noteSelectionCancelled',
 }
 
 export const getNotesRequest = (): Action<NotesActionTypes.GetNotesRequest> => ({
@@ -92,6 +95,17 @@ export const deleteNoteError = (): Action<NotesActionTypes.DeleteNoteError> => (
   type: NotesActionTypes.DeleteNoteError,
 });
 
+export const noteSelected = (
+  note: NoteListItem,
+): PayloadAction<NotesActionTypes.SelectNote, NoteListItem> => ({
+  type: NotesActionTypes.SelectNote,
+  payload: note,
+});
+
+export const noteSelectionCancelled = (): Action<NotesActionTypes.CancelSelectNote> => ({
+  type: NotesActionTypes.CancelSelectNote,
+});
+
 export type NotesActions =
   | ReturnType<typeof getNotesRequest>
   | ReturnType<typeof getNotesSuccess>
@@ -104,4 +118,6 @@ export type NotesActions =
   | ReturnType<typeof editNoteError>
   | ReturnType<typeof deleteNoteRequest>
   | ReturnType<typeof deleteNoteSuccess>
-  | ReturnType<typeof deleteNoteError>;
+  | ReturnType<typeof deleteNoteError>
+  | ReturnType<typeof noteSelected>
+  | ReturnType<typeof noteSelectionCancelled>;

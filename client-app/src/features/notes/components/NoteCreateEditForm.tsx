@@ -3,18 +3,15 @@ import { useDispatch } from 'react-redux';
 import { Button } from '../../../app/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { createNoteRequest, editNoteRequest } from '../actions';
-import { NoteListItem } from '../models/NoteListItem';
 
-type NoteCreateEditFormProps = {
-  note?: NoteListItem;
-};
-
-const NoteCreateEditForm: React.FC<NoteCreateEditFormProps> = ({
-  note,
-}: NoteCreateEditFormProps) => {
-  const [noteText, setNoteText] = useState(note ? note.text : '');
+const NoteCreateEditForm: React.FC = () => {
   const status = useTypedSelector(state => state.notes.status);
+  const selectedNote = useTypedSelector(state => state.notes.selectedNote);
   const dispatch = useDispatch();
+
+  const [noteText, setNoteText] = useState(
+    selectedNote ? selectedNote.text : '',
+  );
 
   useEffect(() => {
     if (status === 'note created' || status === 'note updated') {
@@ -29,8 +26,8 @@ const NoteCreateEditForm: React.FC<NoteCreateEditFormProps> = ({
   };
 
   const handleSubmitClick = () => {
-    if (note) {
-      dispatch(editNoteRequest(note.id, { text: noteText }));
+    if (selectedNote) {
+      dispatch(editNoteRequest(selectedNote.id, { text: noteText }));
     } else {
       dispatch(createNoteRequest({ text: noteText }));
     }
@@ -44,7 +41,7 @@ const NoteCreateEditForm: React.FC<NoteCreateEditFormProps> = ({
         onChange={handleNoteTextChange}
       ></textarea>
       <Button role="submit" onClick={handleSubmitClick}>
-        {note ? 'Edit' : 'Add'}
+        {selectedNote ? 'Edit' : 'Add'}
       </Button>
     </div>
   );

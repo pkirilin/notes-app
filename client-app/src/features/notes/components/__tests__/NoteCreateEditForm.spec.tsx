@@ -6,6 +6,7 @@ import {
   RenderConnectedResult,
   waitForSingleCall,
 } from '../../../../test-utils';
+import { NotesActions, NotesActionTypes } from '../../actions';
 import api from '../../api';
 import { NoteListItem } from '../../models/NoteListItem';
 import NoteCreateEditForm from '../NoteCreateEditForm';
@@ -28,11 +29,11 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
 
   describe('when changed existing note text and clicked submit button', () => {
     test('should update note and clear input', async () => {
-      const note: NoteListItem = { id: 11, text: 'Test note' };
       const api = mockEditNoteApi();
 
       const result = renderConnected(
-        <NoteCreateEditForm note={note}></NoteCreateEditForm>,
+        <NoteCreateEditForm></NoteCreateEditForm>,
+        withSelectedNoteState(1, 'Test note'),
       );
       fillNoteText(result, 'Updated note');
       clickSubmit(result);
@@ -62,4 +63,16 @@ function fillNoteText(
 
 function clickSubmit({ getByRole }: RenderConnectedResult) {
   fireEvent.click(getByRole('submit'));
+}
+
+function withSelectedNoteState(id: number, text: string): NotesActions[] {
+  return [
+    {
+      type: NotesActionTypes.SelectNote,
+      payload: {
+        id,
+        text,
+      },
+    },
+  ];
 }

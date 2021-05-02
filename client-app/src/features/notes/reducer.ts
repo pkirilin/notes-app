@@ -39,7 +39,22 @@ const statusReducer: Reducer<NotesStatus | null, NotesActions> = (
   }
 };
 
+const selectedNoteReducer: Reducer<NoteListItem | null, NotesActions> = (
+  state = null,
+  action,
+) => {
+  switch (action.type) {
+    case NotesActionTypes.SelectNote:
+      return action.payload;
+    case NotesActionTypes.CancelSelectNote:
+      return null;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   noteItems: noteItemsReducer,
   status: statusReducer,
+  selectedNote: selectedNoteReducer,
 });

@@ -5,6 +5,7 @@ import { Button } from '../../../app/components';
 import { logout } from '../../auth/actions';
 import { Title } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
+import { noteSelectionCancelled } from '../actions';
 import NoteCreateEditForm from './NoteCreateEditForm';
 import NotesList from './NotesList';
 
@@ -19,6 +20,10 @@ const NotesPage: React.FC = () => {
     }
   }, [history, user]);
 
+  const handleAddNoteClick = () => {
+    dispatch(noteSelectionCancelled());
+  };
+
   return (
     <React.Fragment>
       <h1>Hello, {user?.userName}</h1>
@@ -30,6 +35,7 @@ const NotesPage: React.FC = () => {
         Logout
       </Button>
       <Title>Notes</Title>
+      <Button onClick={handleAddNoteClick}>Add note</Button>
       <NoteCreateEditForm></NoteCreateEditForm>
       <NotesList></NotesList>
     </React.Fragment>
