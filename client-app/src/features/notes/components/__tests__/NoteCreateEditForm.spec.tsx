@@ -23,7 +23,7 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       clickSubmit(result);
       await waitForSingleCall(api);
 
-      expect(result.queryByText('Test note')).toBeNull();
+      expect(result.getByPlaceholderText('Enter note text')).toHaveValue('');
     });
   });
 
@@ -39,7 +39,7 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       clickSubmit(result);
       await waitForSingleCall(api);
 
-      expect(result.queryByText('Updated note')).toBeNull();
+      expect(result.getByPlaceholderText('Enter note text')).toHaveValue('');
     });
   });
 });
