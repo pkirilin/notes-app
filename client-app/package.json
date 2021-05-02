@@ -51,9 +51,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write \"src/**/*.+(ts|tsx|css|scss)\"",
-    "lint": "eslint --ext .ts,.tsx .",
-    "lint:fix": "eslint --ext .ts,.tsx . --fix",
+    "eslint": "eslint .",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
