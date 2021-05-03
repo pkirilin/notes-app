@@ -9,15 +9,17 @@ const NoteCreateEditForm: React.FC = () => {
   const selectedNote = useTypedSelector(state => state.notes.selectedNote);
   const dispatch = useDispatch();
 
-  const [noteText, setNoteText] = useState(
-    selectedNote ? selectedNote.text : '',
-  );
+  const [noteText, setNoteText] = useState('');
 
   useEffect(() => {
     if (status === 'note created' || status === 'note updated') {
       setNoteText('');
     }
   }, [status]);
+
+  useEffect(() => {
+    setNoteText(selectedNote ? selectedNote.text : '');
+  }, [selectedNote]);
 
   const handleNoteTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,

@@ -42,6 +42,19 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       expect(result.getByPlaceholderText('Enter note text')).toHaveValue('');
     });
   });
+
+  describe('when selected note changed', () => {
+    test('should update note text field', () => {
+      const result = renderConnected(
+        <NoteCreateEditForm></NoteCreateEditForm>,
+        withSelectedNoteState(1, 'Test note'),
+      );
+
+      expect(result.getByPlaceholderText('Enter note text')).toHaveValue(
+        'Test note',
+      );
+    });
+  });
 });
 
 function mockCreateNoteApi(note: NoteListItem) {
