@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotesApp.WebApi.Domain.Services;
+using NotesApp.WebApi.Dtos;
 
 namespace NotesApp.WebApi.Controllers
 {
@@ -23,6 +24,34 @@ namespace NotesApp.WebApi.Controllers
         {
             var notes = await _notesService.GetNotesAsync(userId, cancellationToken);
             return Ok(notes);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNote([FromHeader] int userId,
+            [FromBody] NoteCreateEdit note,
+            CancellationToken cancellationToken)
+        {
+            var createdNote = await _notesService.CreateNoteAsync(userId, note, cancellationToken);
+            return Ok(createdNote);
+        }
+        
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> EditNote([FromHeader] int userId,
+            [FromRoute] int id,
+            [FromBody] NoteCreateEdit note,
+            CancellationToken cancellationToken)
+        {
+            await _notesService.EditNoteAsync(userId, id, note, cancellationToken);
+            return Ok();
+        }
+        
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteNote([FromHeader] int userId,
+            [FromRoute] int id,
+            CancellationToken cancellationToken)
+        {
+            await _notesService.DeleteNoteAsync(userId, id, cancellationToken);
+            return Ok();
         }
     }
 }

@@ -59,7 +59,7 @@ namespace NotesApp.WebApi.IntegrationTests.Extensions
             return client;
         }
 
-        public static HttpClient CreateTestClient<TStartup>(this WebApplicationFactory<TStartup> factory)
+        public static HttpClient CreateTestClient<TStartup>(this WebApplicationFactory<TStartup> factory, int userId)
             where TStartup : class
         {
             var client = factory.WithWebHostBuilder(builder =>
@@ -69,13 +69,15 @@ namespace NotesApp.WebApi.IntegrationTests.Extensions
                     services.AddAuthentication("Test")
                         .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => {});
                     
-                    services.PrepareDatabaseForIntegrationTests<Startup>();
+                    services.PrepareDatabaseForIntegrationTests<Startup>(reinitialize: true);
                 });
             }).CreateClient(new WebApplicationFactoryClientOptions()
             {
                 AllowAutoRedirect = false
             });
-
+            
+            client.DefaultRequestHeaders.Add("userId", userId.ToString());
+            // client.DefaultRequestHeaders.Add("Content-Type", "application/json");
             return client;
         }
 
