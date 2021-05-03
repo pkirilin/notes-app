@@ -14,7 +14,10 @@ const getNotes = async (): Promise<NoteListItem[]> => {
 const createNote = async (note: NoteCreateEdit): Promise<NoteListItem> => {
   const response = await fetch(`${config.apiUrl}/notes`, {
     method: 'POST',
-    headers: { ...createAuthHeader() },
+    headers: {
+      ...createAuthHeader(),
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(note),
   });
 
@@ -24,7 +27,10 @@ const createNote = async (note: NoteCreateEdit): Promise<NoteListItem> => {
 const editNote = async (id: number, note: NoteCreateEdit): Promise<void> => {
   await fetch(`${config.apiUrl}/notes/${id}`, {
     method: 'PUT',
-    headers: { ...createAuthHeader() },
+    headers: {
+      ...createAuthHeader(),
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(note),
   });
 };

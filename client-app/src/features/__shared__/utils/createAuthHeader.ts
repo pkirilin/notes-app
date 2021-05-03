@@ -8,5 +8,8 @@ export function createAuthHeader(): Record<string, string> {
     throw new Error('Auth cookie not found');
   }
 
-  return { Authorization: `Bearer ${user.token}` };
+  return {
+    Authorization: `Bearer ${user.token}`,
+    userId: user.userId.toString(),
+  };
 }
