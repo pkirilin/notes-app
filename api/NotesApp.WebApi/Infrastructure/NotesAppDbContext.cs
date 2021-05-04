@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using NotesApp.WebApi.Domain.Abstractions;
 using NotesApp.WebApi.Domain.Entities;
 
@@ -10,11 +9,6 @@ namespace NotesApp.WebApi.Infrastructure
         public NotesAppDbContext(DbContextOptions options) : base(options)
         {
         }
-
-        public static readonly ILoggerFactory SqlLoggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-        });
 
         public DbSet<User> Users { get; set; }
 

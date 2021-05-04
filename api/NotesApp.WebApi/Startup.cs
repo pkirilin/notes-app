@@ -34,7 +34,6 @@ namespace NotesApp.WebApi
             services.AddDbContext<NotesAppDbContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("NotesAppDbContext"));
-                options.UseLoggerFactory(NotesAppDbContext.SqlLoggerFactory);
             });
 
             services.AddCors(options => options.AddPolicy("DefaultPolicy", builder =>
@@ -73,8 +72,6 @@ namespace NotesApp.WebApi
         {
             if (env.IsDevelopment())
             {
-                // dbContext.Database.Migrate();
-
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NotesApp.WebApi v1"));
