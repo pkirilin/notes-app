@@ -48,7 +48,7 @@ namespace NotesApp.WebApi
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<INotesRepository, NotesRepository>();
             
-            services.AddTransient<IAuthService, AuthService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<INotesService, NotesService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
