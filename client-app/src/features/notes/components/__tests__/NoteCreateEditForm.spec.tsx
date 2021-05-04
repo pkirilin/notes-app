@@ -8,7 +8,6 @@ import {
 } from '../../../../test-utils';
 import { NotesActions, NotesActionTypes } from '../../actions';
 import api from '../../api';
-import { NoteListItem } from '../../models/NoteListItem';
 import NoteCreateEditForm from '../NoteCreateEditForm';
 
 jest.mock('../../api');
@@ -16,7 +15,7 @@ jest.mock('../../api');
 describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
   describe('when filled new note text and clicked submit button', () => {
     test('should create note and clear input', async () => {
-      const api = mockCreateNoteApi({ id: 11, text: 'Test note' });
+      const api = mockCreateNoteApi('Some note');
 
       const result = renderConnected(<NoteCreateEditForm></NoteCreateEditForm>);
       fillNoteText(result, 'Test note');
@@ -57,8 +56,13 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
   });
 });
 
-function mockCreateNoteApi(note: NoteListItem) {
-  return asJestMock(api.createNote).mockResolvedValueOnce(note);
+function mockCreateNoteApi(noteText: string) {
+  return asJestMock(api.createNote).mockResolvedValueOnce({
+    id: 1,
+    text: noteText,
+    createdAt: '2021-05-01',
+    updatedAt: '2021-05-02',
+  });
 }
 
 function mockEditNoteApi() {
@@ -85,6 +89,8 @@ function withSelectedNoteState(id: number, text: string): NotesActions[] {
       payload: {
         id,
         text,
+        createdAt: '2021-05-01',
+        updatedAt: '2021-05-02',
       },
     },
   ];

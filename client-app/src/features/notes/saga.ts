@@ -38,13 +38,8 @@ function* editNote({ payload, meta }: ReturnType<typeof editNoteRequest>) {
   const noteId = meta || 0;
 
   try {
-    yield call(api.editNote, noteId, payload);
-    yield put(
-      editNoteSuccess({
-        id: noteId,
-        text: payload.text,
-      }),
-    );
+    const updatedNote: NoteListItem = yield call(api.editNote, noteId, payload);
+    yield put(editNoteSuccess(updatedNote));
   } catch (error) {
     yield put(editNoteError());
   }

@@ -34,12 +34,17 @@ const NotesList: React.FC = () => {
 
   return (
     <List>
-      {notes.map(({ id, text }) => (
-        <React.Fragment key={id}>
-          <ListItem onClick={handleListItemClick.bind(this, { id, text })}>
-            {text}
+      {notes.map(note => (
+        <React.Fragment key={note.id}>
+          <ListItem onClick={handleListItemClick.bind(this, note)}>
+            <div>{note.text}</div>
+            <div>{note.createdAt}</div>
+            <div>{note.updatedAt}</div>
           </ListItem>
-          <Button role="deletion" onClick={handleDeleteClick.bind(this, id)}>
+          <Button
+            role="deletion"
+            onClick={handleDeleteClick.bind(this, note.id)}
+          >
             Delete
           </Button>
         </React.Fragment>

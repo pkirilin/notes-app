@@ -24,8 +24,11 @@ const createNote = async (note: NoteCreateEdit): Promise<NoteListItem> => {
   return response.json();
 };
 
-const editNote = async (id: number, note: NoteCreateEdit): Promise<void> => {
-  await fetch(`${config.apiUrl}/notes/${id}`, {
+const editNote = async (
+  id: number,
+  note: NoteCreateEdit,
+): Promise<NoteListItem> => {
+  const response = await fetch(`${config.apiUrl}/notes/${id}`, {
     method: 'PUT',
     headers: {
       ...createAuthHeader(),
@@ -33,6 +36,8 @@ const editNote = async (id: number, note: NoteCreateEdit): Promise<void> => {
     },
     body: JSON.stringify(note),
   });
+
+  return response.json();
 };
 
 const deleteNote = async (id: number): Promise<void> => {
