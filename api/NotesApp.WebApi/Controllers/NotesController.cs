@@ -41,8 +41,8 @@ namespace NotesApp.WebApi.Controllers
             [FromBody] NoteCreateEdit note,
             CancellationToken cancellationToken)
         {
-            await _notesService.EditNoteAsync(userId, id, note, cancellationToken);
-            return Ok();
+            var updatedNote = await _notesService.EditNoteAsync(userId, id, note, cancellationToken);
+            return Ok(updatedNote);
         }
         
         [HttpDelete("{id:int}")]

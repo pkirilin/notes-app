@@ -51,7 +51,7 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios
         }
         
         [Fact]
-        public async void PutNote_ShouldUpdateExistingNote_WhenCorrectIdAndBodySpecified()
+        public async void PutNote_ShouldUpdateExistingAndReturnUpdatedNote_WhenCorrectIdAndBodySpecified()
         {
             var client = _factory.CreateTestClient(userId: 10);
             var note = new NoteCreateEdit()
@@ -61,9 +61,12 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios
             var content = new StringContent(JsonSerializer.Serialize(note), Encoding.UTF8, "application/json");
 
             var response = await client.PutAsync("/notes/1", content);
+            var updatedNote = await response.ReadContentAsync<NoteItemDto>();
             var refreshedNotes = await (await client.GetAsync("/notes")).ReadContentAsync<List<NoteItemDto>>();
             
             response.StatusCode.Should().Be(200);
+            updatedNote.Id.Should().Be(1);
+            updatedNote.Text.Should().Be("test");
             refreshedNotes.Should().Contain(n => n.Id == 1 && n.Text == "test");
         }
         

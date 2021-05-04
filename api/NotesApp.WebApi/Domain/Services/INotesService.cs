@@ -11,7 +11,7 @@ namespace NotesApp.WebApi.Domain.Services
 
         Task<NoteItemDto> CreateNoteAsync(int userId, NoteCreateEdit note, CancellationToken cancellationToken);
         
-        Task EditNoteAsync(int userId, int id, NoteCreateEdit note, CancellationToken cancellationToken);
+        Task<NoteItemDto> EditNoteAsync(int userId, int id, NoteCreateEdit note, CancellationToken cancellationToken);
         
         Task DeleteNoteAsync(int userId, int id, CancellationToken cancellationToken);
     }

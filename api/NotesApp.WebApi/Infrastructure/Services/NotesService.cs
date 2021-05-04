@@ -24,13 +24,7 @@ namespace NotesApp.WebApi.Infrastructure.Services
         {
             var noteEntities = await _notesRepository.GetNotesForUserAsync(userId, cancellationToken);
 
-            return noteEntities.Select(n => new NoteItemDto()
-            {
-                Id = n.Id,
-                Text = n.Text,
-                CreatedAt = n.CreatedAt,
-                UpdatedAt = n.UpdatedAt
-            });
+            return noteEntities.Select(n => new NoteItemDto(n));
         }
 
         public async Task<NoteItemDto> CreateNoteAsync(int userId, NoteCreateEdit note, CancellationToken cancellationToken)
@@ -46,16 +40,11 @@ namespace NotesApp.WebApi.Infrastructure.Services
             var entry = _notesRepository.Add(noteEntity);
             await _notesRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             
-            return new NoteItemDto()
-            {
-                Id = entry.Id,
-                Text = entry.Text,
-                CreatedAt = entry.CreatedAt,
-                UpdatedAt = entry.UpdatedAt,
-            };
+            return new NoteItemDto(entry);
         }
 
-        public async Task EditNoteAsync(int userId, int id, NoteCreateEdit note, CancellationToken cancellationToken)
+        public async Task<NoteItemDto> EditNoteAsync(int userId, int id, NoteCreateEdit note,
+            CancellationToken cancellationToken)
         {
             var noteForUpdate = await _notesRepository.GetByIdAsync(id, cancellationToken);
             noteForUpdate.Text = note.Text;
@@ -65,6 +54,8 @@ namespace NotesApp.WebApi.Infrastructure.Services
 
             _notesRepository.Update(noteForUpdate);
             await _notesRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
+            return new NoteItemDto(noteForUpdate);
         }
 
         public async Task DeleteNoteAsync(int userId, int id, CancellationToken cancellationToken)
