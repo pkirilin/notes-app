@@ -6,9 +6,9 @@ import {
   ValidationSummary,
   Input,
   CheckBox,
-  Button,
 } from '../../../app/components';
 import { useInput, useCheckbox } from '../../../app/hooks';
+import { Button } from '../../__shared__/components';
 import { loginRequest } from '../actions';
 import { loginValidator, passwordValidator } from '../validators';
 

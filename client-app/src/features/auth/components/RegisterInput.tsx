@@ -7,11 +7,11 @@ import {
   Alert,
   ValidationSummary,
   Input,
-  Button,
 } from '../../../app/components';
 import { useInput } from '../../../app/hooks';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { registerRequest } from '../actions';
+import { Button } from '../../__shared__/components';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);

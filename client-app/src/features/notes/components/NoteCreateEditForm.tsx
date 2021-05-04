@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from '../../../app/components';
+import { Button } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { createNoteRequest, editNoteRequest } from '../actions';
 
