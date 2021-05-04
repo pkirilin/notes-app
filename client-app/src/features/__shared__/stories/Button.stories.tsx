@@ -8,6 +8,8 @@ export default {
 } as Meta;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Template: Story<unknown> = args => <Button>Button</Button>;
+const Template: Story<unknown> = args => <Button {...args}>Button</Button>;
 
 export const Default = Template.bind({});
+
+Default.args = {};
