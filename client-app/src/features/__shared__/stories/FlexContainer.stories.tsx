@@ -9,6 +9,7 @@ export default {
 } as Meta;
 
 const TestBlock = styled.div`
+  display: block;
   height: 100px;
   width: 200px;
 
@@ -47,4 +48,10 @@ export const Spacing = Template.bind({});
 
 Spacing.args = {
   spacing: 'md',
+};
+
+export const Justify = Template.bind({});
+
+Justify.args = {
+  justify: 'center',
 };
