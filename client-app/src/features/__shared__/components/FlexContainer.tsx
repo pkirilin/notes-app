@@ -13,14 +13,14 @@ export type FlexContainerProps = {
 
 export const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
-  flex-direction: ${({ direction = 'row' }) => direction};
-  justify-content: ${({ justify = 'flex-start' }) => justify};
+  ${({ direction }) => direction && `flex-direction: ${direction}`};
+  ${({ justify }) => `justify-content: ${justify}`};
 
   & > :not(:first-child) {
-    margin-left: ${({ direction = 'row', spacing = 'none', theme }) =>
-      direction === 'column' ? '0' : theme.sizing[spacing]};
-
-    margin-top: ${({ direction = 'row', spacing = 'none', theme }) =>
-      direction === 'row' ? '0' : theme.sizing[spacing]};
+    ${({ theme, spacing, direction = 'row' }) =>
+      spacing &&
+      `${direction === 'row' ? 'margin-left' : 'margin-top'}: ${
+        theme.sizing[spacing]
+      };`};
   }
 `;
