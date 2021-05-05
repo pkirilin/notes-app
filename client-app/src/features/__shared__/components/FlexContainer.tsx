@@ -1,4 +1,4 @@
-import styled, { DefaultTheme } from 'styled-components';
+import styled, { DefaultTheme, ThemeBreakpointKey } from 'styled-components';
 
 export type FlexContainerProps = {
   direction?: 'row' | 'column';
@@ -10,6 +10,7 @@ export type FlexContainerProps = {
     | 'space-between'
     | 'space-around';
   grow?: number;
+  growBreakpoints?: Partial<Record<ThemeBreakpointKey, number>>;
 };
 
 export const FlexContainer = styled.div<FlexContainerProps>`
@@ -24,5 +25,30 @@ export const FlexContainer = styled.div<FlexContainerProps>`
       `${direction === 'row' ? 'margin-left' : 'margin-top'}: ${
         theme.sizing[spacing]
       };`}
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints.xs}) {
+    ${props =>
+      props.growBreakpoints?.xs && `flex-grow: ${props.growBreakpoints.xs};`}
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints.sm}) {
+    ${props =>
+      props.growBreakpoints?.sm && `flex-grow: ${props.growBreakpoints.sm};`}
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints.md}) {
+    ${props =>
+      props.growBreakpoints?.md && `flex-grow: ${props.growBreakpoints.md};`}
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints.lg}) {
+    ${props =>
+      props.growBreakpoints?.lg && `flex-grow: ${props.growBreakpoints.lg};`}
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints.xl}) {
+    ${props =>
+      props.growBreakpoints?.xl && `flex-grow: ${props.growBreakpoints.xl};`}
   }
 `;
