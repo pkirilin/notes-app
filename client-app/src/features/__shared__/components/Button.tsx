@@ -8,7 +8,7 @@ export const Button = styled.button<ButtonProps>`
   color: ${props => props.theme.text.primary};
   border: none;
   border-radius: ${props => props.theme.sizing.sm};
-  padding: ${props => props.theme.sizing.md};
+  padding: ${props => `${props.theme.sizing.md} ${props.theme.sizing.lg}`};
   cursor: pointer;
   transition: ${props => props.theme.transition.default};
 

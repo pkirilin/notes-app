@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, TextArea } from '../../__shared__/components';
+import { Button, FlexContainer, TextArea } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { createNoteRequest, editNoteRequest } from '../actions';
 
@@ -36,16 +36,18 @@ const NoteCreateEditForm: React.FC = () => {
   };
 
   return (
-    <div>
+    <FlexContainer direction="column" spacing="md">
       <TextArea
         placeholder="Enter note text"
         value={noteText}
         onChange={handleNoteTextChange}
       ></TextArea>
-      <Button role="submit" onClick={handleSubmitClick}>
-        {selectedNote ? 'Edit' : 'Add'}
-      </Button>
-    </div>
+      <FlexContainer justify="flex-end">
+        <Button role="submit" onClick={handleSubmitClick}>
+          {selectedNote ? 'Edit' : 'Add'}
+        </Button>
+      </FlexContainer>
+    </FlexContainer>
   );
 };
 
