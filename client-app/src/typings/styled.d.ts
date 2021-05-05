@@ -1,6 +1,8 @@
 import 'styled-components';
 
 declare module 'styled-components' {
+  export type ThemeBreakpointKey = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
   export interface DefaultTheme {
     colors: {
       main: string;
@@ -14,13 +16,7 @@ declare module 'styled-components' {
     borders: {
       default: string;
     };
-    sizing: {
-      none: string;
-      xs: string;
-      sm: string;
-      md: string;
-      lg: string;
-    };
+    sizing: Record<ThemeBreakpointKey, string>;
     transition: {
       default: string;
     };
