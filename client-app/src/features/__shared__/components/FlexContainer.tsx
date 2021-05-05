@@ -1,10 +1,10 @@
-import styled, { DefaultTheme, ThemeBreakpointKey } from 'styled-components';
+import styled, { ThemeBreakpointKey } from 'styled-components';
 
 type FlexContainerDirection = 'row' | 'column';
 
 export type FlexContainerProps = {
   direction?: FlexContainerDirection;
-  spacing?: keyof DefaultTheme['sizing'];
+  spacing?: ThemeBreakpointKey;
   justify?:
     | 'flex-start'
     | 'center'

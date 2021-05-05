@@ -8,24 +8,6 @@ export default {
   component: FlexContainer,
 } as Meta;
 
-const TestBlock = styled.div`
-  display: block;
-  height: 100px;
-  width: 200px;
-
-  &:nth-child(1) {
-    background-color: #7860ff;
-  }
-
-  &:nth-child(2) {
-    background-color: #009218;
-  }
-
-  &:nth-child(3) {
-    background-color: #e65d0f;
-  }
-`;
-
 const NestedFlexContainer = styled(FlexContainer)`
   height: 100px;
   border: 1px solid black;
@@ -33,32 +15,25 @@ const NestedFlexContainer = styled(FlexContainer)`
 
 const Template: Story<FlexContainerProps> = args => (
   <FlexContainer {...args}>
-    <TestBlock></TestBlock>
-    <TestBlock></TestBlock>
-    <TestBlock></TestBlock>
+    <NestedFlexContainer>item 1</NestedFlexContainer>
+    <NestedFlexContainer>item 2</NestedFlexContainer>
+    <NestedFlexContainer>item 3</NestedFlexContainer>
   </FlexContainer>
 );
 
-export const Default = Template.bind({});
+export const Row = Template.bind({});
 
-Default.args = {};
-
-export const Direction = Template.bind({});
-
-Direction.args = {
+Row.args = {
   direction: 'row',
-};
-
-export const Spacing = Template.bind({});
-
-Spacing.args = {
   spacing: 'md',
+  justify: 'center',
 };
 
-export const Justify = Template.bind({});
+export const Column = Template.bind({});
 
-Justify.args = {
-  justify: 'center',
+Column.args = {
+  direction: 'column',
+  spacing: 'md',
 };
 
 export const NestedItemsWidth: Story = () => (
