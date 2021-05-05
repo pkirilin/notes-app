@@ -9,18 +9,20 @@ export type FlexContainerProps = {
     | 'flex-end'
     | 'space-between'
     | 'space-around';
+  grow?: number;
 };
 
 export const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
-  ${({ direction }) => direction && `flex-direction: ${direction}`};
-  ${({ justify }) => `justify-content: ${justify}`};
+  ${({ direction }) => direction && `flex-direction: ${direction};`}
+  ${({ justify }) => justify && `justify-content: ${justify};`}
+  ${({ grow }) => grow && `flex-grow: ${grow};`}
 
   & > :not(:first-child) {
     ${({ theme, spacing, direction = 'row' }) =>
       spacing &&
       `${direction === 'row' ? 'margin-left' : 'margin-top'}: ${
         theme.sizing[spacing]
-      };`};
+      };`}
   }
 `;
