@@ -1,8 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+export type ButtonProps = React.ComponentPropsWithoutRef<'button'>;
 
-export const Button = styled.button`
+export const Button = styled.button<ButtonProps>`
   background-color: ${props => props.theme.colors.primary};
   color: ${props => props.theme.text.primary};
   border: none;
