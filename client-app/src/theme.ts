@@ -5,6 +5,7 @@ const theme: DefaultTheme = {
     main: '#edf5e1',
     primary: '#673ab7',
     primaryDark: '#320b86',
+    primaryDisabled: '#9575CD',
   },
   text: {
     primary: '#ffffff',

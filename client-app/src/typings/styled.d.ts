@@ -6,6 +6,7 @@ declare module 'styled-components' {
       main: string;
       primary: string;
       primaryDark: string;
+      primaryDisabled: string;
     };
     text: {
       primary: string;

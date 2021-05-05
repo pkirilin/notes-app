@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+
 export const Button = styled.button`
   background-color: ${props => props.theme.colors.primary};
   color: ${props => props.theme.text.primary};
-  border: ${props =>
-    `${props.theme.borders.default} solid ${props.theme.colors.primaryDark}`};
-  border-radius: ${props => props.theme.sizing['sm']};
-  padding: ${props => props.theme.sizing['md']};
+  border: none;
+  border-radius: ${props => props.theme.sizing.sm};
+  padding: ${props => props.theme.sizing.md};
   cursor: pointer;
   transition: ${props => props.theme.transition.default};
 
@@ -16,6 +17,11 @@ export const Button = styled.button`
 
   &:focus {
     box-shadow: ${props =>
-      `0 0 ${props.theme.sizing.sm} ${props.theme.colors.primaryDark}`};
+      `0 0 ${props.theme.sizing.md} ${props.theme.colors.primaryDark}`};
+  }
+
+  &:disabled {
+    background-color: ${props => props.theme.colors.primaryDisabled};
+    cursor: default;
   }
 `;
