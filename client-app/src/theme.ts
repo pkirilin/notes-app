@@ -13,6 +13,9 @@ const theme: DefaultTheme = {
   borders: {
     default: '1px',
   },
+  transition: {
+    default: '0.5s',
+  },
   sizing: {
     xs: '2px',
     sm: '4px',
@@ -20,8 +23,12 @@ const theme: DefaultTheme = {
     lg: '16px',
     xl: '32px',
   },
-  transition: {
-    default: '0.5s',
+  breakpoints: {
+    xs: '0px',
+    sm: '600px',
+    md: '960px',
+    lg: '1280px',
+    xl: '1920px',
   },
 };
 

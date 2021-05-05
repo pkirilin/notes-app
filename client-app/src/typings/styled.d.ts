@@ -16,9 +16,10 @@ declare module 'styled-components' {
     borders: {
       default: string;
     };
-    sizing: Record<ThemeBreakpointKey, string>;
     transition: {
       default: string;
     };
+    sizing: Record<ThemeBreakpointKey, string>;
+    breakpoints: Record<ThemeBreakpointKey, string>;
   }
 }
