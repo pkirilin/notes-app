@@ -4,6 +4,7 @@ import {
   FlexContainer,
   IconButton,
   ListItem,
+  Typography,
 } from '../../__shared__/components';
 import { deleteNoteRequest, noteSelected } from '../actions';
 import { NoteListItem } from '../models/NoteListItem';
@@ -30,8 +31,8 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
     <ListItem onClick={handleListItemClick}>
       <FlexContainer align="center" spacing="lg">
         <FlexContainer grow={1} direction="column" spacing="md">
-          <span>{note.updatedAt}</span>
-          <span>{note.text}</span>
+          <Typography type="caption">Updated {note.updatedAt}</Typography>
+          <Typography>{note.text}</Typography>
         </FlexContainer>
         <FlexContainer>
           <IconButton role="deletion" onClick={handleDeleteListItemClick}>
