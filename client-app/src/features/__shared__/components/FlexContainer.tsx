@@ -11,6 +11,7 @@ export type FlexContainerProps = {
     | 'flex-end'
     | 'space-between'
     | 'space-around';
+  align?: 'flex-start' | 'center' | 'flex-end' | 'baseline' | 'stretch';
   grow?: number;
   growBreakpoints?: Partial<Record<ThemeBreakpointKey, number>>;
   directionBreakpoints?: Partial<
@@ -22,6 +23,7 @@ export const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
   ${({ direction }) => direction && `flex-direction: ${direction};`}
   ${({ justify }) => justify && `justify-content: ${justify};`}
+  ${props => props.align && `align-items: ${props.align};`}
   ${({ grow }) => grow && `flex-grow: ${grow};`}
 
   & > :not(:first-child) {

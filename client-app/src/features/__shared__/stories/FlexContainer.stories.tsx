@@ -34,6 +34,7 @@ export const Column = Template.bind({});
 Column.args = {
   direction: 'column',
   spacing: 'md',
+  align: 'center',
 };
 
 export const NestedItemsWidth: Story = () => (
