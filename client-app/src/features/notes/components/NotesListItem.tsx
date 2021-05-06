@@ -1,8 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, ListItem } from '../../__shared__/components';
+import {
+  FlexContainer,
+  IconButton,
+  ListItem,
+} from '../../__shared__/components';
 import { deleteNoteRequest, noteSelected } from '../actions';
 import { NoteListItem } from '../models/NoteListItem';
+import { Delete, DeleteForever } from '@styled-icons/material';
 
 export type NotesListItemProps = {
   note: NoteListItem;
@@ -22,16 +27,28 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
   };
 
   return (
-    <React.Fragment key={note.id}>
-      <ListItem onClick={handleListItemClick}>
-        <div>{note.text}</div>
-        <div>{note.createdAt}</div>
-        <div>{note.updatedAt}</div>
-      </ListItem>
-      <Button role="deletion" onClick={handleDeleteListItemClick}>
-        Delete
-      </Button>
-    </React.Fragment>
+    <ListItem onClick={handleListItemClick}>
+      <FlexContainer align="center" spacing="lg">
+        <FlexContainer grow={1} direction="column" spacing="md">
+          <span>{note.updatedAt}</span>
+          <span>{note.text}</span>
+        </FlexContainer>
+        <FlexContainer>
+          <IconButton role="deletion" onClick={handleDeleteListItemClick}>
+            <Delete size="24" title="Delete note"></Delete>
+          </IconButton>
+          {/* TODO: implement confirm */}
+          {false && (
+            <IconButton role="deletion">
+              <DeleteForever
+                size="24"
+                title="Confirm delete note"
+              ></DeleteForever>
+            </IconButton>
+          )}
+        </FlexContainer>
+      </FlexContainer>
+    </ListItem>
   );
 };
 
