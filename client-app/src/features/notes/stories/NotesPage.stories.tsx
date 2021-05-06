@@ -3,22 +3,21 @@ import { Meta, Story } from '@storybook/react';
 import { NotesPage } from '../components';
 import { loginSuccess } from '../../auth/actions';
 import { createStorybookReduxDecorator } from '../../../test-utils';
+import { getNotesSuccess } from '../actions';
+import { STORYBOOK_TEST_NOTE_ITEMS, STORYBOOK_TEST_USER } from './data';
 
 export default {
   title: 'notes/NotesPage',
   component: NotesPage,
-  decorators: [
-    createStorybookReduxDecorator([
-      loginSuccess({
-        userId: 1,
-        userName: 'storybook',
-        token: '',
-        tokenExpirationInDays: 1,
-      }),
-    ]),
-  ],
 } as Meta;
 
-const Template: Story<unknown> = () => <NotesPage></NotesPage>;
+export const AuthenticatedUserWithNotesCollection: Story = () => (
+  <NotesPage></NotesPage>
+);
 
-export const Default = Template.bind({});
+AuthenticatedUserWithNotesCollection.decorators = [
+  createStorybookReduxDecorator([
+    loginSuccess(STORYBOOK_TEST_USER),
+    getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS),
+  ]),
+];
