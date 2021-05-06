@@ -12,6 +12,7 @@ declare module 'styled-components' {
       background: string;
       backgroundAction: string;
       backgroundActionLight: string;
+      backgroundActionDark: string;
     };
     text: {
       primary: string;

@@ -9,6 +9,7 @@ const theme: DefaultTheme = {
     background: '#ffffff',
     backgroundAction: '#eeeeee',
     backgroundActionLight: '#f5f5f5',
+    backgroundActionDark: '#c2c2c2',
   },
   text: {
     primary: '#ffffff',
