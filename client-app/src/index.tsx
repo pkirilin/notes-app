@@ -6,11 +6,13 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from 'styled-components';
 import theme from './theme';
+import GlobalStyle from './GlobalStyle';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <GlobalStyle></GlobalStyle>
         <App />
       </ThemeProvider>
     </Provider>
