@@ -9,6 +9,9 @@ declare module 'styled-components' {
       primary: string;
       primaryDark: string;
       primaryDisabled: string;
+      background: string;
+      backgroundAction: string;
+      backgroundActionLight: string;
     };
     text: {
       primary: string;

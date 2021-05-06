@@ -1,14 +1,29 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
+import styled from 'styled-components';
 import { List } from '../components';
+import { DefaultListItem, SelectedListItem } from './ListItem.stories';
+
+const Wrapper = styled.div`
+  width: 256px;
+`;
 
 export default {
   title: 'shared/List',
   component: List,
+  decorators: [story => <Wrapper>{story()}</Wrapper>],
 } as Meta;
 
-const Template: Story = args => <List {...args}>List</List>;
+export const ListWithMultipleItems: Story = () => (
+  <List>
+    <SelectedListItem></SelectedListItem>
+    <DefaultListItem></DefaultListItem>
+    <DefaultListItem></DefaultListItem>
+  </List>
+);
 
-export const Default = Template.bind({});
-
-Default.args = {};
+export const ListWithSingleItem: Story = () => (
+  <List>
+    <DefaultListItem></DefaultListItem>
+  </List>
+);

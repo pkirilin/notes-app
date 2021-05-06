@@ -5,7 +5,10 @@ const theme: DefaultTheme = {
     main: '#edf5e1',
     primary: '#673ab7',
     primaryDark: '#320b86',
-    primaryDisabled: '#9575CD',
+    primaryDisabled: '#9575cd',
+    background: '#ffffff',
+    backgroundAction: '#eeeeee',
+    backgroundActionLight: '#f5f5f5',
   },
   text: {
     primary: '#ffffff',
