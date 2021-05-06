@@ -11,13 +11,9 @@ export default {
 
 const Template: Story<unknown> = () => <NotesList></NotesList>;
 
-export const Empty = Template.bind({});
+export const MultipleElements = Template.bind({});
 
-Empty.decorators = [createStorybookReduxDecorator([getNotesSuccess([])])];
-
-export const WithElements = Template.bind({});
-
-WithElements.decorators = [
+MultipleElements.decorators = [
   createStorybookReduxDecorator([
     getNotesSuccess([
       {
@@ -41,3 +37,22 @@ WithElements.decorators = [
     ]),
   ]),
 ];
+
+export const SingleElement = Template.bind({});
+
+SingleElement.decorators = [
+  createStorybookReduxDecorator([
+    getNotesSuccess([
+      {
+        id: 1,
+        text: 'Note',
+        createdAt: '2021-05-01',
+        updatedAt: '2021-05-01',
+      },
+    ]),
+  ]),
+];
+
+export const Empty = Template.bind({});
+
+Empty.decorators = [createStorybookReduxDecorator([getNotesSuccess([])])];

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, List, ListItem } from '../../__shared__/components';
+import { List } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
-import { deleteNoteRequest, getNotesRequest, noteSelected } from '../actions';
-import { NoteListItem } from '../models/NoteListItem';
+import { getNotesRequest } from '../actions';
+import NotesListItem from './NotesListItem';
 
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);
@@ -14,14 +14,6 @@ const NotesList: React.FC = () => {
   useEffect(() => {
     dispatch(getNotesRequest());
   }, [dispatch]);
-
-  const handleDeleteClick = (noteId: number) => {
-    dispatch(deleteNoteRequest(noteId));
-  };
-
-  const handleListItemClick = (note: NoteListItem) => {
-    dispatch(noteSelected(note));
-  };
 
   if (status === 'error') {
     return <p>Failed to get notes</p>;
@@ -34,19 +26,7 @@ const NotesList: React.FC = () => {
   return (
     <List>
       {notes.map(note => (
-        <React.Fragment key={note.id}>
-          <ListItem onClick={handleListItemClick.bind(this, note)}>
-            <div>{note.text}</div>
-            <div>{note.createdAt}</div>
-            <div>{note.updatedAt}</div>
-          </ListItem>
-          <Button
-            role="deletion"
-            onClick={handleDeleteClick.bind(this, note.id)}
-          >
-            Delete
-          </Button>
-        </React.Fragment>
+        <NotesListItem key={note.id} note={note}></NotesListItem>
       ))}
     </List>
   );
