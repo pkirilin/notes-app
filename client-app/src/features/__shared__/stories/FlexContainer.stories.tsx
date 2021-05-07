@@ -62,7 +62,10 @@ export const NestedItemsWidth: Story = () => (
 );
 
 export const ResponsiveLayout: Story = () => (
-  <FlexContainer directionBreakpoints={{ xs: 'column', sm: 'row' }}>
+  <FlexContainer
+    directionBreakpoints={{ xs: 'column', sm: 'row' }}
+    spacing="md"
+  >
     <NestedFlexContainer growBreakpoints={{ xs: 1, md: 2 }}>
       item 1
     </NestedFlexContainer>

@@ -1,4 +1,8 @@
-import styled, { ThemeBreakpointKey } from 'styled-components';
+import styled, {
+  css,
+  DefaultTheme,
+  ThemeBreakpointKey,
+} from 'styled-components';
 
 type FlexContainerDirection =
   | 'row'
@@ -23,13 +27,6 @@ export type FlexContainerProps = {
   >;
 };
 
-const directionSpacingMap = {
-  row: 'margin-left',
-  column: 'margin-top',
-  'row-reverse': 'margin-right',
-  'column-reverse': 'margin-bottom',
-};
-
 export const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
   ${({ direction }) => direction && `flex-direction: ${direction};`}
@@ -39,51 +36,56 @@ export const FlexContainer = styled.div<FlexContainerProps>`
 
   & > :not(:first-child) {
     ${({ theme, spacing, direction = 'row' }) =>
-      spacing && `${directionSpacingMap[direction]}: ${theme.sizing[spacing]};`}
+      spacing && `margin: ${getSpacingMargin(theme, spacing, direction)}`};
   }
 
-  @media (min-width: ${props => props.theme.breakpoints.xs}) {
-    ${props =>
-      props.directionBreakpoints?.xs &&
-      `flex-direction: ${props.directionBreakpoints.xs};`}
-
-    ${props =>
-      props.growBreakpoints?.xs && `flex-grow: ${props.growBreakpoints.xs};`}
-  }
-
-  @media (min-width: ${props => props.theme.breakpoints.sm}) {
-    ${props =>
-      props.directionBreakpoints?.sm &&
-      `flex-direction: ${props.directionBreakpoints.sm};`}
-
-    ${props =>
-      props.growBreakpoints?.sm && `flex-grow: ${props.growBreakpoints.sm};`}
-  }
-
-  @media (min-width: ${props => props.theme.breakpoints.md}) {
-    ${props =>
-      props.directionBreakpoints?.md &&
-      `flex-direction: ${props.directionBreakpoints.md};`}
-
-    ${props =>
-      props.growBreakpoints?.md && `flex-grow: ${props.growBreakpoints.md};`}
-  }
-
-  @media (min-width: ${props => props.theme.breakpoints.lg}) {
-    ${props =>
-      props.directionBreakpoints?.lg &&
-      `flex-direction: ${props.directionBreakpoints.lg};`}
-
-    ${props =>
-      props.growBreakpoints?.lg && `flex-grow: ${props.growBreakpoints.lg};`}
-  }
-
-  @media (min-width: ${props => props.theme.breakpoints.xl}) {
-    ${props =>
-      props.directionBreakpoints?.xl &&
-      `flex-direction: ${props.directionBreakpoints.xl};`}
-
-    ${props =>
-      props.growBreakpoints?.xl && `flex-grow: ${props.growBreakpoints.xl};`}
-  }
+  ${props => useBreakpoint('xs', props)};
+  ${props => useBreakpoint('sm', props)};
+  ${props => useBreakpoint('md', props)};
+  ${props => useBreakpoint('lg', props)};
+  ${props => useBreakpoint('xl', props)};
 `;
+
+function getSpacingMargin(
+  theme: DefaultTheme,
+  spacing: ThemeBreakpointKey,
+  direction?: FlexContainerDirection,
+): string {
+  const mappings = {
+    row: `0 0 0 ${theme.sizing[spacing]}`,
+    column: `${theme.sizing[spacing]} 0 0 0`,
+    'row-reverse': `0 ${theme.sizing[spacing]} 0 0`,
+    'column-reverse': `0 0 ${theme.sizing[spacing]} 0`,
+  };
+
+  return direction ? mappings[direction] : '0 0 0 0';
+}
+
+function useBreakpoint(
+  breakpoint: ThemeBreakpointKey,
+  { directionBreakpoints, growBreakpoints, spacing }: FlexContainerProps,
+) {
+  return css`
+    @media (min-width: ${props => props.theme.breakpoints[breakpoint]}) {
+      ${directionBreakpoints &&
+      directionBreakpoints[breakpoint] &&
+      `flex-direction: ${directionBreakpoints[breakpoint]};`}
+
+      & > :not(:first-child) {
+        ${props =>
+          spacing &&
+          directionBreakpoints &&
+          directionBreakpoints[breakpoint] &&
+          `margin: ${getSpacingMargin(
+            props.theme,
+            spacing,
+            directionBreakpoints[breakpoint],
+          )};`}
+      }
+
+      ${growBreakpoints &&
+      growBreakpoints[breakpoint] &&
+      `flex-grow: ${growBreakpoints[breakpoint]};`}
+    }
+  `;
+}
