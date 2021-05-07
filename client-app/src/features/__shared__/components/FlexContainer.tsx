@@ -1,6 +1,10 @@
 import styled, { ThemeBreakpointKey } from 'styled-components';
 
-type FlexContainerDirection = 'row' | 'column';
+type FlexContainerDirection =
+  | 'row'
+  | 'column'
+  | 'row-reverse'
+  | 'column-reverse';
 
 export type FlexContainerProps = {
   direction?: FlexContainerDirection;
@@ -19,6 +23,13 @@ export type FlexContainerProps = {
   >;
 };
 
+const directionSpacingMap = {
+  row: 'margin-left',
+  column: 'margin-top',
+  'row-reverse': 'margin-right',
+  'column-reverse': 'margin-bottom',
+};
+
 export const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
   ${({ direction }) => direction && `flex-direction: ${direction};`}
@@ -28,10 +39,7 @@ export const FlexContainer = styled.div<FlexContainerProps>`
 
   & > :not(:first-child) {
     ${({ theme, spacing, direction = 'row' }) =>
-      spacing &&
-      `${direction === 'row' ? 'margin-left' : 'margin-top'}: ${
-        theme.sizing[spacing]
-      };`}
+      spacing && `${directionSpacingMap[direction]}: ${theme.sizing[spacing]};`}
   }
 
   @media (min-width: ${props => props.theme.breakpoints.xs}) {

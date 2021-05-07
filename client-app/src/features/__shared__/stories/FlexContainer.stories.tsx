@@ -29,10 +29,26 @@ Row.args = {
   justify: 'center',
 };
 
+export const RowReverse = Template.bind({});
+
+RowReverse.args = {
+  direction: 'row-reverse',
+  spacing: 'md',
+  justify: 'center',
+};
+
 export const Column = Template.bind({});
 
 Column.args = {
   direction: 'column',
+  spacing: 'md',
+  align: 'center',
+};
+
+export const ColumnReverse = Template.bind({});
+
+ColumnReverse.args = {
+  direction: 'column-reverse',
   spacing: 'md',
   align: 'center',
 };
