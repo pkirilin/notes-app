@@ -44,7 +44,7 @@ const NoteCreateEditForm: React.FC = () => {
         onChange={handleNoteTextChange}
       ></TextArea>
       <FlexContainer justify="flex-end">
-        <Button role="submit" onClick={handleSubmitClick}>
+        <Button color="primary" role="submit" onClick={handleSubmitClick}>
           {selectedNote ? 'Edit' : 'Add'}
         </Button>
       </FlexContainer>

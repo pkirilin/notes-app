@@ -40,7 +40,9 @@ const NotesPage: React.FC = () => {
           <Typography>
             Logged in as <b>{user?.userName}</b>
           </Typography>
-          <Button onClick={handleLogoutClick}>Logout</Button>
+          <Button color="primary" onClick={handleLogoutClick}>
+            Logout
+          </Button>
         </FlexContainer>
       </FlexContainer>
       <FlexContainer

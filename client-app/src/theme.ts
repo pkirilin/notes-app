@@ -13,6 +13,8 @@ const theme: DefaultTheme = {
   },
   text: {
     primary: '#ffffff',
+    default: '#616161',
+    hint: '#8d8d8d',
   },
   borders: {
     default: '1px',

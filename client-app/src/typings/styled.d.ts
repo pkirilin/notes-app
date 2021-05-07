@@ -16,6 +16,8 @@ declare module 'styled-components' {
     };
     text: {
       primary: string;
+      default: string;
+      hint: string;
     };
     borders: {
       default: string;
