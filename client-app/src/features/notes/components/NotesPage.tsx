@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { logout } from '../../auth/actions';
-import { Button, Title } from '../../__shared__/components';
+import { Button, FlexContainer, Title } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { noteSelectionCancelled } from '../actions';
 import NoteCreateEditForm from './NoteCreateEditForm';
@@ -35,8 +35,17 @@ const NotesPage: React.FC = () => {
       </Button>
       <Title>Notes</Title>
       <Button onClick={handleAddNoteClick}>Add note</Button>
-      <NoteCreateEditForm></NoteCreateEditForm>
-      <NotesList></NotesList>
+      <FlexContainer
+        spacing="lg"
+        directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}
+      >
+        <FlexContainer growBreakpoints={{ sm: 1, md: 1, lg: 1 }}>
+          <NotesList></NotesList>
+        </FlexContainer>
+        <FlexContainer growBreakpoints={{ sm: 1, md: 1.5, lg: 2 }}>
+          <NoteCreateEditForm></NoteCreateEditForm>
+        </FlexContainer>
+      </FlexContainer>
     </React.Fragment>
   );
 };
