@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { logout } from '../../auth/actions';
 import { Button, FlexContainer, Typography } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
-import { noteSelectionCancelled } from '../actions';
 import NoteCreateEditForm from './NoteCreateEditForm';
 import NotesList from './NotesList';
 
@@ -18,10 +17,6 @@ const NotesPage: React.FC = () => {
       history.push('/login');
     }
   }, [history, user]);
-
-  const handleAddNoteClick = () => {
-    dispatch(noteSelectionCancelled());
-  };
 
   const handleLogoutClick = () => {
     dispatch(logout());
@@ -50,8 +45,6 @@ const NotesPage: React.FC = () => {
         directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}
       >
         <FlexContainer growBreakpoints={{ sm: 1, md: 1, lg: 1 }}>
-          {/* TODO: move to list */}
-          {false && <Button onClick={handleAddNoteClick}>Add note</Button>}
           <NotesList></NotesList>
         </FlexContainer>
         <FlexContainer growBreakpoints={{ sm: 1, md: 1.5, lg: 2 }}>
