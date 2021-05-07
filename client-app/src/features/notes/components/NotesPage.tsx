@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { logout } from '../../auth/actions';
-import { Button, FlexContainer, Title } from '../../__shared__/components';
+import { Button, FlexContainer, Typography } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { noteSelectionCancelled } from '../actions';
 import NoteCreateEditForm from './NoteCreateEditForm';
@@ -23,30 +23,40 @@ const NotesPage: React.FC = () => {
     dispatch(noteSelectionCancelled());
   };
 
+  const handleLogoutClick = () => {
+    dispatch(logout());
+  };
+
   return (
-    <React.Fragment>
-      <h1>Hello, {user?.userName}</h1>
-      <Button
-        onClick={() => {
-          dispatch(logout());
-        }}
+    <FlexContainer direction="column" spacing="lg">
+      <FlexContainer
+        justify="space-between"
+        alignBreakpoints={{ xs: 'flex-start', sm: 'center' }}
+        spacing="lg"
+        directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}
       >
-        Logout
-      </Button>
-      <Title>Notes</Title>
-      <Button onClick={handleAddNoteClick}>Add note</Button>
+        <Typography type="title">Notes</Typography>
+        <FlexContainer align="center" spacing="lg">
+          <Typography>
+            Logged in as <b>{user?.userName}</b>
+          </Typography>
+          <Button onClick={handleLogoutClick}>Logout</Button>
+        </FlexContainer>
+      </FlexContainer>
       <FlexContainer
         spacing="lg"
         directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}
       >
         <FlexContainer growBreakpoints={{ sm: 1, md: 1, lg: 1 }}>
+          {/* TODO: move to list */}
+          {false && <Button onClick={handleAddNoteClick}>Add note</Button>}
           <NotesList></NotesList>
         </FlexContainer>
         <FlexContainer growBreakpoints={{ sm: 1, md: 1.5, lg: 2 }}>
           <NoteCreateEditForm></NoteCreateEditForm>
         </FlexContainer>
       </FlexContainer>
-    </React.Fragment>
+    </FlexContainer>
   );
 };
 

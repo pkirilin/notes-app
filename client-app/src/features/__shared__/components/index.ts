@@ -5,5 +5,3 @@ export * from './List';
 export * from './ListItem';
 export * from './TextArea';
 export * from './Typography';
-
-export * from './headers';

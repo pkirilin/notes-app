@@ -77,3 +77,14 @@ export const ResponsiveLayout: Story = () => (
     </NestedFlexContainer>
   </FlexContainer>
 );
+
+export const ResponsiveAlignment: Story = () => (
+  <FlexContainer
+    directionBreakpoints={{ xs: 'column', sm: 'row' }}
+    justifyBreakpoints={{ xs: 'center', sm: 'flex-end' }}
+    alignBreakpoints={{ xs: 'center', sm: 'center' }}
+  >
+    <NestedFlexContainer>item 1</NestedFlexContainer>
+    <NestedFlexContainer>item 2</NestedFlexContainer>
+  </FlexContainer>
+);

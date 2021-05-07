@@ -10,21 +10,34 @@ type FlexContainerDirection =
   | 'row-reverse'
   | 'column-reverse';
 
+type FlexContainerJustify =
+  | 'flex-start'
+  | 'center'
+  | 'flex-end'
+  | 'space-between'
+  | 'space-around';
+
+type FlexContainerAlign =
+  | 'flex-start'
+  | 'center'
+  | 'flex-end'
+  | 'baseline'
+  | 'stretch';
+
+type FlexContainerPropWithBreakpoints<T> = Partial<
+  Record<ThemeBreakpointKey, T>
+>;
+
 export type FlexContainerProps = {
   direction?: FlexContainerDirection;
+  directionBreakpoints?: FlexContainerPropWithBreakpoints<FlexContainerDirection>;
   spacing?: ThemeBreakpointKey;
-  justify?:
-    | 'flex-start'
-    | 'center'
-    | 'flex-end'
-    | 'space-between'
-    | 'space-around';
-  align?: 'flex-start' | 'center' | 'flex-end' | 'baseline' | 'stretch';
+  justify?: FlexContainerJustify;
+  justifyBreakpoints?: FlexContainerPropWithBreakpoints<FlexContainerJustify>;
+  align?: FlexContainerAlign;
+  alignBreakpoints?: FlexContainerPropWithBreakpoints<FlexContainerAlign>;
   grow?: number;
   growBreakpoints?: Partial<Record<ThemeBreakpointKey, number>>;
-  directionBreakpoints?: Partial<
-    Record<ThemeBreakpointKey, FlexContainerDirection>
-  >;
 };
 
 export const FlexContainer = styled.div<FlexContainerProps>`
@@ -63,13 +76,31 @@ function getSpacingMargin(
 
 function useBreakpoint(
   breakpoint: ThemeBreakpointKey,
-  { directionBreakpoints, growBreakpoints, spacing }: FlexContainerProps,
+  {
+    directionBreakpoints,
+    growBreakpoints,
+    justifyBreakpoints,
+    alignBreakpoints,
+    spacing,
+  }: FlexContainerProps,
 ) {
   return css`
     @media (min-width: ${props => props.theme.breakpoints[breakpoint]}) {
       ${directionBreakpoints &&
       directionBreakpoints[breakpoint] &&
       `flex-direction: ${directionBreakpoints[breakpoint]};`}
+
+      ${growBreakpoints &&
+      growBreakpoints[breakpoint] &&
+      `flex-grow: ${growBreakpoints[breakpoint]};`}
+
+      ${justifyBreakpoints &&
+      justifyBreakpoints[breakpoint] &&
+      `justify-content: ${justifyBreakpoints[breakpoint]}`};
+
+      ${alignBreakpoints &&
+      alignBreakpoints[breakpoint] &&
+      `align-items: ${alignBreakpoints[breakpoint]}`};
 
       & > :not(:first-child) {
         ${props =>
@@ -82,10 +113,6 @@ function useBreakpoint(
             directionBreakpoints[breakpoint],
           )};`}
       }
-
-      ${growBreakpoints &&
-      growBreakpoints[breakpoint] &&
-      `flex-grow: ${growBreakpoints[breakpoint]};`}
     }
   `;
 }
