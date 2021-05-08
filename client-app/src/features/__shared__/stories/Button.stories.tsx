@@ -37,9 +37,9 @@ export const Variants: Story = () => (
   </Wrapper>
 );
 
-export const FullWidthButton = Template.bind({});
+export const FullWidth = Template.bind({});
 
-FullWidthButton.args = {
+FullWidth.args = {
   fullWidth: true,
   disabled: false,
 };
