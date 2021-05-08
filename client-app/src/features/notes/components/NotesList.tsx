@@ -34,18 +34,22 @@ const NotesList: React.FC = () => {
     dispatch(noteSelectionCancelled());
   };
 
-  // TODO: style this text
   if (status === 'error') {
-    return <p>Failed to get notes</p>;
+    return (
+      <Typography type="body2" color="default" align="center">
+        Failed to get notes
+      </Typography>
+    );
   }
 
   return (
     <List>
       <ListItemAddNote onClick={handleAddNoteClick}>
-        <FlexContainer align="center" spacing="md">
-          <Add size="24"></Add>
-          {/* TODO: center this text, make color hint */}
-          <Typography>New note</Typography>
+        <FlexContainer justify="center" align="center" spacing="md">
+          <Typography color="hint">
+            <Add size="24"></Add>
+          </Typography>
+          <Typography color="hint">New note</Typography>
         </FlexContainer>
       </ListItemAddNote>
       {notes.length > 0 ? (
@@ -54,7 +58,9 @@ const NotesList: React.FC = () => {
         ))
       ) : (
         <EmptyNotesPlaceholder>
-          <Typography type="body2">You have not any notes yet</Typography>
+          <Typography type="body2" color="default" align="center">
+            You have not any notes yet
+          </Typography>
         </EmptyNotesPlaceholder>
       )}
     </List>

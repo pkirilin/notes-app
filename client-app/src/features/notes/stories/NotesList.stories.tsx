@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { createStorybookReduxDecorator } from '../../../test-utils';
-import { getNotesSuccess } from '../actions';
+import { getNotesError, getNotesSuccess } from '../actions';
 import NotesList from '../components/NotesList';
 import { STORYBOOK_TEST_NOTE_ITEMS } from './data';
 
@@ -29,3 +29,7 @@ SingleElement.decorators = [
 export const Empty = Template.bind({});
 
 Empty.decorators = [createStorybookReduxDecorator([getNotesSuccess([])])];
+
+export const Error = Template.bind({});
+
+Error.decorators = [createStorybookReduxDecorator([getNotesError()])];

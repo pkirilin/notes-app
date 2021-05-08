@@ -32,7 +32,7 @@ const NotesPage: React.FC = () => {
       >
         <Typography type="title">Notes</Typography>
         <FlexContainer align="center" spacing="lg">
-          <Typography>
+          <Typography color="default">
             Logged in as <b>{user?.userName}</b>
           </Typography>
           <Button color="primary" onClick={handleLogoutClick}>
