@@ -1,38 +1,57 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 export type TypographyProps = {
   type?: 'title' | 'subtitle' | 'body1' | 'body2' | 'caption';
+  align?: 'left' | 'center' | 'right';
+  color?: keyof DefaultTheme['text'];
 };
 
-const Title = styled.h1`
+function useBaseStyles({ align, color }: TypographyProps) {
+  return css`
+    ${align && `text-align: ${align}`};
+    ${props => color && `color: ${props.theme.text[color]}`};
+  `;
+}
+
+const Title = styled.h1<TypographyProps>`
   font-size: 34px;
   font-weight: normal;
   letter-spacing: 0.25px;
+
+  ${props => useBaseStyles(props)};
 `;
 
-const Subtitle = styled.h2`
+const Subtitle = styled.h2<TypographyProps>`
   font-size: 24px;
   font-weight: normal;
   letter-spacing: 0px;
+
+  ${props => useBaseStyles(props)};
 `;
 
-const Body1 = styled.p`
+const Body1 = styled.p<TypographyProps>`
   font-size: 16px;
   font-weight: normal;
   letter-spacing: 0.5px;
+
+  ${props => useBaseStyles(props)};
 `;
 
-const Body2 = styled.p`
+const Body2 = styled.p<TypographyProps>`
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0.25px;
+
+  ${props => useBaseStyles(props)};
 `;
 
-const Caption = styled.p`
+const Caption = styled.p<TypographyProps>`
   font-size: 12px;
   font-weight: normal;
   letter-spacing: 0.4px;
+
+  ${props => useBaseStyles(props)};
 `;
 
 type TypographyComponentTypes =
@@ -56,7 +75,8 @@ const typeMappings: Record<
 export const Typography: React.FC<TypographyProps> = ({
   type = 'body1',
   children,
+  ...props
 }: React.PropsWithChildren<TypographyProps>) => {
   const Component = typeMappings[type];
-  return <Component>{children}</Component>;
+  return <Component {...props}>{children}</Component>;
 };
