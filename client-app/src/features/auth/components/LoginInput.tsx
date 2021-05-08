@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 import {
   ValidationSummaryDetail,
   ValidationSummary,
-  Input,
   CheckBox,
 } from '../../../app/components';
 import { useInput, useCheckbox } from '../../../app/hooks';
-import { Button } from '../../__shared__/components';
+import { Button, Input } from '../../__shared__/components';
 import { loginRequest } from '../actions';
 import { loginValidator, passwordValidator } from '../validators';
 

@@ -6,12 +6,11 @@ import {
   ValidationSummaryDetail,
   Alert,
   ValidationSummary,
-  Input,
 } from '../../../app/components';
 import { useInput } from '../../../app/hooks';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { registerRequest } from '../actions';
-import { Button } from '../../__shared__/components';
+import { Button, Input } from '../../__shared__/components';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);
@@ -21,10 +20,10 @@ const RegisterInput: React.FC = () => {
     false,
   );
   const registrationStatus = useTypedSelector(
-    state => state.auth.registrationResult.status,
+    state => state?.auth?.registrationResult?.status,
   );
   const registrationResultMessage = useTypedSelector(
-    state => state.auth.registrationResult.message,
+    state => state?.auth?.registrationResult?.message,
   );
   const dispatch = useDispatch();
   const history = useHistory();
