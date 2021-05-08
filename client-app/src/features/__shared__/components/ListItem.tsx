@@ -2,12 +2,11 @@ import styled from 'styled-components';
 
 export type ListItemProps = {
   selected?: boolean;
-  renderControls?: () => React.ReactNode;
 };
 
 export const ListItem = styled.li<ListItemProps>`
   list-style: none;
-  padding: ${props => `${props.theme.sizing.md} ${props.theme.sizing.md}`};
+  padding: ${props => props.theme.sizing.md};
   width: 100%;
 
   background-color: ${props =>
