@@ -3,22 +3,24 @@ import styled from 'styled-components';
 export const IconButton = styled.button`
   height: fit-content;
   border: ${props => props.theme.borders.default} solid transparent;
+  border-radius: ${props => props.theme.sizing.md};
   background-color: transparent;
   transition: ${props => props.theme.transition.default};
-  color: rgba(0, 0, 0, 0.7);
+  color: ${props => props.theme.text.default};
+  padding: ${props => props.theme.sizing.sm};
 
-  &:hover {
-    color: rgba(0, 0, 0, 1);
+  &:hover:enabled {
     cursor: pointer;
+    background-color: ${props => props.theme.colors.background};
+    border-color: ${props => props.theme.colors.backgroundActionDark};
   }
 
-  &:focus {
+  &:focus:enabled {
     border-color: ${props => props.theme.colors.backgroundActionDark};
-    border-radius: ${props => props.theme.sizing.md};
   }
 
   &:disabled {
-    color: rgba(0, 0, 0, 0.4);
     cursor: default;
+    color: ${props => props.theme.text.hint};
   }
 `;
