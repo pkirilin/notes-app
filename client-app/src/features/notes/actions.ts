@@ -21,7 +21,11 @@ export enum NotesActionTypes {
   DeleteNoteError = 'notes/deleteNoteError',
 
   SelectNote = 'notes/noteSelected',
-  CancelSelectNote = 'notes/noteSelectionCancelled',
+  CancelSelectNote = 'notes/noteSelectionCanceled',
+
+  Draft = 'notes/draft',
+  ChangeDraft = 'notes/draftChanged',
+  CancelDraft = 'notes/draftCanceled',
 }
 
 export const getNotesRequest = (): Action<NotesActionTypes.GetNotesRequest> => ({
@@ -102,8 +106,23 @@ export const noteSelected = (
   payload: note,
 });
 
-export const noteSelectionCancelled = (): Action<NotesActionTypes.CancelSelectNote> => ({
+export const noteSelectionCanceled = (): Action<NotesActionTypes.CancelSelectNote> => ({
   type: NotesActionTypes.CancelSelectNote,
+});
+
+export const draft = (): Action<NotesActionTypes.Draft> => ({
+  type: NotesActionTypes.Draft,
+});
+
+export const draftChanged = (
+  text: string,
+): PayloadAction<NotesActionTypes.ChangeDraft, string> => ({
+  type: NotesActionTypes.ChangeDraft,
+  payload: text,
+});
+
+export const draftCanceled = (): Action<NotesActionTypes.CancelDraft> => ({
+  type: NotesActionTypes.CancelDraft,
 });
 
 export type NotesActions =
@@ -120,4 +139,7 @@ export type NotesActions =
   | ReturnType<typeof deleteNoteSuccess>
   | ReturnType<typeof deleteNoteError>
   | ReturnType<typeof noteSelected>
-  | ReturnType<typeof noteSelectionCancelled>;
+  | ReturnType<typeof noteSelectionCanceled>
+  | ReturnType<typeof draft>
+  | ReturnType<typeof draftChanged>
+  | ReturnType<typeof draftCanceled>;

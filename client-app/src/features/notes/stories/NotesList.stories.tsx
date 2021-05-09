@@ -1,7 +1,12 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { createStorybookReduxDecorator } from '../../../test-utils';
-import { getNotesError, getNotesSuccess } from '../actions';
+import {
+  draft,
+  draftChanged,
+  getNotesError,
+  getNotesSuccess,
+} from '../actions';
 import NotesList from '../components/NotesList';
 import { STORYBOOK_TEST_NOTE_ITEMS } from './data';
 
@@ -16,6 +21,16 @@ export const MultipleElements = Template.bind({});
 
 MultipleElements.decorators = [
   createStorybookReduxDecorator([getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS)]),
+];
+
+export const MultipleElementsWithDraftedNote = Template.bind({});
+
+MultipleElementsWithDraftedNote.decorators = [
+  createStorybookReduxDecorator([
+    getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS),
+    draft(),
+    draftChanged('Some draft note'),
+  ]),
 ];
 
 export const SingleElement = Template.bind({});

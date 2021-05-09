@@ -60,6 +60,18 @@ describe('<NotesList></NotesList>', () => {
       expect(result.getByText('Note 3')).toBeVisible();
     });
   });
+
+  describe('when add note clicked', () => {
+    test('should create drafted note', async () => {
+      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+
+      const result = renderConnected(<NotesList></NotesList>);
+      await waitForSingleCall(getNotes);
+      clickAddNote(result);
+
+      expect(result.getByText('Draft')).toBeVisible();
+    });
+  });
 });
 
 function mockSuccessfulGetNotes(...noteTexts: string[]) {
@@ -67,6 +79,8 @@ function mockSuccessfulGetNotes(...noteTexts: string[]) {
     noteTexts.map((text, i) => ({
       id: i,
       text,
+      createdAt: '2021-05-09',
+      updatedAt: '2021-05-09',
     })),
   );
 }
@@ -78,4 +92,8 @@ function mockSuccessfulDeleteNote() {
 async function clickDelete(result: RenderResult, elementIndex: number) {
   const buttons = await result.findAllByRole('deletion');
   fireEvent.click(buttons[elementIndex]);
+}
+
+function clickAddNote(result: RenderResult) {
+  fireEvent.click(result.getByRole('add'));
 }

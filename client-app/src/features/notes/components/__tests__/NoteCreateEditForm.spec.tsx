@@ -17,7 +17,10 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
     test('should create note and clear input', async () => {
       const api = mockCreateNoteApi('Some note');
 
-      const result = renderConnected(<NoteCreateEditForm></NoteCreateEditForm>);
+      const result = renderConnected(
+        <NoteCreateEditForm></NoteCreateEditForm>,
+        withDraftedNoteState(),
+      );
       fillNoteText(result, 'Test note');
       clickSubmit(result);
       await waitForSingleCall(api);
@@ -54,6 +57,28 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       );
     });
   });
+
+  describe('when canceled input', () => {
+    test('should deselect drafted note', () => {
+      const result = renderConnected(
+        <NoteCreateEditForm></NoteCreateEditForm>,
+        withDraftedNoteState(),
+      );
+      clickCancel(result);
+
+      expect(result.getByText('Select note')).toBeVisible();
+    });
+
+    test('should deselect note', () => {
+      const result = renderConnected(
+        <NoteCreateEditForm></NoteCreateEditForm>,
+        withSelectedNoteState(1, 'Note'),
+      );
+      clickCancel(result);
+
+      expect(result.getByText('Select note')).toBeVisible();
+    });
+  });
 });
 
 function mockCreateNoteApi(noteText: string) {
@@ -65,8 +90,13 @@ function mockCreateNoteApi(noteText: string) {
   });
 }
 
-function mockEditNoteApi() {
-  return asJestMock(api.editNote).mockResolvedValueOnce();
+function mockEditNoteApi(noteText = '') {
+  return asJestMock(api.editNote).mockResolvedValueOnce({
+    id: 1,
+    text: noteText,
+    createdAt: '2021-05-01',
+    updatedAt: '2021-05-02',
+  });
 }
 
 function fillNoteText(
@@ -82,6 +112,10 @@ function clickSubmit({ getByRole }: RenderConnectedResult) {
   fireEvent.click(getByRole('submit'));
 }
 
+function clickCancel({ getByText }: RenderConnectedResult) {
+  fireEvent.click(getByText('Cancel'));
+}
+
 function withSelectedNoteState(id: number, text: string): NotesActions[] {
   return [
     {
@@ -92,6 +126,14 @@ function withSelectedNoteState(id: number, text: string): NotesActions[] {
         createdAt: '2021-05-01',
         updatedAt: '2021-05-02',
       },
+    },
+  ];
+}
+
+function withDraftedNoteState() {
+  return [
+    {
+      type: NotesActionTypes.Draft,
     },
   ];
 }

@@ -9,7 +9,8 @@ import {
   Typography,
 } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
-import { getNotesRequest, noteSelectionCancelled } from '../actions';
+import { draft, getNotesRequest } from '../actions';
+import DraftedNoteItem from './DraftedNoteItem';
 import NotesListItem from './NotesListItem';
 
 const ListItemAddNote = styled(ListItem)`
@@ -31,7 +32,7 @@ const NotesList: React.FC = () => {
   }, [dispatch]);
 
   const handleAddNoteClick = () => {
-    dispatch(noteSelectionCancelled());
+    dispatch(draft());
   };
 
   if (status === 'error') {
@@ -44,7 +45,7 @@ const NotesList: React.FC = () => {
 
   return (
     <List>
-      <ListItemAddNote onClick={handleAddNoteClick}>
+      <ListItemAddNote role="add" onClick={handleAddNoteClick}>
         <FlexContainer justify="center" align="center" spacing="md">
           <Typography color="hint">
             <Add size="24"></Add>
@@ -52,6 +53,7 @@ const NotesList: React.FC = () => {
           <Typography color="hint">New note</Typography>
         </FlexContainer>
       </ListItemAddNote>
+      <DraftedNoteItem></DraftedNoteItem>
       {notes.length > 0 ? (
         notes.map(note => (
           <NotesListItem key={note.id} note={note}></NotesListItem>
