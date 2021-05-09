@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css, DefaultTheme } from 'styled-components';
 
 export type TypographyProps = {
-  type?: 'title' | 'subtitle' | 'body1' | 'body2' | 'caption';
+  type?: 'title' | 'subtitle' | 'body1' | 'body2' | 'caption' | 'overline';
   align?: 'left' | 'center' | 'right';
   color?: keyof DefaultTheme['text'];
 };
@@ -54,12 +54,22 @@ const Caption = styled.p<TypographyProps>`
   ${props => useBaseStyles(props)};
 `;
 
+const Overline = styled.p<TypographyProps>`
+  font-size: 10px;
+  font-weight: normal;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  ${props => useBaseStyles(props)};
+`;
+
 type TypographyComponentTypes =
   | typeof Title
   | typeof Subtitle
   | typeof Body1
   | typeof Body2
-  | typeof Caption;
+  | typeof Caption
+  | typeof Overline;
 
 const typeMappings: Record<
   NonNullable<TypographyProps['type']>,
@@ -70,6 +80,7 @@ const typeMappings: Record<
   body1: Body1,
   body2: Body2,
   caption: Caption,
+  overline: Overline,
 };
 
 export const Typography: React.FC<TypographyProps> = ({

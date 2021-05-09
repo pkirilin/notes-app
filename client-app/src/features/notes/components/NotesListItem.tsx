@@ -31,9 +31,14 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
     <ListItem onClick={handleListItemClick}>
       <FlexContainer align="center" spacing="lg">
         <FlexContainer grow={1} direction="column" spacing="md">
-          <Typography type="caption" color="default">
-            Updated {note.updatedAt}
-          </Typography>
+          <FlexContainer align="center" spacing="md">
+            <Typography type="overline" color="hint">
+              #{note.id}
+            </Typography>
+            <Typography type="caption" color="default">
+              Updated {note.updatedAt}
+            </Typography>
+          </FlexContainer>
           <Typography>{note.text}</Typography>
         </FlexContainer>
         <FlexContainer>

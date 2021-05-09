@@ -52,6 +52,7 @@ export const Variants: Story = () => (
     <Typography type="body1">Body 1</Typography>
     <Typography type="body2">Body 2</Typography>
     <Typography type="caption">Caption</Typography>
+    <Typography type="overline">Overline</Typography>
   </Wrapper>
 );
 
