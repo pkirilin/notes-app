@@ -9,6 +9,7 @@ import {
 import { deleteNoteRequest, noteSelected } from '../actions';
 import { NoteListItem } from '../models/NoteListItem';
 import { Delete, DeleteForever } from '@styled-icons/material';
+import { formatNoteUpdateDate } from '../../__shared__/utils/date';
 
 export type NotesListItemProps = {
   note: NoteListItem;
@@ -41,7 +42,7 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
               #{note.id}
             </Typography>
             <Typography type="caption" color="default">
-              Updated {note.updatedAt}
+              {formatNoteUpdateDate(new Date(note.updatedAt))}
             </Typography>
           </FlexContainer>
           <Typography maxLines={3}>{note.text}</Typography>

@@ -12,19 +12,19 @@ export const STORYBOOK_TEST_NOTE_ITEMS: NoteListItem[] = [
   {
     id: 1,
     text: 'Note 1',
-    createdAt: '2021-05-01',
-    updatedAt: '2021-05-01',
+    createdAt: '2021-05-01T13:35:47',
+    updatedAt: '2021-05-01T13:35:47',
   },
   {
     id: 2,
     text: 'Note 2',
-    createdAt: '2021-05-02',
-    updatedAt: '2021-05-02',
+    createdAt: '2021-05-02T13:35:47',
+    updatedAt: '2021-05-02T13:35:47',
   },
   {
     id: 3,
     text: 'Note 3',
-    createdAt: '2021-05-03',
-    updatedAt: '2021-05-03',
+    createdAt: '2021-05-03T13:35:47',
+    updatedAt: '2021-05-03T13:35:47',
   },
 ];
