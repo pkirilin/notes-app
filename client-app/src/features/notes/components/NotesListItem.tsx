@@ -44,7 +44,7 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
               Updated {note.updatedAt}
             </Typography>
           </FlexContainer>
-          <Typography>{note.text}</Typography>
+          <Typography maxLines={3}>{note.text}</Typography>
         </FlexContainer>
         {deleteClicked ? (
           <IconButton role="deletion" onClick={handleDeleteConfirmClick}>

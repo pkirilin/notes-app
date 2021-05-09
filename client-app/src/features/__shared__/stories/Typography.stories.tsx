@@ -71,3 +71,28 @@ export const Alignment: Story = () => (
     <Typography align="right">Right</Typography>
   </Wrapper>
 );
+
+export const TextLimitation: Story<TypographyProps> = args => (
+  <Typography {...args}>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis magni
+    dolorum maiores autem neque? Aperiam provident culpa dignissimos nemo
+    incidunt veritatis quam ullam sunt deserunt similique. Ea iusto quibusdam
+    vero. Odit, fugit suscipit! Vel, blanditiis inventore! Expedita officia
+    explicabo est aliquid voluptatem dolore dolorem sint aperiam qui,
+    reprehenderit dolor reiciendis. Nisi omnis fuga saepe veniam sequi totam
+    soluta aspernatur aperiam. Veniam iure nesciunt, ipsa reiciendis accusantium
+    tempore cum aliquid saepe ad doloremque sit alias praesentium hic unde
+    facilis? Accusantium nostrum iste eligendi laborum fuga recusandae sed
+    perspiciatis corrupti unde fugit? Blanditiis quasi placeat in quas suscipit
+    quisquam corporis delectus mollitia rem illum repudiandae, voluptate nulla
+    commodi dignissimos. Adipisci, perferendis aut quisquam quasi optio commodi.
+    Laborum perferendis nisi laudantium cumque? Aliquam. Error commodi earum
+    unde doloremque! Laboriosam veniam magnam blanditiis provident eius! Eius
+    voluptatum reprehenderit expedita tenetur numquam repellat unde natus
+    aliquid quo qui voluptates at quod totam, commodi corrupti a!
+  </Typography>
+);
+
+TextLimitation.args = {
+  maxLines: 3,
+};

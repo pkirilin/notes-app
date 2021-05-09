@@ -5,14 +5,8 @@ export type TypographyProps = {
   type?: 'title' | 'subtitle' | 'body1' | 'body2' | 'caption' | 'overline';
   align?: 'left' | 'center' | 'right';
   color?: keyof DefaultTheme['text'];
+  maxLines?: number;
 };
-
-function useBaseStyles({ align, color }: TypographyProps) {
-  return css`
-    ${align && `text-align: ${align}`};
-    ${props => color && `color: ${props.theme.text[color]}`};
-  `;
-}
 
 const Title = styled.h1<TypographyProps>`
   font-size: 34px;
@@ -91,3 +85,25 @@ export const Typography: React.FC<TypographyProps> = ({
   const Component = typeMappings[type];
   return <Component {...props}>{children}</Component>;
 };
+
+function useBaseStyles({ align, color, maxLines }: TypographyProps) {
+  return css`
+    ${align && `text-align: ${align}`};
+    ${props => color && `color: ${props.theme.text[color]}`};
+    ${useMaxLines(maxLines)};
+  `;
+}
+
+function useMaxLines(maxLines?: number) {
+  if (!maxLines) {
+    return css``;
+  }
+
+  return css`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: ${maxLines};
+    -webkit-box-orient: vertical;
+  `;
+}
