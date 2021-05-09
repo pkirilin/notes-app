@@ -45,22 +45,6 @@ describe('<NotesList></NotesList>', () => {
     });
   });
 
-  describe('when delete button clicked for specific note', () => {
-    test('should delete that note', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
-      const deleteNote = mockSuccessfulDeleteNote();
-
-      const result = renderConnected(<NotesList></NotesList>);
-      await waitForSingleCall(getNotes);
-      await clickDelete(result, 1);
-      await waitForSingleCall(deleteNote);
-
-      expect(result.getByText('Note 1')).toBeVisible();
-      expect(result.queryByText('Note 2')).toBeNull();
-      expect(result.getByText('Note 3')).toBeVisible();
-    });
-  });
-
   describe('when add note clicked', () => {
     test('should create drafted note', async () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
@@ -83,15 +67,6 @@ function mockSuccessfulGetNotes(...noteTexts: string[]) {
       updatedAt: '2021-05-09',
     })),
   );
-}
-
-function mockSuccessfulDeleteNote() {
-  return asJestMock(api.deleteNote).mockResolvedValue();
-}
-
-async function clickDelete(result: RenderResult, elementIndex: number) {
-  const buttons = await result.findAllByRole('deletion');
-  fireEvent.click(buttons[elementIndex]);
 }
 
 function clickAddNote(result: RenderResult) {

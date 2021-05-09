@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   FlexContainer,
@@ -17,13 +17,18 @@ export type NotesListItemProps = {
 const NotesListItem: React.FC<NotesListItemProps> = ({
   note,
 }: NotesListItemProps) => {
+  const [deleteClicked, setDeleteClicked] = useState(false);
   const dispatch = useDispatch();
 
   const handleListItemClick = () => {
     dispatch(noteSelected(note));
   };
 
-  const handleDeleteListItemClick = () => {
+  const handleDeleteClick = () => {
+    setDeleteClicked(true);
+  };
+
+  const handleDeleteConfirmClick = () => {
     dispatch(deleteNoteRequest(note.id));
   };
 
@@ -41,20 +46,18 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
           </FlexContainer>
           <Typography>{note.text}</Typography>
         </FlexContainer>
-        <FlexContainer>
-          <IconButton role="deletion" onClick={handleDeleteListItemClick}>
+        {deleteClicked ? (
+          <IconButton role="deletion" onClick={handleDeleteConfirmClick}>
+            <DeleteForever
+              size="24"
+              title="Confirm delete note"
+            ></DeleteForever>
+          </IconButton>
+        ) : (
+          <IconButton role="deletion" onClick={handleDeleteClick}>
             <Delete size="24" title="Delete note"></Delete>
           </IconButton>
-          {/* TODO: implement confirm */}
-          {false && (
-            <IconButton role="deletion">
-              <DeleteForever
-                size="24"
-                title="Confirm delete note"
-              ></DeleteForever>
-            </IconButton>
-          )}
-        </FlexContainer>
+        )}
       </FlexContainer>
     </ListItem>
   );
