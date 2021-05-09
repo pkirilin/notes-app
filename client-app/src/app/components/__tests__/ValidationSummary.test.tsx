@@ -4,6 +4,7 @@ import {
   ValidationSummary,
   ValidationSummaryDetail,
 } from '../ValidationSummary';
+import { renderConnected } from '../../../test-utils';
 
 describe('ValidationSummary component', () => {
   test('should render nothing if not visible', () => {
@@ -30,7 +31,7 @@ describe('ValidationSummary component', () => {
     ];
 
     // Act
-    const { getByText } = render(
+    const { getByText } = renderConnected(
       <ValidationSummary
         isVisible={true}
         details={details}
