@@ -1,5 +1,18 @@
-import { UseInputHookResult } from '../../app/hooks';
 import React from 'react';
+import { UseInputHookResult } from '../../app/hooks';
+import styled from 'styled-components';
+
+const ValidationSummaryList = styled.ul`
+  color: ${props => props.theme.colors.error};
+  padding: ${props => props.theme.sizing.md} ${props => props.theme.sizing.xl};
+  border: ${props => props.theme.borders.default} solid
+    ${props => props.theme.colors.error};
+  border-radius: ${props => props.theme.sizing.md};
+`;
+
+const ValidationSummaryListItem = styled.li`
+  padding: ${props => props.theme.sizing.sm};
+`;
 
 export type ValidationSummaryDetail = Pick<
   UseInputHookResult<unknown>,
@@ -20,12 +33,14 @@ export const ValidationSummary: React.FC<ValidationSummaryProps> = ({
   }
 
   return (
-    <ul>
+    <ValidationSummaryList>
       {details
         .filter(d => d.validationMessage)
         .map(({ validationMessage }, i) => (
-          <li key={i}>{validationMessage}</li>
+          <ValidationSummaryListItem key={i}>
+            {validationMessage}
+          </ValidationSummaryListItem>
         ))}
-    </ul>
+    </ValidationSummaryList>
   );
 };
