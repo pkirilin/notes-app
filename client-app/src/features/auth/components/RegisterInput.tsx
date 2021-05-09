@@ -10,7 +10,12 @@ import {
 import { useInput } from '../../../app/hooks';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { registerRequest } from '../actions';
-import { Button, Input } from '../../__shared__/components';
+import {
+  Button,
+  FlexContainer,
+  Input,
+  Typography,
+} from '../../__shared__/components';
 
 const RegisterInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);
@@ -84,28 +89,36 @@ const RegisterInput: React.FC = () => {
   };
 
   return (
-    <div>
-      <Alert isVisible={registrationStatus === 'error'} type="error">
-        {registrationResultMessage}
-      </Alert>
-      <ValidationSummary
-        isVisible={isValidationSummaryVisible}
-        details={validationSummaryDetails}
-      ></ValidationSummary>
-      <Input type="text" placeholder="Login" {...loginInput.binding}></Input>
-      <Input
-        type="password"
-        placeholder="Password"
-        {...passwordInput.binding}
-      ></Input>
-      <Input
-        type="password"
-        placeholder="Confirm password"
-        {...passwordConfirmInput.binding}
-      ></Input>
-      <Button onClick={handleRegister}>Register</Button>
-      <Link to="/login">Sign in</Link>
-    </div>
+    <FlexContainer grow={1}>
+      <FlexContainer
+        direction="column"
+        spacing="lg"
+        growBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}
+      >
+        <Alert isVisible={registrationStatus === 'error'} type="error">
+          {registrationResultMessage}
+        </Alert>
+        <ValidationSummary
+          isVisible={isValidationSummaryVisible}
+          details={validationSummaryDetails}
+        ></ValidationSummary>
+        <Input type="text" placeholder="Login" {...loginInput.binding}></Input>
+        <Input
+          type="password"
+          placeholder="Password"
+          {...passwordInput.binding}
+        ></Input>
+        <Input
+          type="password"
+          placeholder="Confirm password"
+          {...passwordConfirmInput.binding}
+        ></Input>
+        <Button onClick={handleRegister}>Register</Button>
+        <Typography type="body2" align="center">
+          <Link to="/login">Sign in</Link>
+        </Typography>
+      </FlexContainer>
+    </FlexContainer>
   );
 };
 

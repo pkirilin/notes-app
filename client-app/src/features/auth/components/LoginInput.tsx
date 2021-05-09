@@ -4,10 +4,14 @@ import { Link } from 'react-router-dom';
 import {
   ValidationSummaryDetail,
   ValidationSummary,
-  CheckBox,
 } from '../../../app/components';
 import { useInput, useCheckbox } from '../../../app/hooks';
-import { Button, Input } from '../../__shared__/components';
+import {
+  Button,
+  FlexContainer,
+  Input,
+  Typography,
+} from '../../__shared__/components';
 import { loginRequest } from '../actions';
 import { loginValidator, passwordValidator } from '../validators';
 
@@ -48,21 +52,43 @@ const LoginInput: React.FC = () => {
   };
 
   return (
-    <div>
-      <ValidationSummary
-        isVisible={isValidationSummaryVisible}
-        details={validationSummaryDetails}
-      ></ValidationSummary>
-      <Input type="text" placeholder="Login" {...loginInput.binding}></Input>
-      <Input
-        type="password"
-        placeholder="Password"
-        {...passwordInput.binding}
-      ></Input>
-      <CheckBox label="Remember me" {...rememberMeCheckbox.binding}></CheckBox>
-      <Button onClick={handleLogin}>Sign in</Button>
-      <Link to="/register">Register</Link>
-    </div>
+    <FlexContainer grow={1}>
+      <FlexContainer
+        direction="column"
+        spacing="lg"
+        growBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}
+      >
+        <ValidationSummary
+          isVisible={isValidationSummaryVisible}
+          details={validationSummaryDetails}
+        ></ValidationSummary>
+        <Input type="text" placeholder="Login" {...loginInput.binding}></Input>
+        <Input
+          type="password"
+          placeholder="Password"
+          {...passwordInput.binding}
+        ></Input>
+        <FlexContainer
+          spacing="lg"
+          justify="space-between"
+          alignBreakpoints={{ xs: 'center', sm: 'flex-start' }}
+          direction="row"
+        >
+          <FlexContainer as="label" spacing="sm" align="center">
+            <input
+              type="checkbox"
+              checked
+              {...rememberMeCheckbox.binding}
+            ></input>
+            <span>Remember me</span>
+          </FlexContainer>
+          <Typography type="body2">
+            <Link to="/register">Register</Link>
+          </Typography>
+        </FlexContainer>
+        <Button onClick={handleLogin}>Sign in</Button>
+      </FlexContainer>
+    </FlexContainer>
   );
 };
 
