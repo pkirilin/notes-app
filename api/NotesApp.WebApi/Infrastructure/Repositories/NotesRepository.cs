@@ -16,7 +16,9 @@ namespace NotesApp.WebApi.Infrastructure.Repositories
 
         public Task<List<Note>> GetNotesForUserAsync(int userId, CancellationToken cancellationToken)
         {
-            return CurrentSet.Where(n => n.UserId == userId).ToListAsync(cancellationToken);
+            return CurrentSet.Where(n => n.UserId == userId)
+                .OrderByDescending(n => n.UpdatedAt)
+                .ToListAsync(cancellationToken);
         }
     }
 }
