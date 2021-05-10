@@ -14,15 +14,20 @@ namespace NotesApp.WebApi.Controllers
     {
         private readonly INotesService _notesService;
 
+        private const int DefaultPageSize = 10;
+
         public NotesController(INotesService notesService)
         {
             _notesService = notesService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetNotes([FromHeader] int userId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetNotes([FromHeader] int userId,
+            [FromQuery] int pageIndex = 0,
+            [FromQuery] int pageSize = DefaultPageSize,
+            CancellationToken cancellationToken = default)
         {
-            var notes = await _notesService.GetNotesAsync(userId, cancellationToken);
+            var notes = await _notesService.GetNotesAsync(userId, pageIndex, pageSize, cancellationToken);
             return Ok(notes);
         }
 

@@ -14,10 +14,13 @@ namespace NotesApp.WebApi.Infrastructure.Repositories
         {
         }
 
-        public Task<List<Note>> GetNotesForUserAsync(int userId, CancellationToken cancellationToken)
+        public Task<List<Note>> GetNotesForUserAsync(int userId, int pageIndex, int pageSize,
+            CancellationToken cancellationToken)
         {
             return CurrentSet.Where(n => n.UserId == userId)
                 .OrderByDescending(n => n.UpdatedAt)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
                 .ToListAsync(cancellationToken);
         }
     }

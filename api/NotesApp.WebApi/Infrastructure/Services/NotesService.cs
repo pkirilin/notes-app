@@ -20,9 +20,13 @@ namespace NotesApp.WebApi.Infrastructure.Services
             _notesRepository = notesRepository;
         }
 
-        public async Task<IEnumerable<NoteItemDto>> GetNotesAsync(int userId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<NoteItemDto>> GetNotesAsync(int userId, int pageIndex, int pageSize,
+            CancellationToken cancellationToken)
         {
-            var noteEntities = await _notesRepository.GetNotesForUserAsync(userId, cancellationToken);
+            var noteEntities = await _notesRepository.GetNotesForUserAsync(userId,
+                pageIndex,
+                pageSize,
+                cancellationToken);
 
             return noteEntities.Select(n => new NoteItemDto(n));
         }

@@ -7,7 +7,8 @@ namespace NotesApp.WebApi.Domain.Services
 {
     public interface INotesService
     {
-        Task<IEnumerable<NoteItemDto>> GetNotesAsync(int userId, CancellationToken cancellationToken);
+        Task<IEnumerable<NoteItemDto>> GetNotesAsync(int userId, int pageIndex, int pageSize,
+            CancellationToken cancellationToken);
 
         Task<NoteItemDto> CreateNoteAsync(int userId, NoteCreateEdit note, CancellationToken cancellationToken);
         

@@ -60,6 +60,15 @@ namespace NotesApp.WebApi.IntegrationTests.Helpers
                 UpdatedAt = DateTime.Parse("2021-04-19"),
                 UserId = 1
             });
+            
+            db.Notes.Add(new Note()
+            {
+                Id = 4,
+                Text = "Test note 4",
+                CreatedAt = DateTime.Parse("2021-05-09"),
+                UpdatedAt = DateTime.Parse("2021-04-10"),
+                UserId = 10
+            });
         }
     }
 }

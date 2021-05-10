@@ -8,6 +8,7 @@ namespace NotesApp.WebApi.Domain.Repositories
 {
     public interface INotesRepository : IRepository<Note>
     {
-        Task<List<Note>> GetNotesForUserAsync(int userId, CancellationToken cancellationToken);
+        Task<List<Note>> GetNotesForUserAsync(int userId, int pageIndex, int pageSize,
+            CancellationToken cancellationToken);
     }
 }

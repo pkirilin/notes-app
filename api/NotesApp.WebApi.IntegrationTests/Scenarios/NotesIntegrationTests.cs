@@ -19,7 +19,7 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios
         }
 
         [Fact]
-        public async void GetNotes_ShouldReturnNotesForUser_WhenUserSpecifiedInHeaders()
+        public async void GetNotes_ShouldReturnUserNotes_WhenUserSpecifiedInHeaders()
         {
             var client = _factory.CreateTestClient(userId: 10);
             
@@ -29,6 +29,19 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios
             response.StatusCode.Should().Be(200);
             responseNotes.Should().Contain(n => n.Text == "Test note 1");
             responseNotes.Should().Contain(n => n.Text == "Test note 2");
+            responseNotes.Should().Contain(n => n.Text == "Test note 4");
+        }
+        
+        [Fact]
+        public async void GetNotes_ShouldReturnUserNotesPage_WhenPageIndexAndPageSizeSpecified()
+        {
+            var client = _factory.CreateTestClient(userId: 10);
+            
+            var response = await client.GetAsync("/notes?pageIndex=1&pageSize=2");
+            var responseNotes = await response.ReadContentAsync<List<NoteItemDto>>();
+            
+            response.StatusCode.Should().Be(200);
+            responseNotes.Should().OnlyContain(n => n.Text == "Test note 4");
         }
 
         [Fact]
