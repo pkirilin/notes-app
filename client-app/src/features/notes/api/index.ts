@@ -5,7 +5,7 @@ import { NoteListItem } from '../models/NoteListItem';
 
 const getNotes = async (pageIndex = 0): Promise<NoteListItem[]> => {
   const response = await fetch(
-    `${config.apiUrl}/notes?pageIndex=${pageIndex}?pageSize=${config.notesPageSize}`,
+    `${config.apiUrl}/notes?pageIndex=${pageIndex}&pageSize=${config.notesPageSize}`,
     {
       headers: { ...createAuthHeader() },
     },
