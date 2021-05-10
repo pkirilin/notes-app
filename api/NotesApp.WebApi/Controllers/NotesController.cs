@@ -31,6 +31,16 @@ namespace NotesApp.WebApi.Controllers
             return Ok(notes);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchNotes([FromHeader] int userId,
+            [FromQuery] string term = "",
+            [FromQuery] int showCount = DefaultPageSize,
+            CancellationToken cancellationToken = default)
+        {
+            var notes = await _notesService.SearchNotesAsync(userId, term, showCount, cancellationToken);
+            return Ok(notes);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateNote([FromHeader] int userId,
             [FromBody] NoteCreateEdit note,

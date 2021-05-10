@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Web;
 using FluentAssertions;
 using NotesApp.WebApi.Dtos;
 using NotesApp.WebApi.IntegrationTests.Extensions;
@@ -42,6 +43,42 @@ namespace NotesApp.WebApi.IntegrationTests.Scenarios
             
             response.StatusCode.Should().Be(200);
             responseNotes.Should().OnlyContain(n => n.Text == "Test note 4");
+        }
+
+        [Theory]
+        [InlineData("note 2", 10, 1)]
+        [InlineData("Test", 2, 2)]
+        [InlineData("TEST", 10, 3)]
+        [InlineData("   note  ", 10, 3)]
+        public async void SearchNotes_ShouldReturnNotesMatchingTerm_WhenSearchTermIsNotEmpty(string term,
+            int showCount,
+            int resultsCount)
+        {
+            var client = _factory.CreateTestClient(userId: 10);
+            var url = $"/notes/search?term={HttpUtility.UrlEncode(term)}&showCount={showCount}";
+            
+            var response = await client.GetAsync(url);
+            var responseNotes = await response.ReadContentAsync<List<NoteItemDto>>();
+            
+            response.StatusCode.Should().Be(200);
+            responseNotes.Should().HaveCount(resultsCount);
+        }
+        
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async void SearchNotes_ShouldReturnAllNotes_WhenSearchTermIsEmpty(string term)
+        {
+            var client = _factory.CreateTestClient(userId: 10);
+            var url = $"/notes/search?term={HttpUtility.UrlEncode(term)}";
+            
+            var response = await client.GetAsync(url);
+            var responseNotes = await response.ReadContentAsync<List<NoteItemDto>>();
+            
+            response.StatusCode.Should().Be(200);
+            responseNotes.Should().Contain(n => n.Text == "Test note 1");
+            responseNotes.Should().Contain(n => n.Text == "Test note 2");
+            responseNotes.Should().Contain(n => n.Text == "Test note 4");
         }
 
         [Fact]

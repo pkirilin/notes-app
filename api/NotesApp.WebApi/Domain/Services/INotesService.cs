@@ -10,6 +10,9 @@ namespace NotesApp.WebApi.Domain.Services
         Task<IEnumerable<NoteItemDto>> GetNotesAsync(int userId, int pageIndex, int pageSize,
             CancellationToken cancellationToken);
 
+        Task<IEnumerable<NoteItemDto>> SearchNotesAsync(int userId, string term, int showCount,
+            CancellationToken cancellationToken);
+
         Task<NoteItemDto> CreateNoteAsync(int userId, NoteCreateEdit note, CancellationToken cancellationToken);
         
         Task<NoteItemDto> EditNoteAsync(int userId, int id, NoteCreateEdit note, CancellationToken cancellationToken);

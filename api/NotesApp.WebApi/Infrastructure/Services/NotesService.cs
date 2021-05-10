@@ -20,15 +20,36 @@ namespace NotesApp.WebApi.Infrastructure.Services
             _notesRepository = notesRepository;
         }
 
-        public async Task<IEnumerable<NoteItemDto>> GetNotesAsync(int userId, int pageIndex, int pageSize,
+        public async Task<IEnumerable<NoteItemDto>> GetNotesAsync(int userId,
+            int pageIndex,
+            int pageSize,
             CancellationToken cancellationToken)
         {
-            var noteEntities = await _notesRepository.GetNotesForUserAsync(userId,
+            var noteEntities = await _notesRepository.GetUserNotesAsync(userId,
                 pageIndex,
                 pageSize,
                 cancellationToken);
 
-            return noteEntities.Select(n => new NoteItemDto(n));
+            return noteEntities.Select(note => new NoteItemDto(note));
+        }
+
+        public async Task<IEnumerable<NoteItemDto>> SearchNotesAsync(int userId,
+            string term,
+            int showCount,
+            CancellationToken cancellationToken)
+        {
+            List<Note> searchResults;
+            
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                searchResults = await _notesRepository.GetUserNotesAsync(userId, 0, showCount, cancellationToken);
+            }
+            else
+            {
+                searchResults = await _notesRepository.GetUserNotesByTextAsync(userId, term, showCount, cancellationToken);
+            }
+
+            return searchResults.Select(note => new NoteItemDto(note));
         }
 
         public async Task<NoteItemDto> CreateNoteAsync(int userId, NoteCreateEdit note, CancellationToken cancellationToken)
