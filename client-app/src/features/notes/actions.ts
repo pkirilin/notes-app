@@ -26,6 +26,10 @@ export enum NotesActionTypes {
   Draft = 'notes/draft',
   ChangeDraft = 'notes/draftChanged',
   CancelDraft = 'notes/draftCanceled',
+
+  LoadMoreRequest = 'notes/loadMoreRequest',
+  LoadMoreSuccess = 'notes/loadMoreSuccess',
+  LoadMoreError = 'notes/loadMoreError',
 }
 
 export const getNotesRequest = (): Action<NotesActionTypes.GetNotesRequest> => ({
@@ -125,6 +129,24 @@ export const draftCanceled = (): Action<NotesActionTypes.CancelDraft> => ({
   type: NotesActionTypes.CancelDraft,
 });
 
+export const loadMoreRequest = (
+  pageIndex: number,
+): PayloadAction<NotesActionTypes.LoadMoreRequest, number> => ({
+  type: NotesActionTypes.LoadMoreRequest,
+  payload: pageIndex,
+});
+
+export const loadMoreSuccess = (
+  notes: NoteListItem[],
+): PayloadAction<NotesActionTypes.LoadMoreSuccess, NoteListItem[]> => ({
+  type: NotesActionTypes.LoadMoreSuccess,
+  payload: notes,
+});
+
+export const loadMoreError = (): Action<NotesActionTypes.LoadMoreError> => ({
+  type: NotesActionTypes.LoadMoreError,
+});
+
 export type NotesActions =
   | ReturnType<typeof getNotesRequest>
   | ReturnType<typeof getNotesSuccess>
@@ -142,4 +164,7 @@ export type NotesActions =
   | ReturnType<typeof noteSelectionCanceled>
   | ReturnType<typeof draft>
   | ReturnType<typeof draftChanged>
-  | ReturnType<typeof draftCanceled>;
+  | ReturnType<typeof draftCanceled>
+  | ReturnType<typeof loadMoreRequest>
+  | ReturnType<typeof loadMoreSuccess>
+  | ReturnType<typeof loadMoreError>;

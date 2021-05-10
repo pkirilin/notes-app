@@ -13,6 +13,9 @@ import {
   deleteNoteRequest,
   deleteNoteSuccess,
   deleteNoteError,
+  loadMoreSuccess,
+  loadMoreError,
+  loadMoreRequest,
 } from './actions';
 import { NoteListItem } from './models/NoteListItem';
 
@@ -22,6 +25,15 @@ function* getNotes() {
     yield put(getNotesSuccess(notes));
   } catch (error) {
     yield put(getNotesError());
+  }
+}
+
+function* loadMore({ payload }: ReturnType<typeof loadMoreRequest>) {
+  try {
+    const notes: NoteListItem[] = yield call(api.getNotes, payload);
+    yield put(loadMoreSuccess(notes));
+  } catch (error) {
+    yield put(loadMoreError());
   }
 }
 
@@ -58,6 +70,10 @@ function* watchGetNotes() {
   yield takeEvery(NotesActionTypes.GetNotesRequest, getNotes);
 }
 
+function* watchLoadMore() {
+  yield takeEvery(NotesActionTypes.LoadMoreRequest, loadMore);
+}
+
 function* watchCreateNote() {
   yield takeEvery(NotesActionTypes.CreateNoteRequest, createNote);
 }
@@ -73,6 +89,7 @@ function* watchDeleteNote() {
 export default function* (): Generator {
   yield all([
     watchGetNotes(),
+    watchLoadMore(),
     watchCreateNote(),
     watchEditNote(),
     watchDeleteNote(),

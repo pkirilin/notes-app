@@ -1,4 +1,4 @@
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { RenderResult } from '@testing-library/react';
 import React from 'react';
 import {
@@ -56,6 +56,39 @@ describe('<NotesList></NotesList>', () => {
       expect(result.getByText('Draft')).toBeVisible();
     });
   });
+
+  describe('when load more clicked', () => {
+    test('should append notes from next page to notes list', async () => {
+      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2');
+      mockSuccessfulLoadMoreNotes(2, 'Note 3', 'Note 4');
+
+      const result = renderConnected(<NotesList></NotesList>);
+      await waitForSingleCall(getNotes);
+      clickLoadMore(result);
+
+      expect(await result.findByText('Note 1')).toBeVisible();
+      expect(await result.findByText('Note 2')).toBeVisible();
+      expect(await result.findByText('Note 3')).toBeVisible();
+      expect(await result.findByText('Note 4')).toBeVisible();
+      expect(getNotes).toHaveBeenLastCalledWith(1);
+    });
+  });
+
+  describe('when all notes are loaded', () => {
+    test('should hide load more icon', async () => {
+      const getNotes = mockSuccessfulGetNotes(
+        'Note 1',
+        'Note 2',
+      ).mockResolvedValueOnce([]);
+
+      const result = renderConnected(<NotesList></NotesList>);
+      await waitForSingleCall(getNotes);
+      clickLoadMore(result);
+      await waitFor(() => expect(getNotes).toHaveBeenCalledTimes(2));
+
+      expect(result.queryByTitle('Load more notes')).toBeNull();
+    });
+  });
 });
 
 function mockSuccessfulGetNotes(...noteTexts: string[]) {
@@ -69,6 +102,21 @@ function mockSuccessfulGetNotes(...noteTexts: string[]) {
   );
 }
 
+function mockSuccessfulLoadMoreNotes(startIndex = 0, ...noteTexts: string[]) {
+  return asJestMock(api.getNotes).mockResolvedValueOnce(
+    noteTexts.map((text, i) => ({
+      id: startIndex + i,
+      text,
+      createdAt: '2021-05-09',
+      updatedAt: '2021-05-09',
+    })),
+  );
+}
+
 function clickAddNote(result: RenderResult) {
   fireEvent.click(result.getByRole('add'));
+}
+
+function clickLoadMore(result: RenderResult) {
+  fireEvent.click(result.getByTitle('Load more notes'));
 }

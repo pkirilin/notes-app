@@ -1,3 +1,4 @@
+import config from '../../../config';
 import { UserData } from '../../auth/models/UserData';
 import { NoteListItem } from '../models/NoteListItem';
 
@@ -28,3 +29,12 @@ export const STORYBOOK_TEST_NOTE_ITEMS: NoteListItem[] = [
     updatedAt: '2021-05-03T13:35:47',
   },
 ];
+
+export const STORYBOOK_TEST_NOTE_ITEMS_MANY: NoteListItem[] = [];
+
+for (let i = 0; i < config.notesPageSize; i++) {
+  const sampleNote = { ...STORYBOOK_TEST_NOTE_ITEMS[0] };
+  sampleNote.id = i + 1;
+  sampleNote.text = 'Note ' + (i + 1);
+  STORYBOOK_TEST_NOTE_ITEMS_MANY.push(sampleNote);
+}

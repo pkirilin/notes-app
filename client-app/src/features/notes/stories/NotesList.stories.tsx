@@ -8,7 +8,10 @@ import {
   getNotesSuccess,
 } from '../actions';
 import NotesList from '../components/NotesList';
-import { STORYBOOK_TEST_NOTE_ITEMS } from './data';
+import {
+  STORYBOOK_TEST_NOTE_ITEMS,
+  STORYBOOK_TEST_NOTE_ITEMS_MANY,
+} from './data';
 
 export default {
   title: 'notes/NotesList',
@@ -17,15 +20,15 @@ export default {
 
 const Template: Story<unknown> = () => <NotesList></NotesList>;
 
-export const MultipleElements = Template.bind({});
+export const MultipleNotes = Template.bind({});
 
-MultipleElements.decorators = [
+MultipleNotes.decorators = [
   createStorybookReduxDecorator([getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS)]),
 ];
 
-export const MultipleElementsWithDraftedNote = Template.bind({});
+export const DraftedNote = Template.bind({});
 
-MultipleElementsWithDraftedNote.decorators = [
+DraftedNote.decorators = [
   createStorybookReduxDecorator([
     getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS),
     draft(),
@@ -33,9 +36,17 @@ MultipleElementsWithDraftedNote.decorators = [
   ]),
 ];
 
-export const SingleElement = Template.bind({});
+export const ShowMore = Template.bind({});
 
-SingleElement.decorators = [
+ShowMore.decorators = [
+  createStorybookReduxDecorator([
+    getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS_MANY),
+  ]),
+];
+
+export const SingleNote = Template.bind({});
+
+SingleNote.decorators = [
   createStorybookReduxDecorator([
     getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS.slice(0, 1)),
   ]),

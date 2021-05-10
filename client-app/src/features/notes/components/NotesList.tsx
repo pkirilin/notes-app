@@ -1,15 +1,16 @@
-import { Add } from '@styled-icons/material';
-import React, { useEffect } from 'react';
+import { Add, ExpandMore } from '@styled-icons/material';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {
   FlexContainer,
+  IconButton,
   List,
   ListItem,
   Typography,
 } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
-import { draft, getNotesRequest } from '../actions';
+import { draft, getNotesRequest, loadMoreRequest } from '../actions';
 import DraftedNoteItem from './DraftedNoteItem';
 import NotesListItem from './NotesListItem';
 
@@ -21,9 +22,17 @@ const EmptyNotesPlaceholder = styled.div`
   margin-top: ${props => props.theme.sizing.lg};
 `;
 
+const LoadMoreNotesContainer = styled(FlexContainer)`
+  margin-top: ${props => props.theme.sizing.md};
+`;
+
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);
   const status = useTypedSelector(state => state.notes.status);
+  const areAllNotesLoaded = useTypedSelector(
+    state => state.notes.areAllNoteItemsLoaded,
+  );
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -31,8 +40,18 @@ const NotesList: React.FC = () => {
     dispatch(getNotesRequest());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (currentPageIndex > 0) {
+      dispatch(loadMoreRequest(currentPageIndex));
+    }
+  }, [currentPageIndex]);
+
   const handleAddNoteClick = () => {
     dispatch(draft());
+  };
+
+  const handleLoadMoreClick = () => {
+    setCurrentPageIndex(pageIndex => pageIndex + 1);
   };
 
   if (status === 'error') {
@@ -64,6 +83,13 @@ const NotesList: React.FC = () => {
             You have not any notes yet
           </Typography>
         </EmptyNotesPlaceholder>
+      )}
+      {!areAllNotesLoaded && (
+        <LoadMoreNotesContainer justify="center">
+          <IconButton onClick={handleLoadMoreClick}>
+            <ExpandMore size="24" title="Load more notes"></ExpandMore>
+          </IconButton>
+        </LoadMoreNotesContainer>
       )}
     </List>
   );

@@ -1,4 +1,5 @@
 import { combineReducers, Reducer } from 'redux';
+import config from '../../config';
 import { NotesActions, NotesActionTypes } from './actions';
 import { NoteCreateEdit } from './models/NoteCreateEdit';
 import { NoteListItem } from './models/NoteListItem';
@@ -19,6 +20,8 @@ const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
       );
     case NotesActionTypes.DeleteNoteSuccess:
       return state.filter(note => note.id !== action.payload);
+    case NotesActionTypes.LoadMoreSuccess:
+      return state.concat(action.payload);
     default:
       return state;
   }
@@ -79,9 +82,24 @@ const draftedNoteReducer: Reducer<NoteCreateEdit | null, NotesActions> = (
   }
 };
 
+const areAllNoteItemsLoadedReducer: Reducer<boolean, NotesActions> = (
+  state = false,
+  action,
+) => {
+  switch (action.type) {
+    case NotesActionTypes.GetNotesSuccess:
+      return action.payload.length < config.notesPageSize;
+    case NotesActionTypes.LoadMoreSuccess:
+      return action.payload.length < config.notesPageSize;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   noteItems: noteItemsReducer,
   status: statusReducer,
   selectedNote: selectedNoteReducer,
   draftedNote: draftedNoteReducer,
+  areAllNoteItemsLoaded: areAllNoteItemsLoadedReducer,
 });
