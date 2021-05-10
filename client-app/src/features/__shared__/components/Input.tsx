@@ -1,4 +1,6 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
+import { IconButton } from './IconButton';
 
 export const inputBaseStyles = css`
   padding: ${props => props.theme.sizing.md};
@@ -26,8 +28,47 @@ export const inputBaseStyles = css`
   }
 `;
 
-export type InputProps = React.ComponentPropsWithoutRef<'input'>;
+export type InputProps = React.ComponentPropsWithoutRef<'input'> & {
+  endIcon?: () => React.ReactElement;
+};
 
-export const Input = styled.input`
+const StyledInput = styled.input<InputProps>`
   ${inputBaseStyles};
 `;
+
+const InputContainer = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+`;
+
+const InputEndIconButton = styled(IconButton)`
+  position: absolute;
+  right: 0;
+  border: none;
+  background-color: transparent;
+
+  &:hover,
+  &:hover:enabled,
+  &:focus,
+  &:focus:enabled {
+    border: none;
+    background-color: transparent;
+  }
+`;
+
+export const Input: React.FC<InputProps> = ({
+  endIcon,
+  ...props
+}: InputProps) => {
+  if (endIcon) {
+    return (
+      <InputContainer>
+        <StyledInput {...props}></StyledInput>
+        <InputEndIconButton>{endIcon()}</InputEndIconButton>
+      </InputContainer>
+    );
+  }
+
+  return <StyledInput {...props}></StyledInput>;
+};
