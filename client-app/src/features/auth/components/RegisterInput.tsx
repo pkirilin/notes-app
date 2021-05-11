@@ -14,6 +14,7 @@ import {
   Button,
   FlexContainer,
   Input,
+  Page,
   Typography,
 } from '../../__shared__/components';
 
@@ -89,7 +90,7 @@ const RegisterInput: React.FC = () => {
   };
 
   return (
-    <FlexContainer grow={1}>
+    <Page grow={1}>
       <FlexContainer
         direction="column"
         spacing="lg"
@@ -118,7 +119,7 @@ const RegisterInput: React.FC = () => {
           <Link to="/login">Sign in</Link>
         </Typography>
       </FlexContainer>
-    </FlexContainer>
+    </Page>
   );
 };
 

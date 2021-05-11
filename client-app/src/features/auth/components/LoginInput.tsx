@@ -10,6 +10,7 @@ import {
   Button,
   FlexContainer,
   Input,
+  Page,
   Typography,
 } from '../../__shared__/components';
 import { loginRequest } from '../actions';
@@ -52,7 +53,7 @@ const LoginInput: React.FC = () => {
   };
 
   return (
-    <FlexContainer grow={1}>
+    <Page grow={1}>
       <FlexContainer
         direction="column"
         spacing="lg"
@@ -88,7 +89,7 @@ const LoginInput: React.FC = () => {
         </FlexContainer>
         <Button onClick={handleLogin}>Sign in</Button>
       </FlexContainer>
-    </FlexContainer>
+    </Page>
   );
 };
 
