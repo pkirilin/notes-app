@@ -10,6 +10,7 @@ import api from '../../api';
 import NotesList from '../NotesList';
 
 jest.mock('../../api');
+jest.mock('../../../../config');
 
 describe('<NotesList></NotesList>', () => {
   describe('when mounted and fetched notes', () => {
@@ -60,7 +61,7 @@ describe('<NotesList></NotesList>', () => {
   describe('when load more clicked', () => {
     test('should append notes from next page to notes list', async () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2');
-      mockSuccessfulLoadMoreNotes(2, 'Note 3', 'Note 4');
+      mockSuccessfulGetNotesAfter(2, 'Note 3', 'Note 4');
 
       const result = renderConnected(<NotesList></NotesList>);
       await waitForSingleCall(getNotes);
@@ -70,20 +71,18 @@ describe('<NotesList></NotesList>', () => {
       expect(await result.findByText('Note 2')).toBeVisible();
       expect(await result.findByText('Note 3')).toBeVisible();
       expect(await result.findByText('Note 4')).toBeVisible();
-      expect(getNotes).toHaveBeenLastCalledWith(1);
     });
   });
 
-  describe('when all notes are loaded', () => {
+  describe('when load more clicked and all notes are loaded', () => {
     test('should hide load more icon', async () => {
-      const getNotes = mockSuccessfulGetNotes(
-        'Note 1',
-        'Note 2',
-      ).mockResolvedValueOnce([]);
+      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2');
+      mockSuccessfulGetNotesAfter(2, 'Note 3');
 
       const result = renderConnected(<NotesList></NotesList>);
       await waitForSingleCall(getNotes);
       clickLoadMore(result);
+      // TODO: move to helper
       await waitFor(() => expect(getNotes).toHaveBeenCalledTimes(2));
 
       expect(result.queryByTitle('Load more notes')).toBeNull();
@@ -92,23 +91,18 @@ describe('<NotesList></NotesList>', () => {
 });
 
 function mockSuccessfulGetNotes(...noteTexts: string[]) {
-  return asJestMock(api.getNotes).mockResolvedValueOnce(
-    noteTexts.map((text, i) => ({
-      id: i,
-      text,
-      createdAt: '2021-05-09',
-      updatedAt: '2021-05-09',
-    })),
-  );
+  return mockSuccessfulGetNotesAfter(0, ...noteTexts);
 }
 
-function mockSuccessfulLoadMoreNotes(startIndex = 0, ...noteTexts: string[]) {
+function mockSuccessfulGetNotesAfter(startId = 0, ...noteTexts: string[]) {
+  const MOCK_DATE = '2021-05-11T22:24:35';
+
   return asJestMock(api.getNotes).mockResolvedValueOnce(
     noteTexts.map((text, i) => ({
-      id: startIndex + i,
+      id: i + startId,
       text,
-      createdAt: '2021-05-09',
-      updatedAt: '2021-05-09',
+      createdAt: MOCK_DATE,
+      updatedAt: MOCK_DATE,
     })),
   );
 }
