@@ -10,6 +10,7 @@ import { deleteNoteRequest, noteSelected } from '../actions';
 import { NoteListItem } from '../models/NoteListItem';
 import { Delete, DeleteForever } from '@styled-icons/material';
 import { formatNoteUpdateDate } from '../../__shared__/utils/date';
+import { useTypedSelector } from '../../__shared__/hooks';
 
 export type NotesListItemProps = {
   note: NoteListItem;
@@ -19,6 +20,7 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
   note,
 }: NotesListItemProps) => {
   const [deleteClicked, setDeleteClicked] = useState(false);
+  const selectedNote = useTypedSelector(state => state.notes.selectedNote);
   const dispatch = useDispatch();
 
   const handleListItemClick = () => {
@@ -34,7 +36,10 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
   };
 
   return (
-    <ListItem onClick={handleListItemClick}>
+    <ListItem
+      selected={selectedNote?.id === note.id}
+      onClick={handleListItemClick}
+    >
       <FlexContainer align="center" spacing="lg">
         <FlexContainer grow={1} direction="column" spacing="md">
           <FlexContainer align="center" spacing="md">
