@@ -90,11 +90,11 @@ const RegisterInput: React.FC = () => {
   };
 
   return (
-    <Page grow={1}>
+    <Page flex={1}>
       <FlexContainer
         direction="column"
         spacing="lg"
-        growBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}
+        flexBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}
       >
         <Alert isVisible={registrationStatus === 'error'} type="error">
           {registrationResultMessage}

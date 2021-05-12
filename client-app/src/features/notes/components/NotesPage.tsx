@@ -49,10 +49,10 @@ const NotesPage: React.FC = () => {
         spacing="lg"
         directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}
       >
-        <FlexContainer growBreakpoints={{ sm: 1, md: 1, lg: 1 }}>
+        <FlexContainer flexBreakpoints={{ sm: 1, md: 1, lg: 1 }}>
           <NotesList></NotesList>
         </FlexContainer>
-        <FlexContainer growBreakpoints={{ sm: 1, md: 1.5, lg: 2 }}>
+        <FlexContainer flexBreakpoints={{ sm: 1, md: 1.5, lg: 2 }}>
           <NoteCreateEditForm></NoteCreateEditForm>
         </FlexContainer>
       </FlexContainer>

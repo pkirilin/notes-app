@@ -78,7 +78,7 @@ const NoteCreateEditForm: React.FC = () => {
   }
 
   return (
-    <FlexContainer grow={1} direction="column" spacing="md">
+    <FlexContainer flex={1} direction="column" spacing="md">
       <TextArea
         rows={5}
         placeholder="Enter note text"

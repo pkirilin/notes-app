@@ -55,9 +55,9 @@ ColumnReverse.args = {
 
 export const NestedItemsWidth: Story = () => (
   <FlexContainer>
-    <NestedFlexContainer grow={1}>item 1</NestedFlexContainer>
-    <NestedFlexContainer grow={2}>item 2</NestedFlexContainer>
-    <NestedFlexContainer grow={3}>item 3</NestedFlexContainer>
+    <NestedFlexContainer flex={1}>item 1</NestedFlexContainer>
+    <NestedFlexContainer flex={2}>item 2</NestedFlexContainer>
+    <NestedFlexContainer flex={3}>item 3</NestedFlexContainer>
   </FlexContainer>
 );
 
@@ -66,13 +66,13 @@ export const ResponsiveLayout: Story = () => (
     directionBreakpoints={{ xs: 'column', sm: 'row' }}
     spacing="md"
   >
-    <NestedFlexContainer growBreakpoints={{ xs: 1, md: 2 }}>
+    <NestedFlexContainer flexBreakpoints={{ xs: 1, md: 2 }}>
       item 1
     </NestedFlexContainer>
-    <NestedFlexContainer growBreakpoints={{ xs: 1, md: 1, lg: 4 }}>
+    <NestedFlexContainer flexBreakpoints={{ xs: 1, md: 1, lg: 4 }}>
       item 2
     </NestedFlexContainer>
-    <NestedFlexContainer growBreakpoints={{ xs: 1, md: 2 }}>
+    <NestedFlexContainer flexBreakpoints={{ xs: 1, md: 2 }}>
       item 3
     </NestedFlexContainer>
   </FlexContainer>

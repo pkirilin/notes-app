@@ -41,7 +41,7 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
       onClick={handleListItemClick}
     >
       <FlexContainer align="center" spacing="lg">
-        <FlexContainer grow={1} direction="column" spacing="md">
+        <FlexContainer flex={1} direction="column" spacing="md">
           <FlexContainer align="center" spacing="md">
             <Typography type="overline" color="hint">
               #{note.id}

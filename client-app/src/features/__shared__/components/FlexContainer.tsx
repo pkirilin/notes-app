@@ -34,8 +34,8 @@ export type FlexContainerProps = {
   justifyBreakpoints?: PropWithBreakpoints<FlexContainerJustify>;
   align?: FlexContainerAlign;
   alignBreakpoints?: PropWithBreakpoints<FlexContainerAlign>;
-  grow?: number;
-  growBreakpoints?: PropWithBreakpoints<number>;
+  flex?: number;
+  flexBreakpoints?: PropWithBreakpoints<number>;
 };
 
 export const FlexContainer = styled.div<FlexContainerProps>`
@@ -44,7 +44,7 @@ export const FlexContainer = styled.div<FlexContainerProps>`
   ${props => props.direction && `flex-direction: ${props.direction}`};
   ${props => props.justify && `justify-content: ${props.justify}`};
   ${props => props.align && `align-items: ${props.align}`};
-  ${props => props.grow && `flex-grow: ${props.grow}`};
+  ${props => props.flex && `flex: ${props.flex}`};
 
   ${props => useSpacing(props)};
 
@@ -61,7 +61,7 @@ function useBreakpoint(
 ) {
   const {
     directionBreakpoints,
-    growBreakpoints,
+    flexBreakpoints,
     justifyBreakpoints,
     alignBreakpoints,
   } = flexProps;
@@ -69,7 +69,7 @@ function useBreakpoint(
   return css`
     @media (min-width: ${props => props.theme.breakpoints[breakpoint]}) {
       ${useBreakpointsProp(breakpoint, 'flex-direction', directionBreakpoints)};
-      ${useBreakpointsProp(breakpoint, 'flex-grow', growBreakpoints)};
+      ${useBreakpointsProp(breakpoint, 'flex', flexBreakpoints)};
       ${useBreakpointsProp(breakpoint, 'justify-content', justifyBreakpoints)};
       ${useBreakpointsProp(breakpoint, 'align-items', alignBreakpoints)};
       ${useSpacing(flexProps, breakpoint)};
