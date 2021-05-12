@@ -29,8 +29,8 @@ const LoadMoreNotesContainer = styled(FlexContainer)`
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);
   const status = useTypedSelector(state => state.notes.status);
-  const areAllNotesLoaded = useTypedSelector(
-    state => state.notes.areAllNoteItemsLoaded,
+  const showMoreVisible = useTypedSelector(
+    state => state.notes.showMoreVisible,
   );
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -84,7 +84,7 @@ const NotesList: React.FC = () => {
           </Typography>
         </EmptyNotesPlaceholder>
       )}
-      {!areAllNotesLoaded && (
+      {showMoreVisible && (
         <LoadMoreNotesContainer justify="center">
           <IconButton onClick={handleLoadMoreClick}>
             <ExpandMore size="24" title="Load more notes"></ExpandMore>

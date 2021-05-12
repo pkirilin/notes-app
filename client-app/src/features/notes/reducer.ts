@@ -82,15 +82,15 @@ const draftedNoteReducer: Reducer<NoteCreateEdit | null, NotesActions> = (
   }
 };
 
-const areAllNoteItemsLoadedReducer: Reducer<boolean, NotesActions> = (
+const showMoreVisibleReducer: Reducer<boolean, NotesActions> = (
   state = false,
   action,
 ) => {
   switch (action.type) {
     case NotesActionTypes.GetNotesSuccess:
-      return action.payload.length < config.notesPageSize;
+      return action.payload.length >= config.notesPageSize;
     case NotesActionTypes.LoadMoreSuccess:
-      return action.payload.length < config.notesPageSize;
+      return action.payload.length >= config.notesPageSize;
     default:
       return state;
   }
@@ -101,5 +101,5 @@ export default combineReducers({
   status: statusReducer,
   selectedNote: selectedNoteReducer,
   draftedNote: draftedNoteReducer,
-  areAllNoteItemsLoaded: areAllNoteItemsLoadedReducer,
+  showMoreVisible: showMoreVisibleReducer,
 });
