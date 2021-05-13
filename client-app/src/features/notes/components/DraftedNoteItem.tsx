@@ -19,7 +19,13 @@ const DraftedNoteItem: React.FC = () => {
         <Typography type="caption" color="hint">
           Draft
         </Typography>
-        <Typography color="default">{draftedNote.text}</Typography>
+        {draftedNote.text ? (
+          <Typography color="default">{draftedNote.text}</Typography>
+        ) : (
+          <Typography color="hint">
+            <i>Enter note text</i>
+          </Typography>
+        )}
       </FlexContainer>
     </ListItem>
   );

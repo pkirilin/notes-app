@@ -16,3 +16,7 @@ export const Visible = Template.bind({});
 Visible.decorators = [
   createStorybookReduxDecorator([draft(), draftChanged('This is draft note')]),
 ];
+
+export const EmptyText = Template.bind({});
+
+EmptyText.decorators = [createStorybookReduxDecorator([draft()])];
