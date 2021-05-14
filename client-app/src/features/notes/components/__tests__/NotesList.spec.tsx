@@ -1,5 +1,4 @@
-import { fireEvent, waitFor } from '@testing-library/dom';
-import { RenderResult } from '@testing-library/react';
+import { waitFor } from '@testing-library/dom';
 import React from 'react';
 import {
   asJestMock,
@@ -8,6 +7,8 @@ import {
 } from '../../../../test-utils';
 import api from '../../api';
 import {
+  clickAddNote,
+  clickLoadMore,
   mockSuccessfulGetNotes,
   mockSuccessfulGetNotesAfter,
 } from '../../testing';
@@ -93,11 +94,3 @@ describe('<NotesList></NotesList>', () => {
     });
   });
 });
-
-function clickAddNote(result: RenderResult) {
-  fireEvent.click(result.getByRole('add'));
-}
-
-function clickLoadMore(result: RenderResult) {
-  fireEvent.click(result.getByTitle('Load more notes'));
-}

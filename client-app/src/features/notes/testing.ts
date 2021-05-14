@@ -98,3 +98,11 @@ export function fillNoteText(result: RenderResult, text: string): void {
 export function clickSubmitNote(result: RenderResult): void {
   fireEvent.click(result.getByRole('submit'));
 }
+
+export function clickAddNote(result: RenderResult): void {
+  fireEvent.click(result.getByRole('add'));
+}
+
+export function clickLoadMore(result: RenderResult): void {
+  fireEvent.click(result.getByTitle('Load more notes'));
+}
