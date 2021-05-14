@@ -7,6 +7,10 @@ import {
   waitForSingleCall,
 } from '../../../../test-utils';
 import api from '../../api';
+import {
+  mockSuccessfulGetNotes,
+  mockSuccessfulGetNotesAfter,
+} from '../../testing';
 import NotesList from '../NotesList';
 
 jest.mock('../../api');
@@ -89,23 +93,6 @@ describe('<NotesList></NotesList>', () => {
     });
   });
 });
-
-function mockSuccessfulGetNotes(...noteTexts: string[]) {
-  return mockSuccessfulGetNotesAfter(0, ...noteTexts);
-}
-
-function mockSuccessfulGetNotesAfter(startId = 0, ...noteTexts: string[]) {
-  const MOCK_DATE = '2021-05-11T22:24:35';
-
-  return asJestMock(api.getNotes).mockResolvedValueOnce(
-    noteTexts.map((text, i) => ({
-      id: i + startId,
-      text,
-      createdAt: MOCK_DATE,
-      updatedAt: MOCK_DATE,
-    })),
-  );
-}
 
 function clickAddNote(result: RenderResult) {
   fireEvent.click(result.getByRole('add'));

@@ -27,6 +27,7 @@ const SelectNotePlaceholder = styled.div`
 const NoteCreateEditForm: React.FC = () => {
   const status = useTypedSelector(state => state.notes.status);
   const selectedNote = useTypedSelector(state => state.notes.selectedNote);
+  const draftedNote = useTypedSelector(state => state.notes.draftedNote);
   const dispatch = useDispatch();
 
   const [noteText, setNoteText] = useState('');
@@ -46,16 +47,19 @@ const NoteCreateEditForm: React.FC = () => {
   ) => {
     setNoteText(event.target.value);
 
-    if (selectedNote && selectedNote.id) {
+    if (draftedNote) {
       dispatch(draftChanged(event.target.value));
     }
   };
 
   const handleSubmitClick = () => {
-    if (selectedNote && selectedNote.id) {
+    if (draftedNote) {
+      dispatch(createNoteRequest({ text: draftedNote.text }));
+      return;
+    }
+
+    if (selectedNote) {
       dispatch(editNoteRequest(selectedNote.id, { text: noteText }));
-    } else {
-      dispatch(createNoteRequest({ text: noteText }));
     }
   };
 

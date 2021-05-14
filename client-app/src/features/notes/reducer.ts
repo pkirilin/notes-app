@@ -77,6 +77,8 @@ const draftedNoteReducer: Reducer<NoteCreateEdit | null, NotesActions> = (
       return { text: action.payload };
     case NotesActionTypes.CancelDraft:
       return null;
+    case NotesActionTypes.CreateNoteSuccess:
+      return null;
     default:
       return state;
   }
