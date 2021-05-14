@@ -32,6 +32,7 @@ const NotesList: React.FC = () => {
   const showMoreVisible = useTypedSelector(
     state => state.notes.showMoreVisible,
   );
+  const draftedNote = useTypedSelector(state => state.notes.draftedNote);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const dispatch = useDispatch();
@@ -47,7 +48,9 @@ const NotesList: React.FC = () => {
   }, [currentPageIndex]);
 
   const handleAddNoteClick = () => {
-    dispatch(draft());
+    if (!draftedNote) {
+      dispatch(draft());
+    }
   };
 
   const handleLoadMoreClick = () => {
