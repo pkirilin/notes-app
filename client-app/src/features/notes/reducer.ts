@@ -15,9 +15,10 @@ const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
     case NotesActionTypes.CreateNoteSuccess:
       return [action.payload, ...state];
     case NotesActionTypes.EditNoteSuccess:
-      return state.map(note =>
-        note.id === action.payload.id ? action.payload : note,
-      );
+      return [
+        action.payload,
+        ...state.filter(note => note.id !== action.payload.id),
+      ];
     case NotesActionTypes.DeleteNoteSuccess:
       return state.filter(note => note.id !== action.payload);
     case NotesActionTypes.LoadMoreSuccess:
