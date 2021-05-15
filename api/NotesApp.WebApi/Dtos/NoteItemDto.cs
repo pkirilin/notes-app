@@ -26,8 +26,8 @@ namespace NotesApp.WebApi.Dtos
         {
             Id = note.Id;
             Text = note.Text;
-            CreatedAt = note.CreatedAt;
-            UpdatedAt = note.UpdatedAt;
+            CreatedAt = note.CreatedAt.ToLocalTime();
+            UpdatedAt = note.UpdatedAt.ToLocalTime();
         }
     }
 }
