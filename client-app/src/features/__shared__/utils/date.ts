@@ -17,8 +17,12 @@ export function formatNoteUpdateDate(date: Date): string {
   const day = date.getDate();
   const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+  const hours = toStringWithLeadingZero(date.getHours());
+  const minutes = toStringWithLeadingZero(date.getMinutes());
 
   return `${day} ${month} ${year}, ${hours}:${minutes}`;
+}
+
+function toStringWithLeadingZero(num: number) {
+  return num < 10 ? '0' + num : num.toString();
 }
