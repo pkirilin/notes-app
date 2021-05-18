@@ -110,3 +110,7 @@ export function clickDeleteNoteById(result: RenderResult, id: number): void {
   const deleteNoteElements = result.getAllByRole('deletion');
   fireEvent.click(deleteNoteElements[id]);
 }
+
+export function clickCancelNoteInput({ getByText }: RenderResult): void {
+  fireEvent.click(getByText('Cancel'));
+}

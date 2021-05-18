@@ -10,6 +10,7 @@ import {
   withDraftedNoteState,
   mockDeleteNote,
   clickDeleteNoteById,
+  clickCancelNoteInput,
 } from '../../testing';
 import NotesPage from '../NotesPage';
 
@@ -60,6 +61,21 @@ describe('<NotesPage></NotesPage>', () => {
       fillNoteText(result, 'Some text');
       clickSubmitNote(result);
       await waitForSingleCall(createNote);
+
+      expect(result.queryByText('Draft')).toBeNull();
+    });
+  });
+
+  describe('when note input is canceled', () => {
+    test('should remove draft if draft exists', async () => {
+      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+
+      const result = renderConnected(
+        <NotesPage></NotesPage>,
+        withDraftedNoteState(),
+      );
+      await waitForSingleCall(getNotes);
+      clickCancelNoteInput(result);
 
       expect(result.queryByText('Draft')).toBeNull();
     });

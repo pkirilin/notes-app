@@ -1,11 +1,7 @@
-import { fireEvent } from '@testing-library/dom';
 import React from 'react';
+import { renderConnected, waitForSingleCall } from '../../../../test-utils';
 import {
-  renderConnected,
-  RenderConnectedResult,
-  waitForSingleCall,
-} from '../../../../test-utils';
-import {
+  clickCancelNoteInput,
   clickSubmitNote,
   fillNoteText,
   mockCreateNoteApi,
@@ -63,13 +59,13 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
     });
   });
 
-  describe('when canceled input', () => {
+  describe('when note input is canceled', () => {
     test('should clear note selection if note was drafted', () => {
       const result = renderConnected(
         <NoteCreateEditForm></NoteCreateEditForm>,
         withDraftedNoteState(),
       );
-      clickCancel(result);
+      clickCancelNoteInput(result);
 
       expect(result.getByText('Select note')).toBeVisible();
     });
@@ -79,13 +75,9 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
         <NoteCreateEditForm></NoteCreateEditForm>,
         withSelectedNoteState(1, 'Note'),
       );
-      clickCancel(result);
+      clickCancelNoteInput(result);
 
       expect(result.getByText('Select note')).toBeVisible();
     });
   });
 });
-
-function clickCancel({ getByText }: RenderConnectedResult) {
-  fireEvent.click(getByText('Cancel'));
-}

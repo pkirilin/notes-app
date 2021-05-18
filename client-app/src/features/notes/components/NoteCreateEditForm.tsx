@@ -48,18 +48,15 @@ const NoteCreateEditForm: React.FC = () => {
   const handleSubmitClick = () => {
     if (draftedNote) {
       dispatch(createNoteRequest({ text: draftedNote.text }));
-      return;
-    }
-
-    if (selectedNote) {
+    } else if (selectedNote) {
       dispatch(editNoteRequest(selectedNote.id, { text: noteText }));
     }
   };
 
   const handleCancelClick = () => {
-    if (selectedNote && selectedNote.id) {
+    if (draftedNote) {
       dispatch(draftCanceled());
-    } else {
+    } else if (selectedNote) {
       dispatch(noteSelectionCanceled());
     }
   };
