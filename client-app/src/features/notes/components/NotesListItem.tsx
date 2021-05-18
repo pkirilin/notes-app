@@ -27,11 +27,13 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
     dispatch(noteSelected(note));
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setDeleteClicked(true);
   };
 
-  const handleDeleteConfirmClick = () => {
+  const handleDeleteConfirmClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
     dispatch(deleteNoteRequest(note.id));
   };
 

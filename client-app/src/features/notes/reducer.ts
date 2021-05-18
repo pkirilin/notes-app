@@ -35,10 +35,6 @@ const statusReducer: Reducer<NotesStatus | null, NotesActions> = (
   switch (action.type) {
     case NotesActionTypes.GetNotesError:
       return 'error';
-    case NotesActionTypes.CreateNoteSuccess:
-      return 'note created';
-    case NotesActionTypes.EditNoteSuccess:
-      return 'note updated';
     default:
       return state;
   }
@@ -62,6 +58,12 @@ const selectedNoteReducer: Reducer<NoteListItem | null, NotesActions> = (
       };
     case NotesActionTypes.CancelDraft:
       return null;
+    case NotesActionTypes.CreateNoteSuccess:
+      return null;
+    case NotesActionTypes.EditNoteSuccess:
+      return null;
+    case NotesActionTypes.DeleteNoteSuccess:
+      return action.payload === state?.id ? null : state;
     default:
       return state;
   }

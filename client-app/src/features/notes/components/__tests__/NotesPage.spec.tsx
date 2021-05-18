@@ -8,6 +8,8 @@ import {
   withSelectedNoteState,
   mockCreateNoteApi,
   withDraftedNoteState,
+  mockDeleteNote,
+  clickDeleteNoteById,
 } from '../../testing';
 import NotesPage from '../NotesPage';
 
@@ -15,7 +17,7 @@ jest.mock('../../api');
 jest.mock('../../../../config');
 
 describe('<NotesPage></NotesPage>', () => {
-  describe('when note submitted', () => {
+  describe('when note is submitted', () => {
     test('should edit note if note was selected', async () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
       mockEditNoteApi('Some text from API');
@@ -60,6 +62,40 @@ describe('<NotesPage></NotesPage>', () => {
       await waitForSingleCall(createNote);
 
       expect(result.queryByText('Draft')).toBeNull();
+    });
+  });
+
+  describe('when note is deleted', () => {
+    test('should clear note selection if deleted note was selected', async () => {
+      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+      const deleteNote = mockDeleteNote();
+
+      const result = renderConnected(
+        <NotesPage></NotesPage>,
+        withSelectedNoteState(1, 'Note 2'),
+      );
+      await waitForSingleCall(getNotes);
+      clickDeleteNoteById(result, 1);
+      clickDeleteNoteById(result, 1);
+      await waitForSingleCall(deleteNote);
+
+      expect(result.getByText('Select note')).toBeVisible();
+    });
+
+    test('should not clear note selection if other was selected', async () => {
+      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+      const deleteNote = mockDeleteNote();
+
+      const result = renderConnected(
+        <NotesPage></NotesPage>,
+        withSelectedNoteState(1, 'Note 2'),
+      );
+      await waitForSingleCall(getNotes);
+      clickDeleteNoteById(result, 0);
+      clickDeleteNoteById(result, 0);
+      await waitForSingleCall(deleteNote);
+
+      expect(result.queryByText('Select note')).toBeNull();
     });
   });
 });

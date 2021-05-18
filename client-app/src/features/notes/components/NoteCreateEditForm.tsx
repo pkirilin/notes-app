@@ -25,18 +25,11 @@ const SelectNotePlaceholder = styled.div`
 `;
 
 const NoteCreateEditForm: React.FC = () => {
-  const status = useTypedSelector(state => state.notes.status);
   const selectedNote = useTypedSelector(state => state.notes.selectedNote);
   const draftedNote = useTypedSelector(state => state.notes.draftedNote);
   const dispatch = useDispatch();
 
   const [noteText, setNoteText] = useState('');
-
-  useEffect(() => {
-    if (status === 'note created' || status === 'note updated') {
-      setNoteText('');
-    }
-  }, [status]);
 
   useEffect(() => {
     setNoteText(selectedNote ? selectedNote.text : '');

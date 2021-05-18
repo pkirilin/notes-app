@@ -19,7 +19,7 @@ jest.mock('../../api');
 
 describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
   describe('when note was created', () => {
-    test('should clear input', async () => {
+    test('should clear note selection', async () => {
       const createNote = mockCreateNoteApi('Some note');
 
       const result = renderConnected(
@@ -30,12 +30,12 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       clickSubmitNote(result);
       await waitForSingleCall(createNote);
 
-      expect(result.getByPlaceholderText('Enter note text')).toHaveValue('');
+      expect(result.getByText('Select note')).toBeVisible();
     });
   });
 
   describe('when note was edited', () => {
-    test('should clear input', async () => {
+    test('should clear note selection', async () => {
       const editNote = mockEditNoteApi();
 
       const result = renderConnected(
@@ -46,7 +46,7 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       clickSubmitNote(result);
       await waitForSingleCall(editNote);
 
-      expect(result.getByPlaceholderText('Enter note text')).toHaveValue('');
+      expect(result.getByText('Select note')).toBeVisible();
     });
   });
 
@@ -64,7 +64,7 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
   });
 
   describe('when canceled input', () => {
-    test('should deselect drafted note', () => {
+    test('should clear note selection if note was drafted', () => {
       const result = renderConnected(
         <NoteCreateEditForm></NoteCreateEditForm>,
         withDraftedNoteState(),
@@ -74,7 +74,7 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       expect(result.getByText('Select note')).toBeVisible();
     });
 
-    test('should deselect note', () => {
+    test('should clear note selection if note was edited', () => {
       const result = renderConnected(
         <NoteCreateEditForm></NoteCreateEditForm>,
         withSelectedNoteState(1, 'Note'),

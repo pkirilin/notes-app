@@ -1,1 +1,1 @@
-export type NotesStatus = 'error' | 'note created' | 'note updated';
+export type NotesStatus = 'error';
