@@ -30,10 +30,15 @@ const NoteCreateEditForm: React.FC = () => {
   const dispatch = useDispatch();
 
   const [noteText, setNoteText] = useState('');
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   useEffect(() => {
     setNoteText(selectedNote ? selectedNote.text : '');
   }, [selectedNote]);
+
+  useEffect(() => {
+    setIsSubmitDisabled(noteText === '');
+  }, [noteText]);
 
   const handleNoteTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -80,7 +85,12 @@ const NoteCreateEditForm: React.FC = () => {
         onChange={handleNoteTextChange}
       ></TextArea>
       <FlexContainer justify="flex-end" spacing="md">
-        <Button color="primary" role="submit" onClick={handleSubmitClick}>
+        <Button
+          color="primary"
+          role="submit"
+          disabled={isSubmitDisabled}
+          onClick={handleSubmitClick}
+        >
           {selectedNote ? 'Save' : 'Create'}
         </Button>
         <Button role="cancel" onClick={handleCancelClick}>

@@ -80,4 +80,30 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
       expect(result.getByText('Select note')).toBeVisible();
     });
   });
+
+  describe('when note text area is empty', () => {
+    test('should disable submit button if creating new note', () => {
+      const result = renderConnected(
+        <NoteCreateEditForm></NoteCreateEditForm>,
+        withDraftedNoteState(),
+      );
+      fillNoteText(result, '');
+
+      expect(
+        result.getByRole('submit').getAttribute('disabled'),
+      ).not.toBeNull();
+    });
+
+    test('should disable submit button if editing note', () => {
+      const result = renderConnected(
+        <NoteCreateEditForm></NoteCreateEditForm>,
+        withSelectedNoteState(1, 'Note 1'),
+      );
+      fillNoteText(result, '');
+
+      expect(
+        result.getByRole('submit').getAttribute('disabled'),
+      ).not.toBeNull();
+    });
+  });
 });
