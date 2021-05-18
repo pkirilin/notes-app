@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   FlexContainer,
@@ -11,10 +11,15 @@ import { NoteListItem } from '../models/NoteListItem';
 import { Delete, DeleteForever } from '@styled-icons/material';
 import { formatNoteUpdateDate } from '../../__shared__/utils/date';
 import { useTypedSelector } from '../../__shared__/hooks';
+import styled from 'styled-components';
 
 export type NotesListItemProps = {
   note: NoteListItem;
 };
+
+const StyledDeleteForever = styled(DeleteForever)`
+  color: ${props => props.theme.colors.error};
+`;
 
 const NotesListItem: React.FC<NotesListItemProps> = ({
   note,
@@ -22,6 +27,10 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
   const [deleteClicked, setDeleteClicked] = useState(false);
   const selectedNote = useTypedSelector(state => state.notes.selectedNote);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setDeleteClicked(false);
+  }, [selectedNote]);
 
   const handleListItemClick = () => {
     dispatch(noteSelected(note));
@@ -56,10 +65,10 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
         </FlexContainer>
         {deleteClicked ? (
           <IconButton role="deletion" onClick={handleDeleteConfirmClick}>
-            <DeleteForever
+            <StyledDeleteForever
               size="24"
               title="Confirm delete note"
-            ></DeleteForever>
+            ></StyledDeleteForever>
           </IconButton>
         ) : (
           <IconButton role="deletion" onClick={handleDeleteClick}>
