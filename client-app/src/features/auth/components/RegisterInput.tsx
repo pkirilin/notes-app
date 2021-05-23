@@ -2,11 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginValidator, passwordValidator } from '../validators';
-import {
-  ValidationSummaryDetail,
-  Alert,
-  ValidationSummary,
-} from '../../../app/components';
 import { useInput } from '../../../app/hooks';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { registerRequest } from '../actions';
@@ -16,6 +11,8 @@ import {
   Input,
   Page,
   Typography,
+  ValidationSummary,
+  ValidationSummaryDetail,
 } from '../../__shared__/components';
 
 const RegisterInput: React.FC = () => {
@@ -96,9 +93,9 @@ const RegisterInput: React.FC = () => {
         spacing="lg"
         flexBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}
       >
-        <Alert isVisible={registrationStatus === 'error'} type="error">
-          {registrationResultMessage}
-        </Alert>
+        {registrationStatus === 'error' && (
+          <Typography>{registrationResultMessage}</Typography>
+        )}
         <ValidationSummary
           isVisible={isValidationSummaryVisible}
           details={validationSummaryDetails}

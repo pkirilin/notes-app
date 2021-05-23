@@ -1,9 +1,6 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import {
-  ValidationSummary,
-  ValidationSummaryProps,
-} from '../../../app/components';
+import { ValidationSummary, ValidationSummaryProps } from '../components';
 
 export default {
   title: 'shared/ValidationSummary',

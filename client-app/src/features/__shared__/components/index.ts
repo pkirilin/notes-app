@@ -7,3 +7,4 @@ export * from './ListItem';
 export * from './Page';
 export * from './TextArea';
 export * from './Typography';
+export * from './ValidationSummary';

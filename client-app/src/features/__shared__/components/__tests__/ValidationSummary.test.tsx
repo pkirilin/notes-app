@@ -4,7 +4,7 @@ import {
   ValidationSummary,
   ValidationSummaryDetail,
 } from '../ValidationSummary';
-import { renderConnected } from '../../../test-utils';
+import { renderConnected } from '../../../../test-utils';
 
 describe('ValidationSummary component', () => {
   test('should render nothing if not visible', () => {

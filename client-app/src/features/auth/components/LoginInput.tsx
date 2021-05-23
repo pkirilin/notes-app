@@ -1,10 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {
-  ValidationSummaryDetail,
-  ValidationSummary,
-} from '../../../app/components';
 import { useInput, useCheckbox } from '../../../app/hooks';
 import {
   Button,
@@ -12,6 +8,8 @@ import {
   Input,
   Page,
   Typography,
+  ValidationSummary,
+  ValidationSummaryDetail,
 } from '../../__shared__/components';
 import { loginRequest } from '../actions';
 import { loginValidator, passwordValidator } from '../validators';
