@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useInput, useCheckbox } from '../../../app/hooks';
+import { useInput } from '../../../app/hooks';
 import {
   Button,
   FlexContainer,
@@ -17,7 +17,7 @@ import { loginValidator, passwordValidator } from '../validators';
 const LoginInput: React.FC = () => {
   const loginInput = useInput<string>('', loginValidator);
   const passwordInput = useInput<string>('', passwordValidator);
-  const rememberMeCheckbox = useCheckbox(true);
+  const [rememberMe, setRememberMe] = useState(false);
   const [isValidationSummaryVisible, setIsValidationSummaryVisible] = useState(
     false,
   );
@@ -42,7 +42,7 @@ const LoginInput: React.FC = () => {
         loginRequest({
           userName: loginInput.value,
           password: passwordInput.value,
-          rememberMe: rememberMeCheckbox.value,
+          rememberMe,
         }),
       );
     } else {
@@ -76,8 +76,8 @@ const LoginInput: React.FC = () => {
           <FlexContainer as="label" spacing="sm" align="center">
             <input
               type="checkbox"
-              checked
-              {...rememberMeCheckbox.binding}
+              checked={rememberMe}
+              onChange={() => setRememberMe(rememberMe => !rememberMe)}
             ></input>
             <span>Remember me</span>
           </FlexContainer>
