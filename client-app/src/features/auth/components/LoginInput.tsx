@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useInput } from '../../../app/hooks';
 import {
   Button,
   FlexContainer,
@@ -12,41 +11,67 @@ import {
   ValidationSummaryDetail,
 } from '../../__shared__/components';
 import { loginRequest } from '../actions';
-import { loginValidator, passwordValidator } from '../validators';
+import { useLogin, usePassword } from '../hooks';
 
 const LoginInput: React.FC = () => {
-  const loginInput = useInput<string>('', loginValidator);
-  const passwordInput = useInput<string>('', passwordValidator);
+  const [login, loginError, loginValidationMessage, setLogin] = useLogin('');
+  const [
+    password,
+    passwordError,
+    passwordValidationMessage,
+    setPassword,
+  ] = usePassword('');
+
   const [rememberMe, setRememberMe] = useState(false);
-  const [isValidationSummaryVisible, setIsValidationSummaryVisible] = useState(
+  const [submitClicked, setSubmitClicked] = useState(false);
+
+  const [validationSummaryVisible, setValidationSummaryVisible] = useState(
     false,
   );
-  const dispatch = useDispatch();
 
   const validationSummaryDetails = useMemo<ValidationSummaryDetail[]>(
     () =>
-      [loginInput, passwordInput].map(input => ({
-        isValid: input.isValid,
-        validationMessage: input.validationMessage,
+      [
+        {
+          error: loginError,
+          validationMessage: loginValidationMessage,
+        },
+        {
+          error: passwordError,
+          validationMessage: passwordValidationMessage,
+        },
+      ].map(({ error, validationMessage }) => ({
+        isValid: !error,
+        validationMessage,
       })),
-    [loginInput, passwordInput],
+    [
+      loginError,
+      loginValidationMessage,
+      passwordError,
+      passwordValidationMessage,
+    ],
   );
 
-  const handleLogin = () => {
-    const isInputCorrect = [loginInput, passwordInput].every(
-      input => input.isValid,
-    );
+  const dispatch = useDispatch();
 
-    if (isInputCorrect) {
+  const inputError = loginError || passwordError;
+
+  useEffect(() => {
+    if (submitClicked) {
+      setValidationSummaryVisible(inputError);
+    }
+  }, [submitClicked, inputError]);
+
+  const handleLogin = () => {
+    setSubmitClicked(true);
+    if (!inputError) {
       dispatch(
         loginRequest({
-          userName: loginInput.value,
-          password: passwordInput.value,
+          userName: login,
+          password,
           rememberMe,
         }),
       );
-    } else {
-      setIsValidationSummaryVisible(!isInputCorrect);
     }
   };
 
@@ -58,14 +83,20 @@ const LoginInput: React.FC = () => {
         flexBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}
       >
         <ValidationSummary
-          isVisible={isValidationSummaryVisible}
+          isVisible={validationSummaryVisible}
           details={validationSummaryDetails}
         ></ValidationSummary>
-        <Input type="text" placeholder="Login" {...loginInput.binding}></Input>
+        <Input
+          type="text"
+          placeholder="Login"
+          value={login}
+          onChange={event => setLogin(event.target.value)}
+        ></Input>
         <Input
           type="password"
           placeholder="Password"
-          {...passwordInput.binding}
+          value={password}
+          onChange={event => setPassword(event.target.value)}
         ></Input>
         <FlexContainer
           spacing="lg"

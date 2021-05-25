@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginValidator, passwordValidator } from '../validators';
-import { useInput } from '../../../app/hooks';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { registerRequest } from '../actions';
 import {
@@ -14,75 +12,109 @@ import {
   ValidationSummary,
   ValidationSummaryDetail,
 } from '../../__shared__/components';
+import { useLogin, usePassword } from '../hooks';
 
 const RegisterInput: React.FC = () => {
-  const loginInput = useInput<string>('', loginValidator);
-  const passwordInput = useInput<string>('', passwordValidator);
-  const passwordConfirmInput = useInput<string>('');
-  const [isValidationSummaryVisible, setIsValidationSummaryVisible] = useState(
+  const [login, loginError, loginValidationMessage, setLogin] = useLogin('');
+  const [
+    password,
+    passwordError,
+    passwordValidationMessage,
+    setPassword,
+  ] = usePassword('');
+  const [
+    passwordConfirm,
+    passwordConfirmError,
+    passwordConfirmValidationMessage,
+    setPasswordConfirm,
+    setPasswordConfirmError,
+    setPasswordConfirmValidationMessage,
+  ] = usePassword('');
+
+  const validationSummaryDetails = useMemo<ValidationSummaryDetail[]>(
+    () =>
+      [
+        {
+          error: loginError,
+          validationMessage: loginValidationMessage,
+        },
+        {
+          error: passwordError,
+          validationMessage: passwordValidationMessage,
+        },
+        {
+          error: passwordConfirmError,
+          validationMessage: passwordConfirmValidationMessage,
+        },
+      ].map(({ error, validationMessage }) => ({
+        isValid: !error,
+        validationMessage,
+      })),
+    [
+      login,
+      loginError,
+      loginValidationMessage,
+      password,
+      passwordError,
+      passwordValidationMessage,
+      passwordConfirm,
+      passwordConfirmError,
+      passwordConfirmValidationMessage,
+    ],
+  );
+
+  const [validationSummaryVisible, setValidationSummaryVisible] = useState(
     false,
   );
+
   const registrationStatus = useTypedSelector(
     state => state?.auth?.registrationResult?.status,
   );
   const registrationResultMessage = useTypedSelector(
     state => state?.auth?.registrationResult?.message,
   );
+
+  const [submitClicked, setSubmitClicked] = useState(false);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const validationSummaryDetails = useMemo<ValidationSummaryDetail[]>(
-    () =>
-      [loginInput, passwordInput, passwordConfirmInput].map(input => ({
-        isValid: input.isValid,
-        validationMessage: input.validationMessage,
-      })),
-    [loginInput, passwordInput, passwordConfirmInput],
-  );
+  const inputError = loginError || passwordError || passwordConfirmError;
 
   useEffect(() => {
     if (registrationStatus === 'completed') {
-      // Redirects user to login page after completing registration
       history.push('/login');
     }
   }, [registrationStatus]);
 
   useEffect(() => {
-    const { value: password } = passwordInput;
-    const {
-      value: passwordConfirm,
-      setIsValid,
-      setValidationMessage,
-    } = passwordConfirmInput;
-
     if (
       (password === '' && passwordConfirm === '') ||
       password === passwordConfirm
     ) {
-      setIsValid(true);
-      setValidationMessage('');
+      setPasswordConfirmError(false);
+      setPasswordConfirmValidationMessage('');
     } else {
-      setIsValid(false);
-      setValidationMessage('Passwords do not match');
+      setPasswordConfirmError(true);
+      setPasswordConfirmValidationMessage('Passwords do not match');
     }
-  }, [passwordInput, passwordConfirmInput]);
+  }, [password, passwordConfirm]);
+
+  useEffect(() => {
+    if (submitClicked) {
+      setValidationSummaryVisible(inputError);
+    }
+  }, [submitClicked, inputError]);
 
   const handleRegister = () => {
-    const isInputCorrect = [
-      loginInput,
-      passwordInput,
-      passwordConfirmInput,
-    ].every(input => input.isValid);
-
-    if (isInputCorrect) {
+    setSubmitClicked(true);
+    if (!inputError) {
       dispatch(
         registerRequest({
-          userName: loginInput.value,
-          password: passwordInput.value,
+          userName: login,
+          password,
         }),
       );
-    } else {
-      setIsValidationSummaryVisible(true);
     }
   };
 
@@ -97,19 +129,26 @@ const RegisterInput: React.FC = () => {
           <Typography>{registrationResultMessage}</Typography>
         )}
         <ValidationSummary
-          isVisible={isValidationSummaryVisible}
+          isVisible={validationSummaryVisible}
           details={validationSummaryDetails}
         ></ValidationSummary>
-        <Input type="text" placeholder="Login" {...loginInput.binding}></Input>
+        <Input
+          type="text"
+          placeholder="Login"
+          value={login}
+          onChange={event => setLogin(event.target.value)}
+        ></Input>
         <Input
           type="password"
           placeholder="Password"
-          {...passwordInput.binding}
+          value={password}
+          onChange={event => setPassword(event.target.value)}
         ></Input>
         <Input
           type="password"
           placeholder="Confirm password"
-          {...passwordConfirmInput.binding}
+          value={passwordConfirm}
+          onChange={event => setPasswordConfirm(event.target.value)}
         ></Input>
         <Button onClick={handleRegister}>Register</Button>
         <Typography type="body2" align="center">
