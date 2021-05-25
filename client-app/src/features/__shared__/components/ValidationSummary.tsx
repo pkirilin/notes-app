@@ -1,5 +1,4 @@
 import React from 'react';
-import { UseInputHookResult } from '../../../app/hooks';
 import styled from 'styled-components';
 
 const ValidationSummaryList = styled.ul`
@@ -14,10 +13,10 @@ const ValidationSummaryListItem = styled.li`
   padding: ${props => props.theme.sizing.sm};
 `;
 
-export type ValidationSummaryDetail = Pick<
-  UseInputHookResult<unknown>,
-  'isValid' | 'validationMessage'
->;
+export type ValidationSummaryDetail = {
+  isValid: boolean;
+  validationMessage?: string;
+};
 
 export type ValidationSummaryProps = {
   isVisible: boolean;
