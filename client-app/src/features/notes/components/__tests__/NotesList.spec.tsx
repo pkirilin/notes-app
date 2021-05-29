@@ -11,6 +11,7 @@ import {
   clickLoadMore,
   mockSuccessfulGetNotes,
   mockSuccessfulGetNotesAfter,
+  withLoadingNoteItemsState,
 } from '../../testing';
 import NotesList from '../NotesList';
 
@@ -91,6 +92,19 @@ describe('<NotesList></NotesList>', () => {
       await waitFor(() => expect(getNotes).toHaveBeenCalledTimes(2));
 
       expect(result.queryByTitle('Load more notes')).toBeNull();
+    });
+  });
+
+  describe('when notes are loading', () => {
+    test('should display loading message', () => {
+      mockSuccessfulGetNotes();
+
+      const result = renderConnected(
+        <NotesList></NotesList>,
+        withLoadingNoteItemsState(),
+      );
+
+      expect(result.getByText(/Loading notes/)).toBeVisible();
     });
   });
 });

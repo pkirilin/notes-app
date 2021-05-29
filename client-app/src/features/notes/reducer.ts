@@ -28,11 +28,15 @@ const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
   }
 };
 
-const statusReducer: Reducer<NotesStatus | null, NotesActions> = (
-  state = null,
+const statusReducer: Reducer<NotesStatus, NotesActions> = (
+  state = 'idle',
   action,
 ) => {
   switch (action.type) {
+    case NotesActionTypes.GetNotesRequest:
+      return 'loading';
+    case NotesActionTypes.GetNotesSuccess:
+      return 'idle';
     case NotesActionTypes.GetNotesError:
       return 'error';
     default:

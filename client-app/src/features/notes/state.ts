@@ -1,1 +1,1 @@
-export type NotesStatus = 'error';
+export type NotesStatus = 'idle' | 'loading' | 'error';

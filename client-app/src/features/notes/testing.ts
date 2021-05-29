@@ -43,6 +43,14 @@ export function withNoteItemsState(...noteTexts: string[]): NotesActions[] {
   ];
 }
 
+export function withLoadingNoteItemsState(): NotesActions[] {
+  return [
+    {
+      type: NotesActionTypes.GetNotesRequest,
+    },
+  ];
+}
+
 export function mockCreateNoteApi(
   noteText: string,
   id = 1,

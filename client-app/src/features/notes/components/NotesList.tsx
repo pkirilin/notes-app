@@ -1,4 +1,4 @@
-import { Add, ExpandMore } from '@styled-icons/material';
+import { Add, ExpandMore, Sync } from '@styled-icons/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -26,9 +26,14 @@ const LoadMoreNotesContainer = styled(FlexContainer)`
   margin-top: ${props => props.theme.sizing.md};
 `;
 
+const NotesListLoader = styled(Sync)`
+  color: ${props => props.theme.text.hint};
+  animation: spin 2s linear infinite;
+`;
+
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);
-  const status = useTypedSelector(state => state.notes.status);
+  const notesStatus = useTypedSelector(state => state.notes.status);
   const showMoreVisible = useTypedSelector(
     state => state.notes.showMoreVisible,
   );
@@ -57,7 +62,18 @@ const NotesList: React.FC = () => {
     setCurrentPageIndex(pageIndex => pageIndex + 1);
   };
 
-  if (status === 'error') {
+  if (notesStatus === 'loading') {
+    return (
+      <FlexContainer align="center" spacing="md">
+        <NotesListLoader size="32"></NotesListLoader>
+        <Typography type="body2" color="hint" align="center">
+          Loading notes...
+        </Typography>
+      </FlexContainer>
+    );
+  }
+
+  if (notesStatus === 'error') {
     return (
       <Typography type="body2" color="default" align="center">
         Failed to get notes

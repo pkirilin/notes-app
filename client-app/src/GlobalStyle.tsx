@@ -8,6 +8,12 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  @keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
 `;
 
 export default GlobalStyle;

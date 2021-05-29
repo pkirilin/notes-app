@@ -5,6 +5,7 @@ import {
   draft,
   draftChanged,
   getNotesError,
+  getNotesRequest,
   getNotesSuccess,
 } from '../actions';
 import NotesList from '../components/NotesList';
@@ -51,6 +52,10 @@ SingleNote.decorators = [
     getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS.slice(0, 1)),
   ]),
 ];
+
+export const LoadingNotes = Template.bind({});
+
+LoadingNotes.decorators = [createStorybookReduxDecorator([getNotesRequest()])];
 
 export const Empty = Template.bind({});
 
