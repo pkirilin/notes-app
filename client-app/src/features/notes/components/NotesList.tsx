@@ -64,7 +64,7 @@ const NotesList: React.FC = () => {
 
   if (notesStatus === 'loading') {
     return (
-      <FlexContainer align="center" spacing="md">
+      <FlexContainer justify="center" align="center" spacing="md">
         <NotesListLoader size="32"></NotesListLoader>
         <Typography type="body2" color="hint" align="center">
           Loading notes...

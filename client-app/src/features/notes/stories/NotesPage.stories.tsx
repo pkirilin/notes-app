@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import { NotesPage } from '../components';
 import { loginSuccess } from '../../auth/actions';
 import { createStorybookReduxDecorator } from '../../../test-utils';
-import { getNotesSuccess } from '../actions';
+import { getNotesRequest, getNotesSuccess } from '../actions';
 import { STORYBOOK_TEST_NOTE_ITEMS, STORYBOOK_TEST_USER } from './data';
 
 export default {
@@ -19,5 +19,16 @@ AuthenticatedUserWithNotesCollection.decorators = [
   createStorybookReduxDecorator([
     loginSuccess(STORYBOOK_TEST_USER),
     getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS),
+  ]),
+];
+
+export const AuthenticatedUserWithNotesCollectionLoading: Story = () => (
+  <NotesPage></NotesPage>
+);
+
+AuthenticatedUserWithNotesCollectionLoading.decorators = [
+  createStorybookReduxDecorator([
+    loginSuccess(STORYBOOK_TEST_USER),
+    getNotesRequest(),
   ]),
 ];
