@@ -50,9 +50,23 @@ const deleteNote = async (id: number): Promise<void> => {
   });
 };
 
+const searchNotes = async (term: string): Promise<NoteListItem[]> => {
+  const response = await fetch(
+    `${config.apiUrl}/notes/search?term=${encodeURIComponent(term)}&showCount=${
+      config.notesPageSize
+    }`,
+    {
+      headers: { ...createAuthHeader() },
+    },
+  );
+
+  return response.json();
+};
+
 export default {
   getNotes,
   createNote,
   editNote,
   deleteNote,
+  searchNotes,
 };

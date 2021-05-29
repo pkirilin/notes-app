@@ -23,6 +23,8 @@ const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
       return state.filter(note => note.id !== action.payload);
     case NotesActionTypes.LoadMoreSuccess:
       return state.concat(action.payload);
+    case NotesActionTypes.SearchSuccess:
+      return action.payload;
     default:
       return state;
   }
@@ -68,6 +70,8 @@ const selectedNoteReducer: Reducer<NoteListItem | null, NotesActions> = (
       return null;
     case NotesActionTypes.DeleteNoteSuccess:
       return action.payload === state?.id ? null : state;
+    case NotesActionTypes.SearchSuccess:
+      return null;
     default:
       return state;
   }
@@ -83,8 +87,8 @@ const draftedNoteReducer: Reducer<NoteCreateEdit | null, NotesActions> = (
     case NotesActionTypes.ChangeDraft:
       return { text: action.payload };
     case NotesActionTypes.CancelDraft:
-      return null;
     case NotesActionTypes.CreateNoteSuccess:
+    case NotesActionTypes.SearchSuccess:
       return null;
     default:
       return state;
@@ -100,6 +104,8 @@ const showMoreVisibleReducer: Reducer<boolean, NotesActions> = (
       return action.payload.length >= config.notesPageSize;
     case NotesActionTypes.LoadMoreSuccess:
       return action.payload.length >= config.notesPageSize;
+    case NotesActionTypes.SearchSuccess:
+      return true;
     default:
       return state;
   }

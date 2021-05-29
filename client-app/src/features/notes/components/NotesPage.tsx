@@ -11,6 +11,7 @@ import {
 import { useTypedSelector } from '../../__shared__/hooks';
 import NoteCreateEditForm from './NoteCreateEditForm';
 import NotesList from './NotesList';
+import NotesSearchInput from './NotesSearchInput';
 
 const NotesPage: React.FC = () => {
   const user = useTypedSelector(state => state.auth.user);
@@ -49,7 +50,12 @@ const NotesPage: React.FC = () => {
         spacing="lg"
         directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}
       >
-        <FlexContainer flexBreakpoints={{ sm: 1, md: 1, lg: 1 }}>
+        <FlexContainer
+          direction="column"
+          spacing="lg"
+          flexBreakpoints={{ sm: 1, md: 1, lg: 1 }}
+        >
+          <NotesSearchInput></NotesSearchInput>
           <NotesList></NotesList>
         </FlexContainer>
         <FlexContainer flexBreakpoints={{ sm: 1, md: 1.5, lg: 2 }}>

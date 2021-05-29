@@ -36,10 +36,19 @@ const StyledInput = styled.input<InputProps>`
   ${inputBaseStyles};
 `;
 
+// TODO: try to fix, only works now for search input and icon size 16px
 const InputContainer = styled.div`
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  display: block;
+
+  & > input {
+    width: 100%;
+    padding-right: 20px;
+  }
+
+  & > button {
+    margin-top: ${props => props.theme.sizing.sm};
+  }
 `;
 
 const InputEndIconButton = styled(IconButton)`

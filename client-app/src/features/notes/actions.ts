@@ -30,6 +30,10 @@ export enum NotesActionTypes {
   LoadMoreRequest = 'notes/loadMoreRequest',
   LoadMoreSuccess = 'notes/loadMoreSuccess',
   LoadMoreError = 'notes/loadMoreError',
+
+  SearchRequest = 'notes/searchRequest',
+  SearchSuccess = 'notes/searchSuccess',
+  SearchError = 'notes/searchError',
 }
 
 export const getNotesRequest = (): Action<NotesActionTypes.GetNotesRequest> => ({
@@ -147,6 +151,24 @@ export const loadMoreError = (): Action<NotesActionTypes.LoadMoreError> => ({
   type: NotesActionTypes.LoadMoreError,
 });
 
+export const searchRequest = (
+  searchTerm: string,
+): PayloadAction<NotesActionTypes.SearchRequest, string> => ({
+  type: NotesActionTypes.SearchRequest,
+  payload: searchTerm,
+});
+
+export const searchSuccess = (
+  notes: NoteListItem[],
+): PayloadAction<NotesActionTypes.SearchSuccess, NoteListItem[]> => ({
+  type: NotesActionTypes.SearchSuccess,
+  payload: notes,
+});
+
+export const searchError = (): Action<NotesActionTypes.SearchError> => ({
+  type: NotesActionTypes.SearchError,
+});
+
 export type NotesActions =
   | ReturnType<typeof getNotesRequest>
   | ReturnType<typeof getNotesSuccess>
@@ -167,4 +189,7 @@ export type NotesActions =
   | ReturnType<typeof draftCanceled>
   | ReturnType<typeof loadMoreRequest>
   | ReturnType<typeof loadMoreSuccess>
-  | ReturnType<typeof loadMoreError>;
+  | ReturnType<typeof loadMoreError>
+  | ReturnType<typeof searchRequest>
+  | ReturnType<typeof searchSuccess>
+  | ReturnType<typeof searchError>;

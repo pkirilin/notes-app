@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from '@redux-saga/core/effects';
+import { all, call, debounce, put, takeEvery } from '@redux-saga/core/effects';
 import api from './api';
 import {
   createNoteError,
@@ -16,6 +16,9 @@ import {
   loadMoreSuccess,
   loadMoreError,
   loadMoreRequest,
+  searchSuccess,
+  searchRequest,
+  searchError,
 } from './actions';
 import { NoteListItem } from './models/NoteListItem';
 
@@ -66,6 +69,15 @@ function* deleteNote({ payload }: ReturnType<typeof deleteNoteRequest>) {
   }
 }
 
+function* search({ payload }: ReturnType<typeof searchRequest>) {
+  try {
+    const notes: NoteListItem[] = yield call(api.searchNotes, payload);
+    yield put(searchSuccess(notes));
+  } catch (error) {
+    yield put(searchError());
+  }
+}
+
 function* watchGetNotes() {
   yield takeEvery(NotesActionTypes.GetNotesRequest, getNotes);
 }
@@ -86,6 +98,10 @@ function* watchDeleteNote() {
   yield takeEvery(NotesActionTypes.DeleteNoteRequest, deleteNote);
 }
 
+function* watchSearch() {
+  yield debounce(350, NotesActionTypes.SearchRequest, search);
+}
+
 export default function* (): Generator {
   yield all([
     watchGetNotes(),
@@ -93,5 +109,6 @@ export default function* (): Generator {
     watchCreateNote(),
     watchEditNote(),
     watchDeleteNote(),
+    watchSearch(),
   ]);
 }

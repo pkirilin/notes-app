@@ -3,4 +3,5 @@ export default {
   createNote: jest.fn(),
   editNote: jest.fn(),
   deleteNote: jest.fn(),
+  searchNotes: jest.fn(),
 };
