@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -29,7 +28,7 @@ namespace NotesApp.WebApi.Infrastructure.Repositories
             CancellationToken cancellationToken)
         {
             return CurrentSet.Where(n => n.UserId == userId)
-                .Where(n => n.Text.Contains(text.Trim(), StringComparison.OrdinalIgnoreCase))
+                .Where(n => n.Text.Trim().ToLower().Contains(text.Trim().ToLower()))
                 .OrderByDescending(n => n.UpdatedAt)
                 .Take(showCount)
                 .ToListAsync(cancellationToken);
