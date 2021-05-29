@@ -1,4 +1,4 @@
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/dom';
 import { RenderResult } from '@testing-library/react';
 import React from 'react';
 import {
@@ -7,6 +7,7 @@ import {
   waitForSingleCall,
 } from '../../../../test-utils';
 import api from '../../api';
+import { mockSuccessfulGetNotes } from '../../testing';
 import NotesSearchInput from '../NotesSearchInput';
 
 jest.mock('../../api');
@@ -46,15 +47,15 @@ describe('<NotesSearchInput></NotesSearchInput>', () => {
   describe('when clear search input clicked', () => {
     test('should clear search term and call search api', async () => {
       const searchApi = mockSuccessfulSearch();
+      const getNotesApi = mockSuccessfulGetNotes();
 
       const result = renderConnected(<NotesSearchInput></NotesSearchInput>);
       changeSearchInput(result, 'test');
       await waitForSingleCall(searchApi);
       clickSearchClear(result);
-      // TODO: move to helpers
-      await waitFor(() => expect(searchApi).toHaveBeenCalledTimes(2));
+      await waitForSingleCall(getNotesApi);
 
-      expect(searchApi).toHaveBeenLastCalledWith('');
+      expect(searchApi).toHaveBeenLastCalledWith('test');
     });
   });
 });

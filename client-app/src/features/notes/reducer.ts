@@ -105,7 +105,7 @@ const showMoreVisibleReducer: Reducer<boolean, NotesActions> = (
     case NotesActionTypes.LoadMoreSuccess:
       return action.payload.length >= config.notesPageSize;
     case NotesActionTypes.SearchSuccess:
-      return true;
+      return false;
     default:
       return state;
   }
