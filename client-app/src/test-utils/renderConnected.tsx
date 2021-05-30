@@ -13,10 +13,7 @@ export interface RenderConnectedResult extends RenderResult {
   history: History;
 }
 
-export function renderConnected(
-  ui: React.ReactElement,
-  actions: AnyAction[] = [],
-): RenderConnectedResult {
+export function renderConnected(ui: React.ReactElement, actions: AnyAction[] = []): RenderConnectedResult {
   const store = createTestStore(actions);
   const history = createBrowserHistory();
 

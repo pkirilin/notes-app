@@ -1,10 +1,5 @@
 import React from 'react';
-import styled, {
-  css,
-  DefaultTheme,
-  FlattenInterpolation,
-  ThemeProps,
-} from 'styled-components';
+import styled, { css, DefaultTheme, FlattenInterpolation, ThemeProps } from 'styled-components';
 
 type ButtonColor = 'default' | 'primary';
 
@@ -31,22 +26,19 @@ export const Button = styled.button<ButtonProps>`
 const defaultColorTheme = css`
   background-color: ${props => props.theme.colors.grey.light};
   color: ${props => props.theme.colors.text.default};
-  border: ${props =>
-    `${props.theme.borders.default} solid ${props.theme.colors.grey.dark}`};
+  border: ${props => `${props.theme.borders.default} solid ${props.theme.colors.grey.dark}`};
 
   &:hover:enabled {
     background-color: ${props => props.theme.colors.grey.default};
   }
 
   &:focus {
-    box-shadow: ${props =>
-      `0 0 ${props.theme.sizing.md} ${props.theme.colors.grey.dark}`};
+    box-shadow: ${props => `0 0 ${props.theme.sizing.md} ${props.theme.colors.grey.dark}`};
   }
 
   &:disabled {
     color: ${props => props.theme.colors.text.hint};
-    border: ${props =>
-      `${props.theme.borders.default} solid ${props.theme.colors.grey.default}`};
+    border: ${props => `${props.theme.borders.default} solid ${props.theme.colors.grey.default}`};
   }
 `;
 
@@ -59,8 +51,7 @@ const primaryColorTheme = css`
   }
 
   &:focus {
-    box-shadow: ${props =>
-      `0 0 ${props.theme.sizing.md} ${props.theme.colors.primary.dark}`};
+    box-shadow: ${props => `0 0 ${props.theme.sizing.md} ${props.theme.colors.primary.dark}`};
   }
 
   &:disabled {
@@ -68,10 +59,7 @@ const primaryColorTheme = css`
   }
 `;
 
-const colorThemes: Record<
-  ButtonColor,
-  FlattenInterpolation<ThemeProps<DefaultTheme>>
-> = {
+const colorThemes: Record<ButtonColor, FlattenInterpolation<ThemeProps<DefaultTheme>>> = {
   default: defaultColorTheme,
   primary: primaryColorTheme,
 };

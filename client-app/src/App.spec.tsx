@@ -15,9 +15,7 @@ describe('<App></App>', () => {
 
   describe('when user authorized', () => {
     test('should show notes page', async () => {
-      const { findByText } = renderConnected(<App></App>, [
-        loginSuccess(createTestUser()),
-      ]);
+      const { findByText } = renderConnected(<App></App>, [loginSuccess(createTestUser())]);
 
       expect(await findByText('Notes')).toBeVisible();
     });

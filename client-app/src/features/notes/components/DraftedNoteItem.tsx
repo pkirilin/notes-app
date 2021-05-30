@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  FlexContainer,
-  ListItem,
-  Typography,
-} from '../../__shared__/components';
+import { FlexContainer, ListItem, Typography } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 
 const DraftedNoteItem: React.FC = () => {

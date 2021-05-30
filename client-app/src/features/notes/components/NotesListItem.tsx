@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  FlexContainer,
-  IconButton,
-  ListItem,
-  Typography,
-} from '../../__shared__/components';
+import { FlexContainer, IconButton, ListItem, Typography } from '../../__shared__/components';
 import { deleteNoteRequest, noteSelected } from '../actions';
 import { NoteListItem } from '../models/NoteListItem';
 import { Delete, DeleteForever } from '@styled-icons/material';
@@ -21,9 +16,7 @@ const StyledDeleteForever = styled(DeleteForever)`
   color: ${props => props.theme.colors.error.default};
 `;
 
-const NotesListItem: React.FC<NotesListItemProps> = ({
-  note,
-}: NotesListItemProps) => {
+const NotesListItem: React.FC<NotesListItemProps> = ({ note }: NotesListItemProps) => {
   const [deleteClicked, setDeleteClicked] = useState(false);
   const selectedNote = useTypedSelector(state => state.notes.selectedNote);
   const dispatch = useDispatch();
@@ -47,10 +40,7 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
   };
 
   return (
-    <ListItem
-      selected={selectedNote?.id === note.id}
-      onClick={handleListItemClick}
-    >
+    <ListItem selected={selectedNote?.id === note.id} onClick={handleListItemClick}>
       <FlexContainer align="center" spacing="lg">
         <FlexContainer flex={1} direction="column" spacing="md">
           <FlexContainer align="center" spacing="md">
@@ -65,10 +55,7 @@ const NotesListItem: React.FC<NotesListItemProps> = ({
         </FlexContainer>
         {deleteClicked ? (
           <IconButton role="deletion" onClick={handleDeleteConfirmClick}>
-            <StyledDeleteForever
-              size="24"
-              title="Confirm delete note"
-            ></StyledDeleteForever>
+            <StyledDeleteForever size="24" title="Confirm delete note"></StyledDeleteForever>
           </IconButton>
         ) : (
           <IconButton role="deletion" onClick={handleDeleteClick}>

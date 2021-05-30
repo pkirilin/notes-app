@@ -16,12 +16,7 @@ import { useLogin, usePassword } from '../hooks';
 
 const RegisterInput: React.FC = () => {
   const [login, loginError, loginValidationMessage, setLogin] = useLogin('');
-  const [
-    password,
-    passwordError,
-    passwordValidationMessage,
-    setPassword,
-  ] = usePassword('');
+  const [password, passwordError, passwordValidationMessage, setPassword] = usePassword('');
   const [
     passwordConfirm,
     passwordConfirmError,
@@ -63,16 +58,10 @@ const RegisterInput: React.FC = () => {
     ],
   );
 
-  const [validationSummaryVisible, setValidationSummaryVisible] = useState(
-    false,
-  );
+  const [validationSummaryVisible, setValidationSummaryVisible] = useState(false);
 
-  const registrationStatus = useTypedSelector(
-    state => state?.auth?.registrationResult?.status,
-  );
-  const registrationResultMessage = useTypedSelector(
-    state => state?.auth?.registrationResult?.message,
-  );
+  const registrationStatus = useTypedSelector(state => state?.auth?.registrationResult?.status);
+  const registrationResultMessage = useTypedSelector(state => state?.auth?.registrationResult?.message);
 
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -88,10 +77,7 @@ const RegisterInput: React.FC = () => {
   }, [registrationStatus]);
 
   useEffect(() => {
-    if (
-      (password === '' && passwordConfirm === '') ||
-      password === passwordConfirm
-    ) {
+    if ((password === '' && passwordConfirm === '') || password === passwordConfirm) {
       setPasswordConfirmError(false);
       setPasswordConfirmValidationMessage('');
     } else {
@@ -120,24 +106,10 @@ const RegisterInput: React.FC = () => {
 
   return (
     <Page flex={1}>
-      <FlexContainer
-        direction="column"
-        spacing="lg"
-        flexBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}
-      >
-        {registrationStatus === 'error' && (
-          <Typography>{registrationResultMessage}</Typography>
-        )}
-        <ValidationSummary
-          isVisible={validationSummaryVisible}
-          details={validationSummaryDetails}
-        ></ValidationSummary>
-        <Input
-          type="text"
-          placeholder="Login"
-          value={login}
-          onChange={event => setLogin(event.target.value)}
-        ></Input>
+      <FlexContainer direction="column" spacing="lg" flexBreakpoints={{ xs: 1, sm: 0.5, md: 0.3, xl: 0.2 }}>
+        {registrationStatus === 'error' && <Typography>{registrationResultMessage}</Typography>}
+        <ValidationSummary isVisible={validationSummaryVisible} details={validationSummaryDetails}></ValidationSummary>
+        <Input type="text" placeholder="Login" value={login} onChange={event => setLogin(event.target.value)}></Input>
         <Input
           type="password"
           placeholder="Password"

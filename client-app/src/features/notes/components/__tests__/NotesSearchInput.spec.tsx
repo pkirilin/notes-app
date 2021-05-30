@@ -1,11 +1,7 @@
 import { fireEvent } from '@testing-library/dom';
 import { RenderResult } from '@testing-library/react';
 import React from 'react';
-import {
-  asJestMock,
-  renderConnected,
-  waitForSingleCall,
-} from '../../../../test-utils';
+import { asJestMock, renderConnected, waitForSingleCall } from '../../../../test-utils';
 import api from '../../api';
 import { mockSuccessfulGetNotes } from '../../testing';
 import NotesSearchInput from '../NotesSearchInput';

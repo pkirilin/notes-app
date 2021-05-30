@@ -5,9 +5,7 @@ import { UserData } from '../models/UserData';
 
 async function login({ userName, password }: LoginData): Promise<UserData> {
   const response = await fetch(
-    `${config.apiUrl}/login?userName=${encodeURIComponent(
-      userName,
-    )}&password=${encodeURIComponent(password)}`,
+    `${config.apiUrl}/login?userName=${encodeURIComponent(userName)}&password=${encodeURIComponent(password)}`,
   );
   return response.json();
 }

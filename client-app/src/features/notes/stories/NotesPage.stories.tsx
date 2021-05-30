@@ -11,24 +11,14 @@ export default {
   component: NotesPage,
 } as Meta;
 
-export const AuthenticatedUserWithNotesCollection: Story = () => (
-  <NotesPage></NotesPage>
-);
+export const AuthenticatedUserWithNotesCollection: Story = () => <NotesPage></NotesPage>;
 
 AuthenticatedUserWithNotesCollection.decorators = [
-  createStorybookReduxDecorator([
-    loginSuccess(STORYBOOK_TEST_USER),
-    getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS),
-  ]),
+  createStorybookReduxDecorator([loginSuccess(STORYBOOK_TEST_USER), getNotesSuccess(STORYBOOK_TEST_NOTE_ITEMS)]),
 ];
 
-export const AuthenticatedUserWithNotesCollectionLoading: Story = () => (
-  <NotesPage></NotesPage>
-);
+export const AuthenticatedUserWithNotesCollectionLoading: Story = () => <NotesPage></NotesPage>;
 
 AuthenticatedUserWithNotesCollectionLoading.decorators = [
-  createStorybookReduxDecorator([
-    loginSuccess(STORYBOOK_TEST_USER),
-    getNotesRequest(),
-  ]),
+  createStorybookReduxDecorator([loginSuccess(STORYBOOK_TEST_USER), getNotesRequest()]),
 ];

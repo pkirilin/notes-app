@@ -5,20 +5,14 @@ import { NoteCreateEdit } from './models/NoteCreateEdit';
 import { NoteListItem } from './models/NoteListItem';
 import { NotesStatus } from './state';
 
-const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
-  state = [],
-  action,
-) => {
+const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (state = [], action) => {
   switch (action.type) {
     case NotesActionTypes.GetNotesSuccess:
       return action.payload;
     case NotesActionTypes.CreateNoteSuccess:
       return [action.payload, ...state];
     case NotesActionTypes.EditNoteSuccess:
-      return [
-        action.payload,
-        ...state.filter(note => note.id !== action.payload.id),
-      ];
+      return [action.payload, ...state.filter(note => note.id !== action.payload.id)];
     case NotesActionTypes.DeleteNoteSuccess:
       return state.filter(note => note.id !== action.payload);
     case NotesActionTypes.LoadMoreSuccess:
@@ -30,10 +24,7 @@ const noteItemsReducer: Reducer<NoteListItem[], NotesActions> = (
   }
 };
 
-const statusReducer: Reducer<NotesStatus, NotesActions> = (
-  state = 'idle',
-  action,
-) => {
+const statusReducer: Reducer<NotesStatus, NotesActions> = (state = 'idle', action) => {
   switch (action.type) {
     case NotesActionTypes.GetNotesRequest:
       return 'loading';
@@ -46,10 +37,7 @@ const statusReducer: Reducer<NotesStatus, NotesActions> = (
   }
 };
 
-const selectedNoteReducer: Reducer<NoteListItem | null, NotesActions> = (
-  state = null,
-  action,
-) => {
+const selectedNoteReducer: Reducer<NoteListItem | null, NotesActions> = (state = null, action) => {
   switch (action.type) {
     case NotesActionTypes.SelectNote:
       return action.payload;
@@ -77,10 +65,7 @@ const selectedNoteReducer: Reducer<NoteListItem | null, NotesActions> = (
   }
 };
 
-const draftedNoteReducer: Reducer<NoteCreateEdit | null, NotesActions> = (
-  state = null,
-  action,
-) => {
+const draftedNoteReducer: Reducer<NoteCreateEdit | null, NotesActions> = (state = null, action) => {
   switch (action.type) {
     case NotesActionTypes.Draft:
       return { text: '' };
@@ -95,10 +80,7 @@ const draftedNoteReducer: Reducer<NoteCreateEdit | null, NotesActions> = (
   }
 };
 
-const showMoreVisibleReducer: Reducer<boolean, NotesActions> = (
-  state = false,
-  action,
-) => {
+const showMoreVisibleReducer: Reducer<boolean, NotesActions> = (state = false, action) => {
   switch (action.type) {
     case NotesActionTypes.GetNotesSuccess:
       return action.payload.length >= config.notesPageSize;

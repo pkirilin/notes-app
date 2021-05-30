@@ -2,12 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { logout } from '../../auth/actions';
-import {
-  Button,
-  FlexContainer,
-  Page,
-  Typography,
-} from '../../__shared__/components';
+import { Button, FlexContainer, Page, Typography } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 import NoteCreateEditForm from './NoteCreateEditForm';
 import NotesList from './NotesList';
@@ -46,15 +41,8 @@ const NotesPage: React.FC = () => {
           </Button>
         </FlexContainer>
       </FlexContainer>
-      <FlexContainer
-        spacing="lg"
-        directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}
-      >
-        <FlexContainer
-          direction="column"
-          spacing="lg"
-          flexBreakpoints={{ sm: 1, md: 1, lg: 1 }}
-        >
+      <FlexContainer spacing="lg" directionBreakpoints={{ xs: 'column-reverse', sm: 'row' }}>
+        <FlexContainer direction="column" spacing="lg" flexBreakpoints={{ sm: 1, md: 1, lg: 1 }}>
           <NotesSearchInput></NotesSearchInput>
           <NotesList></NotesList>
         </FlexContainer>

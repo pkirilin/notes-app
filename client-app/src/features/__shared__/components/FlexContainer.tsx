@@ -1,28 +1,10 @@
-import styled, {
-  css,
-  DefaultTheme,
-  ThemeBreakpointKey,
-} from 'styled-components';
+import styled, { css, DefaultTheme, ThemeBreakpointKey } from 'styled-components';
 
-type FlexContainerDirection =
-  | 'row'
-  | 'column'
-  | 'row-reverse'
-  | 'column-reverse';
+type FlexContainerDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse';
 
-type FlexContainerJustify =
-  | 'flex-start'
-  | 'center'
-  | 'flex-end'
-  | 'space-between'
-  | 'space-around';
+type FlexContainerJustify = 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
 
-type FlexContainerAlign =
-  | 'flex-start'
-  | 'center'
-  | 'flex-end'
-  | 'baseline'
-  | 'stretch';
+type FlexContainerAlign = 'flex-start' | 'center' | 'flex-end' | 'baseline' | 'stretch';
 
 type PropWithBreakpoints<T> = Partial<Record<ThemeBreakpointKey, T>>;
 
@@ -55,16 +37,8 @@ export const FlexContainer = styled.div<FlexContainerProps>`
   ${props => useBreakpoint('xl', props)};
 `;
 
-function useBreakpoint(
-  breakpoint: ThemeBreakpointKey,
-  flexProps: FlexContainerProps,
-) {
-  const {
-    directionBreakpoints,
-    flexBreakpoints,
-    justifyBreakpoints,
-    alignBreakpoints,
-  } = flexProps;
+function useBreakpoint(breakpoint: ThemeBreakpointKey, flexProps: FlexContainerProps) {
+  const { directionBreakpoints, flexBreakpoints, justifyBreakpoints, alignBreakpoints } = flexProps;
 
   return css`
     @media (min-width: ${props => props.theme.breakpoints[breakpoint]}) {
@@ -83,9 +57,7 @@ function useBreakpointsProp<TProp>(
   breakpointsProp?: PropWithBreakpoints<TProp>,
 ) {
   return css`
-    ${breakpointsProp &&
-    breakpointsProp[breakpoint] &&
-    `${cssPropName}: ${breakpointsProp[breakpoint]}`};
+    ${breakpointsProp && breakpointsProp[breakpoint] && `${cssPropName}: ${breakpointsProp[breakpoint]}`};
   `;
 }
 
@@ -96,9 +68,7 @@ function useSpacing(
   if (!breakpoint) {
     return css`
       & > :not(:first-child) {
-        ${props =>
-          spacing &&
-          `margin: ${getSpacingMargin(props.theme, spacing, direction)}`};
+        ${props => spacing && `margin: ${getSpacingMargin(props.theme, spacing, direction)}`};
       }
     `;
   }
@@ -109,11 +79,7 @@ function useSpacing(
         spacing &&
         directionBreakpoints &&
         directionBreakpoints[breakpoint] &&
-        `margin: ${getSpacingMargin(
-          props.theme,
-          spacing,
-          directionBreakpoints[breakpoint],
-        )};`}
+        `margin: ${getSpacingMargin(props.theme, spacing, directionBreakpoints[breakpoint])};`}
     }
   `;
 }

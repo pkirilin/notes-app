@@ -78,9 +78,7 @@ export const editNoteRequest = (
   meta: id,
 });
 
-export const editNoteSuccess = (
-  note: NoteListItem,
-): PayloadAction<NotesActionTypes.EditNoteSuccess, NoteListItem> => ({
+export const editNoteSuccess = (note: NoteListItem): PayloadAction<NotesActionTypes.EditNoteSuccess, NoteListItem> => ({
   type: NotesActionTypes.EditNoteSuccess,
   payload: note,
 });
@@ -89,16 +87,12 @@ export const editNoteError = (): Action<NotesActionTypes.EditNoteError> => ({
   type: NotesActionTypes.EditNoteError,
 });
 
-export const deleteNoteRequest = (
-  id: number,
-): PayloadAction<NotesActionTypes.DeleteNoteRequest, number> => ({
+export const deleteNoteRequest = (id: number): PayloadAction<NotesActionTypes.DeleteNoteRequest, number> => ({
   type: NotesActionTypes.DeleteNoteRequest,
   payload: id,
 });
 
-export const deleteNoteSuccess = (
-  id: number,
-): PayloadAction<NotesActionTypes.DeleteNoteSuccess, number> => ({
+export const deleteNoteSuccess = (id: number): PayloadAction<NotesActionTypes.DeleteNoteSuccess, number> => ({
   type: NotesActionTypes.DeleteNoteSuccess,
   payload: id,
 });
@@ -107,9 +101,7 @@ export const deleteNoteError = (): Action<NotesActionTypes.DeleteNoteError> => (
   type: NotesActionTypes.DeleteNoteError,
 });
 
-export const noteSelected = (
-  note: NoteListItem,
-): PayloadAction<NotesActionTypes.SelectNote, NoteListItem> => ({
+export const noteSelected = (note: NoteListItem): PayloadAction<NotesActionTypes.SelectNote, NoteListItem> => ({
   type: NotesActionTypes.SelectNote,
   payload: note,
 });
@@ -122,9 +114,7 @@ export const draft = (): Action<NotesActionTypes.Draft> => ({
   type: NotesActionTypes.Draft,
 });
 
-export const draftChanged = (
-  text: string,
-): PayloadAction<NotesActionTypes.ChangeDraft, string> => ({
+export const draftChanged = (text: string): PayloadAction<NotesActionTypes.ChangeDraft, string> => ({
   type: NotesActionTypes.ChangeDraft,
   payload: text,
 });
@@ -133,9 +123,7 @@ export const draftCanceled = (): Action<NotesActionTypes.CancelDraft> => ({
   type: NotesActionTypes.CancelDraft,
 });
 
-export const loadMoreRequest = (
-  pageIndex: number,
-): PayloadAction<NotesActionTypes.LoadMoreRequest, number> => ({
+export const loadMoreRequest = (pageIndex: number): PayloadAction<NotesActionTypes.LoadMoreRequest, number> => ({
   type: NotesActionTypes.LoadMoreRequest,
   payload: pageIndex,
 });
@@ -151,9 +139,7 @@ export const loadMoreError = (): Action<NotesActionTypes.LoadMoreError> => ({
   type: NotesActionTypes.LoadMoreError,
 });
 
-export const searchRequest = (
-  searchTerm: string,
-): PayloadAction<NotesActionTypes.SearchRequest, string> => ({
+export const searchRequest = (searchTerm: string): PayloadAction<NotesActionTypes.SearchRequest, string> => ({
   type: NotesActionTypes.SearchRequest,
   payload: searchTerm,
 });

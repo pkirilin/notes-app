@@ -5,10 +5,7 @@ import { RegistrationResult, UserState } from './store';
 
 const user: UserState = Cookies.getJSON('auth') || null;
 
-export const userReducer: Reducer<UserState, AuthActions> = (
-  state = user,
-  action,
-) => {
+export const userReducer: Reducer<UserState, AuthActions> = (state = user, action) => {
   switch (action.type) {
     case AuthActionTypes.LoginSuccess:
       return action.payload;
@@ -19,10 +16,10 @@ export const userReducer: Reducer<UserState, AuthActions> = (
   }
 };
 
-export const registrationResultReducer: Reducer<
-  RegistrationResult,
-  AuthActions
-> = (state = { status: 'initial' }, action) => {
+export const registrationResultReducer: Reducer<RegistrationResult, AuthActions> = (
+  state = { status: 'initial' },
+  action,
+) => {
   switch (action.type) {
     case AuthActionTypes.RegisterRequest:
       return { status: 'idle' };

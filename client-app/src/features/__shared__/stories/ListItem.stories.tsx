@@ -15,6 +15,4 @@ export default {
 
 export const DefaultListItem: Story = () => <ListItem>List item</ListItem>;
 
-export const SelectedListItem: Story = () => (
-  <ListItem selected={true}>Selected list item</ListItem>
-);
+export const SelectedListItem: Story = () => <ListItem selected={true}>Selected list item</ListItem>;

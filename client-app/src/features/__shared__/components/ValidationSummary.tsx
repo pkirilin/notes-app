@@ -4,8 +4,7 @@ import styled from 'styled-components';
 const ValidationSummaryList = styled.ul`
   color: ${props => props.theme.colors.error.default};
   padding: ${props => props.theme.sizing.md} ${props => props.theme.sizing.xl};
-  border: ${props => props.theme.borders.default} solid
-    ${props => props.theme.colors.error.default};
+  border: ${props => props.theme.borders.default} solid ${props => props.theme.colors.error.default};
   border-radius: ${props => props.theme.sizing.md};
 `;
 
@@ -23,10 +22,7 @@ export type ValidationSummaryProps = {
   details: ValidationSummaryDetail[];
 };
 
-export const ValidationSummary: React.FC<ValidationSummaryProps> = ({
-  isVisible,
-  details,
-}: ValidationSummaryProps) => {
+export const ValidationSummary: React.FC<ValidationSummaryProps> = ({ isVisible, details }: ValidationSummaryProps) => {
   if (!isVisible) {
     return null;
   }
@@ -36,9 +32,7 @@ export const ValidationSummary: React.FC<ValidationSummaryProps> = ({
       {details
         .filter(d => d.validationMessage)
         .map(({ validationMessage }, i) => (
-          <ValidationSummaryListItem key={i}>
-            {validationMessage}
-          </ValidationSummaryListItem>
+          <ValidationSummaryListItem key={i}>{validationMessage}</ValidationSummaryListItem>
         ))}
     </ValidationSummaryList>
   );

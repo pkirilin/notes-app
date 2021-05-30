@@ -2,11 +2,7 @@ import React from 'react';
 import RegisterInput from '../RegisterInput';
 import { fireEvent, RenderResult } from '@testing-library/react';
 import { registerError } from '../../actions';
-import {
-  asJestMock,
-  renderConnected,
-  waitForSingleCall,
-} from '../../../../test-utils';
+import { asJestMock, renderConnected, waitForSingleCall } from '../../../../test-utils';
 import api from '../../api';
 
 jest.mock('../../api');
@@ -27,9 +23,7 @@ describe('<RegisterInput></RegisterInput>', () => {
 
   describe('when registration failed', () => {
     test('should show alert with error message', () => {
-      const { getByText } = renderConnected(<RegisterInput></RegisterInput>, [
-        registerError('Registration error'),
-      ]);
+      const { getByText } = renderConnected(<RegisterInput></RegisterInput>, [registerError('Registration error')]);
 
       expect(getByText('Registration error')).toBeVisible();
     });

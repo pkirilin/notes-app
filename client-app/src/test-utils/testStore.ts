@@ -7,11 +7,7 @@ export function createTestStore(actions: AnyAction[]): Store {
   const initialState = actions.reduce(rootReducer, undefined);
   const sagaMiddleware = createSagaMiddleware();
 
-  const store = createStore(
-    rootReducer,
-    initialState,
-    applyMiddleware(sagaMiddleware),
-  );
+  const store = createStore(rootReducer, initialState, applyMiddleware(sagaMiddleware));
 
   sagaMiddleware.run(rootSaga);
 

@@ -1,11 +1,7 @@
 import React from 'react';
 import { fireEvent, RenderResult } from '@testing-library/react';
 import LoginInput from '../LoginInput';
-import {
-  asJestMock,
-  renderConnected,
-  waitForSingleCall,
-} from '../../../../test-utils';
+import { asJestMock, renderConnected, waitForSingleCall } from '../../../../test-utils';
 import api from '../../api';
 import { UserData } from '../../models/UserData';
 

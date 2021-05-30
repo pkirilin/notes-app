@@ -1,10 +1,6 @@
 import { waitFor } from '@testing-library/dom';
 import React from 'react';
-import {
-  asJestMock,
-  renderConnected,
-  waitForSingleCall,
-} from '../../../../test-utils';
+import { asJestMock, renderConnected, waitForSingleCall } from '../../../../test-utils';
 import api from '../../api';
 import {
   clickAddNote,
@@ -99,10 +95,7 @@ describe('<NotesList></NotesList>', () => {
     test('should display loading message', () => {
       mockSuccessfulGetNotes();
 
-      const result = renderConnected(
-        <NotesList></NotesList>,
-        withLoadingNoteItemsState(),
-      );
+      const result = renderConnected(<NotesList></NotesList>, withLoadingNoteItemsState());
 
       expect(result.getByText(/Loading notes/)).toBeVisible();
     });

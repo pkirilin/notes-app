@@ -23,10 +23,7 @@ describe('<NotesPage></NotesPage>', () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
       mockEditNoteApi('Some text from API');
 
-      const result = renderConnected(
-        <NotesPage></NotesPage>,
-        withSelectedNoteState(1, 'Note 1'),
-      );
+      const result = renderConnected(<NotesPage></NotesPage>, withSelectedNoteState(1, 'Note 1'));
       await waitForSingleCall(getNotes);
       fillNoteText(result, 'Some text');
       clickSubmitNote(result);
@@ -38,10 +35,7 @@ describe('<NotesPage></NotesPage>', () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
       mockCreateNoteApi('New note from API', 10);
 
-      const result = renderConnected(
-        <NotesPage></NotesPage>,
-        withDraftedNoteState(),
-      );
+      const result = renderConnected(<NotesPage></NotesPage>, withDraftedNoteState());
       await waitForSingleCall(getNotes);
       fillNoteText(result, 'Some text');
       clickSubmitNote(result);
@@ -53,10 +47,7 @@ describe('<NotesPage></NotesPage>', () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
       const createNote = mockCreateNoteApi('New note from API', 10);
 
-      const result = renderConnected(
-        <NotesPage></NotesPage>,
-        withDraftedNoteState(),
-      );
+      const result = renderConnected(<NotesPage></NotesPage>, withDraftedNoteState());
       await waitForSingleCall(getNotes);
       fillNoteText(result, 'Some text');
       clickSubmitNote(result);
@@ -70,10 +61,7 @@ describe('<NotesPage></NotesPage>', () => {
     test('should remove draft if draft exists', async () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
 
-      const result = renderConnected(
-        <NotesPage></NotesPage>,
-        withDraftedNoteState(),
-      );
+      const result = renderConnected(<NotesPage></NotesPage>, withDraftedNoteState());
       await waitForSingleCall(getNotes);
       clickCancelNoteInput(result);
 
@@ -86,10 +74,7 @@ describe('<NotesPage></NotesPage>', () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
       const deleteNote = mockDeleteNote();
 
-      const result = renderConnected(
-        <NotesPage></NotesPage>,
-        withSelectedNoteState(1, 'Note 2'),
-      );
+      const result = renderConnected(<NotesPage></NotesPage>, withSelectedNoteState(1, 'Note 2'));
       await waitForSingleCall(getNotes);
       clickDeleteNoteById(result, 1);
       clickDeleteNoteById(result, 1);
@@ -102,10 +87,7 @@ describe('<NotesPage></NotesPage>', () => {
       const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
       const deleteNote = mockDeleteNote();
 
-      const result = renderConnected(
-        <NotesPage></NotesPage>,
-        withSelectedNoteState(1, 'Note 2'),
-      );
+      const result = renderConnected(<NotesPage></NotesPage>, withSelectedNoteState(1, 'Note 2'));
       await waitForSingleCall(getNotes);
       clickDeleteNoteById(result, 0);
       clickDeleteNoteById(result, 0);

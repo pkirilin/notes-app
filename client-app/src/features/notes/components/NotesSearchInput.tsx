@@ -23,9 +23,7 @@ const NotesSearchInput: React.FC = () => {
     }
   }, [searchTermChanged, searchTerm]);
 
-  const handleSearchTermChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     setSearchTermChanged(true);
   };
@@ -41,9 +39,7 @@ const NotesSearchInput: React.FC = () => {
   return (
     <Input
       placeholder="Search notes"
-      endIcon={() => (
-        <Close size="16" title="Clear" onClick={handleClearInput}></Close>
-      )}
+      endIcon={() => <Close size="16" title="Clear" onClick={handleClearInput}></Close>}
       value={searchTerm}
       onChange={handleSearchTermChange}
     ></Input>

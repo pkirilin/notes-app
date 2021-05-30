@@ -2,13 +2,7 @@ import { Add, ExpandMore, Sync } from '@styled-icons/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import {
-  FlexContainer,
-  IconButton,
-  List,
-  ListItem,
-  Typography,
-} from '../../__shared__/components';
+import { FlexContainer, IconButton, List, ListItem, Typography } from '../../__shared__/components';
 import { useTypedSelector } from '../../__shared__/hooks';
 import { draft, getNotesRequest, loadMoreRequest } from '../actions';
 import DraftedNoteItem from './DraftedNoteItem';
@@ -34,9 +28,7 @@ const NotesListLoader = styled(Sync)`
 const NotesList: React.FC = () => {
   const notes = useTypedSelector(state => state.notes.noteItems);
   const notesStatus = useTypedSelector(state => state.notes.status);
-  const showMoreVisible = useTypedSelector(
-    state => state.notes.showMoreVisible,
-  );
+  const showMoreVisible = useTypedSelector(state => state.notes.showMoreVisible);
   const draftedNote = useTypedSelector(state => state.notes.draftedNote);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -93,9 +85,7 @@ const NotesList: React.FC = () => {
       </ListItemAddNote>
       <DraftedNoteItem></DraftedNoteItem>
       {notes.length > 0 ? (
-        notes.map(note => (
-          <NotesListItem key={note.id} note={note}></NotesListItem>
-        ))
+        notes.map(note => <NotesListItem key={note.id} note={note}></NotesListItem>)
       ) : (
         <EmptyNotesPlaceholder>
           <Typography type="body2" color="default" align="center">

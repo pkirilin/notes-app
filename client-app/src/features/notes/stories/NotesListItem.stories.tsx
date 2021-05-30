@@ -10,9 +10,7 @@ export default {
   decorators: [createStorybookReduxDecorator()],
 } as Meta;
 
-const Template: Story<NotesListItemProps> = args => (
-  <NotesListItem {...args}></NotesListItem>
-);
+const Template: Story<NotesListItemProps> = args => <NotesListItem {...args}></NotesListItem>;
 
 export const Default = Template.bind({});
 

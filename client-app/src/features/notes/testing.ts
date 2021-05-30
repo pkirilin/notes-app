@@ -14,10 +14,7 @@ export function createTestNote(id = 1, text = 'Test note'): NoteListItem {
   };
 }
 
-export function withSelectedNoteState(
-  id: number,
-  text: string,
-): NotesActions[] {
+export function withSelectedNoteState(id: number, text: string): NotesActions[] {
   return [
     {
       type: NotesActionTypes.SelectNote,
@@ -51,10 +48,7 @@ export function withLoadingNoteItemsState(): NotesActions[] {
   ];
 }
 
-export function mockCreateNoteApi(
-  noteText: string,
-  id = 1,
-): jest.Mock<Promise<NoteListItem>> {
+export function mockCreateNoteApi(noteText: string, id = 1): jest.Mock<Promise<NoteListItem>> {
   return asJestMock(api.createNote).mockResolvedValueOnce({
     id,
     text: noteText,
@@ -63,29 +57,17 @@ export function mockCreateNoteApi(
   });
 }
 
-export function mockEditNoteApi(
-  noteText = '',
-  id = 1,
-): jest.Mock<Promise<NoteListItem>> {
-  return asJestMock(api.editNote).mockResolvedValueOnce(
-    createTestNote(id, noteText),
-  );
+export function mockEditNoteApi(noteText = '', id = 1): jest.Mock<Promise<NoteListItem>> {
+  return asJestMock(api.editNote).mockResolvedValueOnce(createTestNote(id, noteText));
 }
 
 // TODO: refactor name
-export function mockSuccessfulGetNotes(
-  ...noteTexts: string[]
-): jest.Mock<Promise<NoteListItem[]>> {
+export function mockSuccessfulGetNotes(...noteTexts: string[]): jest.Mock<Promise<NoteListItem[]>> {
   return mockSuccessfulGetNotesAfter(0, ...noteTexts);
 }
 
-export function mockSuccessfulGetNotesAfter(
-  startId = 0,
-  ...noteTexts: string[]
-): jest.Mock<Promise<NoteListItem[]>> {
-  return asJestMock(api.getNotes).mockResolvedValueOnce(
-    noteTexts.map((text, i) => createTestNote(startId + i, text)),
-  );
+export function mockSuccessfulGetNotesAfter(startId = 0, ...noteTexts: string[]): jest.Mock<Promise<NoteListItem[]>> {
+  return asJestMock(api.getNotes).mockResolvedValueOnce(noteTexts.map((text, i) => createTestNote(startId + i, text)));
 }
 
 export function mockDeleteNote(): jest.Mock<Promise<void>> {

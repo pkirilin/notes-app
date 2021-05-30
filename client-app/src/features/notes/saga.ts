@@ -103,12 +103,5 @@ function* watchSearch() {
 }
 
 export default function* (): Generator {
-  yield all([
-    watchGetNotes(),
-    watchLoadMore(),
-    watchCreateNote(),
-    watchEditNote(),
-    watchDeleteNote(),
-    watchSearch(),
-  ]);
+  yield all([watchGetNotes(), watchLoadMore(), watchCreateNote(), watchEditNote(), watchDeleteNote(), watchSearch()]);
 }

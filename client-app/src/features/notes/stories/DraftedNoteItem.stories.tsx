@@ -13,9 +13,7 @@ const Template: Story<unknown> = () => <DraftedNoteItem></DraftedNoteItem>;
 
 export const Visible = Template.bind({});
 
-Visible.decorators = [
-  createStorybookReduxDecorator([draft(), draftChanged('This is draft note')]),
-];
+Visible.decorators = [createStorybookReduxDecorator([draft(), draftChanged('This is draft note')])];
 
 export const EmptyText = Template.bind({});
 

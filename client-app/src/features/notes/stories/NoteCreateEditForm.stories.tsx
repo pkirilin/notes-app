@@ -10,24 +10,17 @@ export default {
   component: NoteCreateEditForm,
 } as Meta;
 
-const Template: Story<unknown> = () => (
-  <NoteCreateEditForm></NoteCreateEditForm>
-);
+const Template: Story<unknown> = () => <NoteCreateEditForm></NoteCreateEditForm>;
 
 export const Selected = Template.bind({});
 
 Selected.decorators = [
-  createStorybookReduxDecorator([
-    getNotesSuccess([]),
-    noteSelected(STORYBOOK_TEST_NOTE_ITEMS[0]),
-  ]),
+  createStorybookReduxDecorator([getNotesSuccess([]), noteSelected(STORYBOOK_TEST_NOTE_ITEMS[0])]),
 ];
 
 export const Drafted = Template.bind({});
 
-Drafted.decorators = [
-  createStorybookReduxDecorator([getNotesSuccess([]), draft()]),
-];
+Drafted.decorators = [createStorybookReduxDecorator([getNotesSuccess([]), draft()])];
 
 export const NotSelected = Template.bind({});
 

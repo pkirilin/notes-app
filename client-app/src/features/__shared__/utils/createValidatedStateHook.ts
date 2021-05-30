@@ -23,13 +23,6 @@ export default function createValidatedStateHook<S>(
       setValidationMessage(message);
     }, [value, validate]);
 
-    return [
-      value,
-      error,
-      validationMessage,
-      setValue,
-      setError,
-      setValidationMessage,
-    ];
+    return [value, error, validationMessage, setValue, setError, setValidationMessage];
   };
 }

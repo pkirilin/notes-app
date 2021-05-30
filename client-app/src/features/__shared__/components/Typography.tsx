@@ -65,10 +65,7 @@ type TypographyComponentTypes =
   | typeof Caption
   | typeof Overline;
 
-const typeMappings: Record<
-  NonNullable<TypographyProps['type']>,
-  TypographyComponentTypes
-> = {
+const typeMappings: Record<NonNullable<TypographyProps['type']>, TypographyComponentTypes> = {
   title: Title,
   subtitle: Subtitle,
   body1: Body1,

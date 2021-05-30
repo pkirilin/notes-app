@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { LoginInput, RegisterInput } from './features/auth/components';
 import { NotesPage } from './features/notes/components';
 import { useTypedSelector } from './features/__shared__/hooks';
@@ -13,7 +8,7 @@ const App: React.FC = () => {
   const isAuthorized = useTypedSelector(state => !!state.auth.user);
 
   return (
-    <Router>
+    <BrowserRouter>
       <Switch>
         {isAuthorized ? (
           <React.Fragment>
@@ -34,7 +29,7 @@ const App: React.FC = () => {
           </React.Fragment>
         )}
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 };
 

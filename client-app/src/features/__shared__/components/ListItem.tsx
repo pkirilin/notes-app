@@ -10,9 +10,7 @@ export const ListItem = styled.li<ListItemProps>`
   width: 100%;
 
   background-color: ${props =>
-    props.selected
-      ? props.theme.colors.grey.light
-      : props.theme.colors.background.default};
+    props.selected ? props.theme.colors.grey.light : props.theme.colors.background.default};
 
   transition: ${props => props.theme.transition.default};
 

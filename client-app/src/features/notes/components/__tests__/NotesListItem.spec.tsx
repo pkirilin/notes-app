@@ -11,9 +11,7 @@ describe('<NotesListItem></NotesListItem>', () => {
       const note = createTestNote();
       const deleteNote = mockDeleteNote();
 
-      const result = renderConnected(
-        <NotesListItem note={note}></NotesListItem>,
-      );
+      const result = renderConnected(<NotesListItem note={note}></NotesListItem>);
       clickDeleteNote(result);
       clickDeleteNote(result);
 

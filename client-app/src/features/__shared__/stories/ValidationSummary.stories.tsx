@@ -7,9 +7,7 @@ export default {
   component: ValidationSummary,
 } as Meta;
 
-export const Default: Story<ValidationSummaryProps> = args => (
-  <ValidationSummary {...args}></ValidationSummary>
-);
+export const Default: Story<ValidationSummaryProps> = args => <ValidationSummary {...args}></ValidationSummary>;
 
 Default.args = {
   isVisible: true,

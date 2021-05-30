@@ -14,16 +14,12 @@ export enum AuthActionTypes {
   RegisterError = 'auth/registerError',
 }
 
-export const loginRequest = (
-  payload: LoginData,
-): PayloadAction<AuthActionTypes.LoginRequest, LoginData> => ({
+export const loginRequest = (payload: LoginData): PayloadAction<AuthActionTypes.LoginRequest, LoginData> => ({
   type: AuthActionTypes.LoginRequest,
   payload,
 });
 
-export const loginSuccess = (
-  userData: UserData,
-): PayloadAction<AuthActionTypes.LoginSuccess, UserData> => ({
+export const loginSuccess = (userData: UserData): PayloadAction<AuthActionTypes.LoginSuccess, UserData> => ({
   type: AuthActionTypes.LoginSuccess,
   payload: userData,
 });
@@ -47,9 +43,7 @@ export const registerSuccess = (): Action<AuthActionTypes.RegisterSuccess> => ({
   type: AuthActionTypes.RegisterSuccess,
 });
 
-export const registerError = (
-  payload: string,
-): PayloadAction<AuthActionTypes.RegisterError, string> => ({
+export const registerError = (payload: string): PayloadAction<AuthActionTypes.RegisterError, string> => ({
   type: AuthActionTypes.RegisterError,
   payload,
 });
