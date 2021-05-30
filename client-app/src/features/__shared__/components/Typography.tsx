@@ -4,7 +4,7 @@ import styled, { css, DefaultTheme } from 'styled-components';
 export type TypographyProps = {
   type?: 'title' | 'subtitle' | 'body1' | 'body2' | 'caption' | 'overline';
   align?: 'left' | 'center' | 'right';
-  color?: keyof DefaultTheme['text'];
+  color?: keyof DefaultTheme['colors']['text'];
   maxLines?: number;
 };
 
@@ -89,7 +89,7 @@ export const Typography: React.FC<TypographyProps> = ({
 function useBaseStyles({ align, color, maxLines }: TypographyProps) {
   return css`
     ${align && `text-align: ${align}`};
-    ${props => color && `color: ${props.theme.text[color]}`};
+    ${props => color && `color: ${props.theme.colors.text[color]}`};
     ${useMaxLines(maxLines)};
   `;
 }

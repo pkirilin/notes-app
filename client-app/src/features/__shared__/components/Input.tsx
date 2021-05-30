@@ -18,13 +18,13 @@ export const inputBaseStyles = css`
   }
 
   &:disabled {
-    color: ${props => props.theme.text.default};
+    color: ${props => props.theme.colors.text.default};
     border: ${props =>
       `${props.theme.borders.default} solid ${props.theme.colors.backgroundAction}`};
   }
 
   &::placeholder {
-    color: ${props => props.theme.text.hint};
+    color: ${props => props.theme.colors.text.hint};
   }
 `;
 

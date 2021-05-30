@@ -30,7 +30,7 @@ export const Button = styled.button<ButtonProps>`
 
 const defaultColorTheme = css`
   background-color: ${props => props.theme.colors.backgroundActionLight};
-  color: ${props => props.theme.text.default};
+  color: ${props => props.theme.colors.text.default};
   border: ${props =>
     `${props.theme.borders.default} solid ${props.theme.colors.backgroundActionDark}`};
 
@@ -44,7 +44,7 @@ const defaultColorTheme = css`
   }
 
   &:disabled {
-    color: ${props => props.theme.text.hint};
+    color: ${props => props.theme.colors.text.hint};
     border: ${props =>
       `${props.theme.borders.default} solid ${props.theme.colors.backgroundAction}`};
   }
@@ -52,7 +52,7 @@ const defaultColorTheme = css`
 
 const primaryColorTheme = css`
   background-color: ${props => props.theme.colors.primary};
-  color: ${props => props.theme.text.primary};
+  color: ${props => props.theme.colors.text.primary};
 
   &:hover {
     background-color: ${props => props.theme.colors.primaryDark};

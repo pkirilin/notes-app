@@ -6,7 +6,7 @@ export const IconButton = styled.button`
   border-radius: ${props => props.theme.sizing.md};
   background-color: transparent;
   transition: ${props => props.theme.transition.default};
-  color: ${props => props.theme.text.default};
+  color: ${props => props.theme.colors.text.default};
   padding: ${props => props.theme.sizing.sm};
 
   &:hover:enabled {
@@ -21,6 +21,6 @@ export const IconButton = styled.button`
 
   &:disabled {
     cursor: default;
-    color: ${props => props.theme.text.hint};
+    color: ${props => props.theme.colors.text.hint};
   }
 `;

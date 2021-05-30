@@ -27,7 +27,7 @@ const LoadMoreNotesContainer = styled(FlexContainer)`
 `;
 
 const NotesListLoader = styled(Sync)`
-  color: ${props => props.theme.text.hint};
+  color: ${props => props.theme.colors.text.hint};
   animation: spin 2s linear infinite;
 `;
 

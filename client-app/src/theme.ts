@@ -10,11 +10,11 @@ const theme: DefaultTheme = {
     backgroundActionLight: '#f5f5f5',
     backgroundActionDark: '#c2c2c2',
     error: '#f44336',
-  },
-  text: {
-    primary: '#ffffff',
-    default: '#616161',
-    hint: '#8d8d8d',
+    text: {
+      primary: '#ffffff',
+      default: '#616161',
+      hint: '#8d8d8d',
+    },
   },
   borders: {
     default: '1px',
