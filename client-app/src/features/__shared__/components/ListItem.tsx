@@ -11,13 +11,13 @@ export const ListItem = styled.li<ListItemProps>`
 
   background-color: ${props =>
     props.selected
-      ? props.theme.colors.backgroundActionLight
-      : props.theme.colors.background};
+      ? props.theme.colors.grey.light
+      : props.theme.colors.background.default};
 
   transition: ${props => props.theme.transition.default};
 
   &:hover {
-    background-color: ${props => props.theme.colors.backgroundAction};
+    background-color: ${props => props.theme.colors.grey.default};
     cursor: pointer;
   }
 `;

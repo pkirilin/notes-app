@@ -7,20 +7,20 @@ export const inputBaseStyles = css`
   background-color: transparent;
   color: inherit;
   border: ${props =>
-    `${props.theme.borders.default} solid ${props.theme.colors.backgroundActionDark}`};
+    `${props.theme.borders.default} solid ${props.theme.colors.grey.dark}`};
   border-radius: ${props => props.theme.sizing.sm};
   outline: none;
   transition: ${props => props.theme.transition.default};
 
   &:focus {
     box-shadow: ${props =>
-      `0 0 ${props.theme.sizing.md} ${props.theme.colors.backgroundActionDark}`};
+      `0 0 ${props.theme.sizing.md} ${props.theme.colors.grey.dark}`};
   }
 
   &:disabled {
     color: ${props => props.theme.colors.text.default};
     border: ${props =>
-      `${props.theme.borders.default} solid ${props.theme.colors.backgroundAction}`};
+      `${props.theme.borders.default} solid ${props.theme.colors.grey.default}`};
   }
 
   &::placeholder {

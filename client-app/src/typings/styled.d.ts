@@ -5,14 +5,22 @@ declare module 'styled-components' {
 
   export interface DefaultTheme {
     colors: {
-      primary: string;
-      primaryDark: string;
-      primaryDisabled: string;
-      background: string;
-      backgroundAction: string;
-      backgroundActionLight: string;
-      backgroundActionDark: string;
-      error: string;
+      primary: {
+        default: string;
+        dark: string;
+        disabled: string;
+      };
+      grey: {
+        default: string;
+        light: string;
+        dark: string;
+      };
+      error: {
+        default: string;
+      };
+      background: {
+        default: string;
+      };
       text: {
         primary: string;
         default: string;

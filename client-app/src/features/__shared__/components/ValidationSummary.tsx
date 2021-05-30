@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ValidationSummaryList = styled.ul`
-  color: ${props => props.theme.colors.error};
+  color: ${props => props.theme.colors.error.default};
   padding: ${props => props.theme.sizing.md} ${props => props.theme.sizing.xl};
   border: ${props => props.theme.borders.default} solid
-    ${props => props.theme.colors.error};
+    ${props => props.theme.colors.error.default};
   border-radius: ${props => props.theme.sizing.md};
 `;
 

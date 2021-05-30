@@ -29,42 +29,42 @@ export const Button = styled.button<ButtonProps>`
 `;
 
 const defaultColorTheme = css`
-  background-color: ${props => props.theme.colors.backgroundActionLight};
+  background-color: ${props => props.theme.colors.grey.light};
   color: ${props => props.theme.colors.text.default};
   border: ${props =>
-    `${props.theme.borders.default} solid ${props.theme.colors.backgroundActionDark}`};
+    `${props.theme.borders.default} solid ${props.theme.colors.grey.dark}`};
 
   &:hover:enabled {
-    background-color: ${props => props.theme.colors.backgroundAction};
+    background-color: ${props => props.theme.colors.grey.default};
   }
 
   &:focus {
     box-shadow: ${props =>
-      `0 0 ${props.theme.sizing.md} ${props.theme.colors.backgroundActionDark}`};
+      `0 0 ${props.theme.sizing.md} ${props.theme.colors.grey.dark}`};
   }
 
   &:disabled {
     color: ${props => props.theme.colors.text.hint};
     border: ${props =>
-      `${props.theme.borders.default} solid ${props.theme.colors.backgroundAction}`};
+      `${props.theme.borders.default} solid ${props.theme.colors.grey.default}`};
   }
 `;
 
 const primaryColorTheme = css`
-  background-color: ${props => props.theme.colors.primary};
+  background-color: ${props => props.theme.colors.primary.default};
   color: ${props => props.theme.colors.text.primary};
 
   &:hover {
-    background-color: ${props => props.theme.colors.primaryDark};
+    background-color: ${props => props.theme.colors.primary.dark};
   }
 
   &:focus {
     box-shadow: ${props =>
-      `0 0 ${props.theme.sizing.md} ${props.theme.colors.primaryDark}`};
+      `0 0 ${props.theme.sizing.md} ${props.theme.colors.primary.dark}`};
   }
 
   &:disabled {
-    background-color: ${props => props.theme.colors.primaryDisabled};
+    background-color: ${props => props.theme.colors.primary.disabled};
   }
 `;
 

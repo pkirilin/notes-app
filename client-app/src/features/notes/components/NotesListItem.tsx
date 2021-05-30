@@ -18,7 +18,7 @@ export type NotesListItemProps = {
 };
 
 const StyledDeleteForever = styled(DeleteForever)`
-  color: ${props => props.theme.colors.error};
+  color: ${props => props.theme.colors.error.default};
 `;
 
 const NotesListItem: React.FC<NotesListItemProps> = ({

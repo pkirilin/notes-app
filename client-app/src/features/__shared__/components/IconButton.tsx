@@ -11,12 +11,12 @@ export const IconButton = styled.button`
 
   &:hover:enabled {
     cursor: pointer;
-    background-color: ${props => props.theme.colors.background};
-    border-color: ${props => props.theme.colors.backgroundActionDark};
+    background-color: ${props => props.theme.colors.background.default};
+    border-color: ${props => props.theme.colors.grey.dark};
   }
 
   &:focus:enabled {
-    border-color: ${props => props.theme.colors.backgroundActionDark};
+    border-color: ${props => props.theme.colors.grey.dark};
   }
 
   &:disabled {
