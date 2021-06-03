@@ -1,21 +1,19 @@
 import React from 'react';
-import { fireEvent, RenderResult } from '@testing-library/react';
 import LoginInput from '../LoginInput';
-import { asJestMock, renderConnected, waitForSingleCall } from '../../../../test-utils';
-import api from '../../api';
-import { UserData } from '../../models/UserData';
+import { renderConnected, waitForSingleCall } from '../../../../test-utils';
+import { mockLoginApi, clickLogin, fillLoginData } from '../../testHelpers';
 
 jest.mock('../../api');
 
 describe('LoginInput', () => {
   describe('when input valid and login button clicked', () => {
     test('should log user in', async () => {
-      const api = mockSuccessfulLogin();
+      const loginApi = mockLoginApi('user');
 
       const result = renderConnected(<LoginInput></LoginInput>);
-      enterLoginAndPassword(result);
+      fillLoginData(result, 'login', 'password');
       clickLogin(result);
-      await waitForSingleCall(api);
+      await waitForSingleCall(loginApi);
 
       expect(result.history.location.pathname).toBe('/');
     });
@@ -31,26 +29,3 @@ describe('LoginInput', () => {
     });
   });
 });
-
-function mockSuccessfulLogin(): jest.Mock<Promise<UserData>> {
-  return asJestMock(api.login).mockResolvedValueOnce({
-    userId: 1,
-    userName: 'user',
-    token: '',
-    tokenExpirationInDays: 1,
-  });
-}
-
-function enterLoginAndPassword({ getByPlaceholderText }: RenderResult) {
-  fireEvent.change(getByPlaceholderText('Login'), {
-    target: { value: 'login' },
-  });
-
-  fireEvent.change(getByPlaceholderText('Password'), {
-    target: { value: 'password' },
-  });
-}
-
-function clickLogin({ getByText }: RenderResult) {
-  fireEvent.click(getByText('Sign in'));
-}
