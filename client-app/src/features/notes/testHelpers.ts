@@ -61,22 +61,42 @@ export function mockEditNoteApi(noteText = '', id = 1): jest.Mock<Promise<NoteLi
   return asJestMock(api.editNote).mockResolvedValueOnce(createTestNote(id, noteText));
 }
 
-// TODO: refactor name
-export function mockSuccessfulGetNotes(...noteTexts: string[]): jest.Mock<Promise<NoteListItem[]>> {
-  return mockSuccessfulGetNotesAfter(0, ...noteTexts);
+export function mockGetNotesApi(...noteTexts: string[]): jest.Mock<Promise<NoteListItem[]>> {
+  return mockGetNotesApiStartingFromId(0, ...noteTexts);
 }
 
-export function mockSuccessfulGetNotesAfter(startId = 0, ...noteTexts: string[]): jest.Mock<Promise<NoteListItem[]>> {
+export function mockGetNotesApiFailed(): jest.Mock<Promise<NoteListItem[]>> {
+  return asJestMock(api.getNotes).mockRejectedValueOnce([]);
+}
+
+export function mockGetNotesApiStartingFromId(startId = 0, ...noteTexts: string[]): jest.Mock<Promise<NoteListItem[]>> {
   return asJestMock(api.getNotes).mockResolvedValueOnce(noteTexts.map((text, i) => createTestNote(startId + i, text)));
 }
 
-export function mockDeleteNote(): jest.Mock<Promise<void>> {
+export function mockDeleteNoteApi(): jest.Mock<Promise<void>> {
   return asJestMock(api.deleteNote).mockResolvedValue();
+}
+
+export function mockSearchApi(...noteTexts: string[]): jest.Mock<Promise<NoteListItem[]>> {
+  return asJestMock(api.searchNotes).mockResolvedValue(
+    noteTexts.map((text, i) => ({
+      id: i,
+      text,
+      createdAt: '2021-05-11',
+      updatedAt: '2021-05-11',
+    })),
+  );
 }
 
 export function fillNoteText(result: RenderResult, text: string): void {
   fireEvent.change(result.getByPlaceholderText('Enter note text'), {
     target: { value: text },
+  });
+}
+
+export function fillSearchTerm(result: RenderResult, searchTerm: string): void {
+  fireEvent.change(result.getByPlaceholderText('Search notes'), {
+    target: { value: searchTerm },
   });
 }
 
@@ -88,7 +108,7 @@ export function clickAddNote(result: RenderResult): void {
   fireEvent.click(result.getByRole('add'));
 }
 
-export function clickLoadMore(result: RenderResult): void {
+export function clickLoadMoreNotes(result: RenderResult): void {
   fireEvent.click(result.getByTitle('Load more notes'));
 }
 
@@ -103,4 +123,8 @@ export function clickDeleteNoteById(result: RenderResult, id: number): void {
 
 export function clickCancelNoteInput({ getByText }: RenderResult): void {
   fireEvent.click(getByText('Cancel'));
+}
+
+export function clickSearchClear(result: RenderResult): void {
+  fireEvent.click(result.getByTitle('Clear'));
 }

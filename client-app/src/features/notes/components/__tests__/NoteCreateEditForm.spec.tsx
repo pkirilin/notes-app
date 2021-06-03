@@ -8,7 +8,7 @@ import {
   mockEditNoteApi,
   withDraftedNoteState,
   withSelectedNoteState,
-} from '../../testing';
+} from '../../testHelpers';
 import NoteCreateEditForm from '../NoteCreateEditForm';
 
 jest.mock('../../api');
@@ -16,12 +16,12 @@ jest.mock('../../api');
 describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
   describe('when note was created', () => {
     test('should clear note selection', async () => {
-      const createNote = mockCreateNoteApi('Some note');
+      const createNoteApi = mockCreateNoteApi('Some note');
 
       const result = renderConnected(<NoteCreateEditForm></NoteCreateEditForm>, withDraftedNoteState());
       fillNoteText(result, 'Test note');
       clickSubmitNote(result);
-      await waitForSingleCall(createNote);
+      await waitForSingleCall(createNoteApi);
 
       expect(result.getByText('Select note')).toBeVisible();
     });
@@ -29,12 +29,12 @@ describe('<NoteCreateEditForm></NoteCreateEditForm>', () => {
 
   describe('when note was edited', () => {
     test('should clear note selection', async () => {
-      const editNote = mockEditNoteApi();
+      const editNoteApi = mockEditNoteApi();
 
       const result = renderConnected(<NoteCreateEditForm></NoteCreateEditForm>, withSelectedNoteState(1, 'Test note'));
       fillNoteText(result, 'Updated note');
       clickSubmitNote(result);
-      await waitForSingleCall(editNote);
+      await waitForSingleCall(editNoteApi);
 
       expect(result.getByText('Select note')).toBeVisible();
     });

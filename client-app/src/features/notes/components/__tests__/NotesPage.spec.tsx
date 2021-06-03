@@ -4,14 +4,14 @@ import {
   mockEditNoteApi,
   fillNoteText,
   clickSubmitNote,
-  mockSuccessfulGetNotes,
+  mockGetNotesApi,
   withSelectedNoteState,
   mockCreateNoteApi,
   withDraftedNoteState,
-  mockDeleteNote,
+  mockDeleteNoteApi,
   clickDeleteNoteById,
   clickCancelNoteInput,
-} from '../../testing';
+} from '../../testHelpers';
 import NotesPage from '../NotesPage';
 
 jest.mock('../../api');
@@ -20,11 +20,11 @@ jest.mock('../../../../config');
 describe('<NotesPage></NotesPage>', () => {
   describe('when note is submitted', () => {
     test('should edit note if note was selected', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2', 'Note 3');
       mockEditNoteApi('Some text from API');
 
       const result = renderConnected(<NotesPage></NotesPage>, withSelectedNoteState(1, 'Note 1'));
-      await waitForSingleCall(getNotes);
+      await waitForSingleCall(getNotesApi);
       fillNoteText(result, 'Some text');
       clickSubmitNote(result);
 
@@ -32,11 +32,11 @@ describe('<NotesPage></NotesPage>', () => {
     });
 
     test('should create note if note was drafted', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2', 'Note 3');
       mockCreateNoteApi('New note from API', 10);
 
       const result = renderConnected(<NotesPage></NotesPage>, withDraftedNoteState());
-      await waitForSingleCall(getNotes);
+      await waitForSingleCall(getNotesApi);
       fillNoteText(result, 'Some text');
       clickSubmitNote(result);
 
@@ -44,14 +44,14 @@ describe('<NotesPage></NotesPage>', () => {
     });
 
     test('should clear note selection and remove draft if note was drafted', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
-      const createNote = mockCreateNoteApi('New note from API', 10);
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2', 'Note 3');
+      const createNoteApi = mockCreateNoteApi('New note from API', 10);
 
       const result = renderConnected(<NotesPage></NotesPage>, withDraftedNoteState());
-      await waitForSingleCall(getNotes);
+      await waitForSingleCall(getNotesApi);
       fillNoteText(result, 'Some text');
       clickSubmitNote(result);
-      await waitForSingleCall(createNote);
+      await waitForSingleCall(createNoteApi);
 
       expect(result.queryByText('Draft')).toBeNull();
     });
@@ -59,10 +59,10 @@ describe('<NotesPage></NotesPage>', () => {
 
   describe('when note input is canceled', () => {
     test('should remove draft if draft exists', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2', 'Note 3');
 
       const result = renderConnected(<NotesPage></NotesPage>, withDraftedNoteState());
-      await waitForSingleCall(getNotes);
+      await waitForSingleCall(getNotesApi);
       clickCancelNoteInput(result);
 
       expect(result.queryByText('Draft')).toBeNull();
@@ -71,27 +71,27 @@ describe('<NotesPage></NotesPage>', () => {
 
   describe('when note is deleted', () => {
     test('should clear note selection if deleted note was selected', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
-      const deleteNote = mockDeleteNote();
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2', 'Note 3');
+      const deleteNoteApi = mockDeleteNoteApi();
 
       const result = renderConnected(<NotesPage></NotesPage>, withSelectedNoteState(1, 'Note 2'));
-      await waitForSingleCall(getNotes);
+      await waitForSingleCall(getNotesApi);
       clickDeleteNoteById(result, 1);
       clickDeleteNoteById(result, 1);
-      await waitForSingleCall(deleteNote);
+      await waitForSingleCall(deleteNoteApi);
 
       expect(result.getByText('Select note')).toBeVisible();
     });
 
     test('should not clear note selection if other was selected', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
-      const deleteNote = mockDeleteNote();
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2', 'Note 3');
+      const deleteNoteApi = mockDeleteNoteApi();
 
       const result = renderConnected(<NotesPage></NotesPage>, withSelectedNoteState(1, 'Note 2'));
-      await waitForSingleCall(getNotes);
+      await waitForSingleCall(getNotesApi);
       clickDeleteNoteById(result, 0);
       clickDeleteNoteById(result, 0);
-      await waitForSingleCall(deleteNote);
+      await waitForSingleCall(deleteNoteApi);
 
       expect(result.queryByText('Select note')).toBeNull();
     });

@@ -7,6 +7,10 @@ export function asJestMock<TResult>(
   return func as jest.Mock<TResult>;
 }
 
+export function waitForMultipleCalls(fn: jest.Mock, calls: number): Promise<void> {
+  return waitFor(() => expect(fn).toHaveBeenCalledTimes(calls));
+}
+
 export function waitForSingleCall(fn: jest.Mock): Promise<void> {
-  return waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
+  return waitForMultipleCalls(fn, 1);
 }

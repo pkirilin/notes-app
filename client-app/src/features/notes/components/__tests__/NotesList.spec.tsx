@@ -1,14 +1,13 @@
-import { waitFor } from '@testing-library/dom';
 import React from 'react';
-import { asJestMock, renderConnected, waitForSingleCall } from '../../../../test-utils';
-import api from '../../api';
+import { renderConnected, waitForMultipleCalls, waitForSingleCall } from '../../../../test-utils';
 import {
   clickAddNote,
-  clickLoadMore,
-  mockSuccessfulGetNotes,
-  mockSuccessfulGetNotesAfter,
+  clickLoadMoreNotes,
+  mockGetNotesApi,
+  mockGetNotesApiFailed,
+  mockGetNotesApiStartingFromId,
   withLoadingNoteItemsState,
-} from '../../testing';
+} from '../../testHelpers';
 import NotesList from '../NotesList';
 
 jest.mock('../../api');
@@ -17,7 +16,7 @@ jest.mock('../../../../config');
 describe('<NotesList></NotesList>', () => {
   describe('when mounted and fetched notes', () => {
     test('should render notes list', async () => {
-      mockSuccessfulGetNotes('Note 1', 'Note 2');
+      mockGetNotesApi('Note 1', 'Note 2');
 
       const { findByText } = renderConnected(<NotesList></NotesList>);
 
@@ -28,10 +27,10 @@ describe('<NotesList></NotesList>', () => {
 
   describe('when mounted and fetched empty notes', () => {
     test('should render empty notes list message', async () => {
-      const api = mockSuccessfulGetNotes();
+      const getNotesApi = mockGetNotesApi();
 
       const { findByText } = renderConnected(<NotesList></NotesList>);
-      await waitForSingleCall(api);
+      await waitForSingleCall(getNotesApi);
 
       expect(await findByText('You have not any notes yet')).toBeVisible();
     });
@@ -39,10 +38,10 @@ describe('<NotesList></NotesList>', () => {
 
   describe('when mounted and fetch notes failed', () => {
     test('should display error message', async () => {
-      const apiMock = asJestMock(api.getNotes).mockRejectedValueOnce({});
+      const getNotesApi = mockGetNotesApiFailed();
 
       const { findByText } = renderConnected(<NotesList></NotesList>);
-      await waitForSingleCall(apiMock);
+      await waitForSingleCall(getNotesApi);
 
       expect(await findByText('Failed to get notes')).toBeVisible();
     });
@@ -50,10 +49,10 @@ describe('<NotesList></NotesList>', () => {
 
   describe('when add note clicked', () => {
     test('should create drafted note', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2', 'Note 3');
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2', 'Note 3');
 
       const result = renderConnected(<NotesList></NotesList>);
-      await waitForSingleCall(getNotes);
+      await waitForSingleCall(getNotesApi);
       clickAddNote(result);
 
       expect(result.getByText('Draft')).toBeVisible();
@@ -62,12 +61,12 @@ describe('<NotesList></NotesList>', () => {
 
   describe('when load more clicked', () => {
     test('should append notes from next page to notes list', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2');
-      mockSuccessfulGetNotesAfter(2, 'Note 3', 'Note 4');
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2');
+      mockGetNotesApiStartingFromId(2, 'Note 3', 'Note 4');
 
       const result = renderConnected(<NotesList></NotesList>);
-      await waitForSingleCall(getNotes);
-      clickLoadMore(result);
+      await waitForSingleCall(getNotesApi);
+      clickLoadMoreNotes(result);
 
       expect(await result.findByText('Note 1')).toBeVisible();
       expect(await result.findByText('Note 2')).toBeVisible();
@@ -78,14 +77,13 @@ describe('<NotesList></NotesList>', () => {
 
   describe('when load more clicked and all notes are loaded', () => {
     test('should hide load more icon', async () => {
-      const getNotes = mockSuccessfulGetNotes('Note 1', 'Note 2');
-      mockSuccessfulGetNotesAfter(2, 'Note 3');
+      const getNotesApi = mockGetNotesApi('Note 1', 'Note 2');
+      mockGetNotesApiStartingFromId(2, 'Note 3');
 
       const result = renderConnected(<NotesList></NotesList>);
-      await waitForSingleCall(getNotes);
-      clickLoadMore(result);
-      // TODO: move to helper
-      await waitFor(() => expect(getNotes).toHaveBeenCalledTimes(2));
+      await waitForSingleCall(getNotesApi);
+      clickLoadMoreNotes(result);
+      await waitForMultipleCalls(getNotesApi, 2);
 
       expect(result.queryByTitle('Load more notes')).toBeNull();
     });
@@ -93,7 +91,7 @@ describe('<NotesList></NotesList>', () => {
 
   describe('when notes are loading', () => {
     test('should display loading message', () => {
-      mockSuccessfulGetNotes();
+      mockGetNotesApi();
 
       const result = renderConnected(<NotesList></NotesList>, withLoadingNoteItemsState());
 
