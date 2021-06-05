@@ -14,6 +14,7 @@ async function register(payload: RegisterData): Promise<void> {
   const response = await fetch(`${config.apiUrl}/register`, {
     method: 'POST',
     body: JSON.stringify(payload),
+    headers: { 'Content-Type': 'application/json' },
   });
   return response.json();
 }
