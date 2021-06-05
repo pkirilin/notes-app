@@ -44,7 +44,7 @@ const NotesListItem: React.FC<NotesListItemProps> = ({ note }: NotesListItemProp
       <FlexContainer align="center" spacing="lg">
         <FlexContainer flex={1} direction="column" spacing="md">
           <FlexContainer align="center" spacing="md">
-            <Typography type="overline" color="hint">
+            <Typography type="body2" color="hint">
               #{note.id}
             </Typography>
             <Typography type="caption" color="default">
