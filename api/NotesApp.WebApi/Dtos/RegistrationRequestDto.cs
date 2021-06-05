@@ -11,7 +11,5 @@ namespace NotesApp.WebApi.Dtos
         [Required]
         [StringLength(50, MinimumLength = 1)]
         public string Password { get; set; }
-
-        public bool RememberMe { get; set; }
     }
 }
