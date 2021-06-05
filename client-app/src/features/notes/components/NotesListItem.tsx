@@ -18,7 +18,7 @@ const StyledDeleteForever = styled(DeleteForever)`
 
 const NotesListItem: React.FC<NotesListItemProps> = ({ note }: NotesListItemProps) => {
   const [deleteClicked, setDeleteClicked] = useState(false);
-  const selectedNote = useTypedSelector(state => state.notes.selectedNote);
+  const selectedNote = useTypedSelector(state => state?.notes?.selectedNote);
   const dispatch = useDispatch();
 
   useEffect(() => {
