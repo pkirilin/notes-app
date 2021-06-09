@@ -8,4 +8,4 @@ Note is a text field with length up to 1000 symbols. A user can have unlimited a
 
 Notes can be created, edited, deleted. Each note also stores create and update date.
 
-User can share specific note with readonly link access (like in google docs) for any unauthorized person.
+![showcase](assets/showcase.gif "Showcase")
